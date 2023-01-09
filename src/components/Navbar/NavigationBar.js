@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {Link} from 'react-router-dom';
 
 import "./navbar.css";
 import logo from "../../assets/logo.png";
@@ -59,17 +60,17 @@ export const NavigationBar = () => {
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />
             <Collapse isOpen={isOpen} navbar>
-              <Nav className="" navbar>
+              <Nav navbar>
                 <NavItem>
-                  <NavLink href="/">Home</NavLink>
+                  <Link to="/" className="nav-item ms-3 text-decoration-none">Home</Link>
                 </NavItem>
               </Nav>
 
               <Nav className="ms-auto " navbar>
                 <NavItem>
-                  <Button className="authenticate-button" href="/connect">
+                  <Link  className="authenticate-button btn border text-white" to="/connect">
                     Login/Register
-                  </Button>
+                  </Link>
                 </NavItem>
               </Nav>
             </Collapse>

@@ -3,11 +3,17 @@
   background-color: var(--light-blue);
 }
 
-.main-navbar,
-.authenticate-button {
+.main-navbar {
   background-color: var(--main-color);
 }
 
 i {
   color: var(--light-blue);
+}
+
+.nav-item {
+  color: white;
+}
+.nav-item:hover {
+  color: grey;
 }
