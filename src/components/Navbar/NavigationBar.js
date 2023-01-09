@@ -11,10 +11,8 @@ import {
   Navbar,
   NavbarBrand,
   NavItem,
-  NavLink,
   NavbarToggler,
   Collapse,
-  Button,
 } from "reactstrap";
 
 export const NavigationBar = () => {
@@ -55,7 +53,7 @@ export const NavigationBar = () => {
               </div>
               <div className="d-flex flex-column text-start border-start ms-1 ps-2">
                 <span className="fw-bold fs-5">ICCT Colleges</span>
-                <span class="fs-6">Believe in Yourself</span>
+                <span className="fs-6">Believe in Yourself</span>
               </div>
             </NavbarBrand>
             <NavbarToggler onClick={toggle} />

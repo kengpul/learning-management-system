@@ -3,7 +3,7 @@ import "./connect.css";
 import logo from '../../assets/logo.png'
 
 export const Connect = () => {
-  const [state, setState] = useState("");
+  const [state, setState] = useState();
 
   return (
     <>
@@ -20,7 +20,7 @@ export const Connect = () => {
               action="/login"
               method="POST"
               className="sign-in-form validate"
-              novalidate
+              noValidate
             >
               <h2 className="title">Log in</h2>
               <div className="input-field">
@@ -53,7 +53,7 @@ export const Connect = () => {
               action="/register"
               method="POST"
               className="sign-up-form validate"
-              novalidate
+              noValidate
             >
               <h2 className="title">Sign up</h2>
               <div className="input-field">
