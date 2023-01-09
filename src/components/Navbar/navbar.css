@@ -1,0 +1,18 @@
+/* body {
+  background-color: var(--main-color);
+} */
+
+.contact-details {
+  background-color: var(--light-blue)
+}
+
+.main-navbar {
+  background-color: var(--main-color);
+}
+.authenticate-button {
+  background-color: var(--main-color);
+}
+
+.authenticate-button:hover {
+  background-color: var(--light-blue);
+}
