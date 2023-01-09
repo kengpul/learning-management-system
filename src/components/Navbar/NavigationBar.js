@@ -45,33 +45,37 @@ export const NavigationBar = () => {
           </List>
         </Container>
       </Container>
-      <Navbar dark className="main-navbar" expand="md">
-        <NavbarBrand href="/" className="d-flex align-items-center">
-          <div>
-            <img src={logo} width={70} alt="logo" />
-          </div>
-          <div className="d-flex flex-column text-start border-start ms-1 ps-2">
-            <span className="fw-bold">ICCT Colleges</span>
-            <span>Believe in Yourself</span>
-          </div>
-        </NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="ms-md-5" navbar>
-            <NavItem>
-              <NavLink href="/">Home</NavLink>
-            </NavItem>
-          </Nav>
+      <div className="main-navbar">
+        <Container>
+          <Navbar dark expand="md">
+            <NavbarBrand href="/" className="d-flex align-items-center">
+              <div>
+                <img src={logo} width={50} alt="logo" />
+              </div>
+              <div className="d-flex flex-column text-start border-start ms-1 ps-2">
+                <span className="fw-bold fs-5">ICCT Colleges</span>
+                <span class="fs-6">Believe in Yourself</span>
+              </div>
+            </NavbarBrand>
+            <NavbarToggler onClick={toggle} />
+            <Collapse isOpen={isOpen} navbar>
+              <Nav className="" navbar>
+                <NavItem>
+                  <NavLink href="/">Home</NavLink>
+                </NavItem>
+              </Nav>
 
-          <Nav className="ms-auto pe-md-5" navbar>
-            <NavItem>
-              <Button className="authenticate-button" href="/connect">
-                Login/Register
-              </Button>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Navbar>
+              <Nav className="ms-auto " navbar>
+                <NavItem>
+                  <Button className="authenticate-button" href="/connect">
+                    Login/Register
+                  </Button>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </Container>
+      </div>
     </>
   );
 };

@@ -1,0 +1,28 @@
+.main-background {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.502) 100%,
+        rgba(0, 0, 0, 0.5) 100%
+      ),
+      url("../assets/landing-background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 90vh;
+    color: white;
+  }
+  
+  #introduction .row {
+    height: 90vh;
+  }
+  
+  #introduction-content {
+    line-height: 30px;
+  }
+  #introduction-content h3,
+  h4 {
+    letter-spacing: 3px;
+  }
+
+  footer {
+    background-color: var(--grey);
+  }
