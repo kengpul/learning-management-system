@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import {Link} from 'react-router-dom';
 
-import "./landingNavbar.css";
+import "./navigation.css";
 import logo from "../../assets/logo.png";
 
 import {
@@ -20,7 +20,7 @@ export const LandingNavigationBar = () => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <>
+    <div className="landing-page">
       <Container fluid="true" className="contact-details d-none d-sm-block">
         <Container
           fluid="true"
@@ -75,6 +75,6 @@ export const LandingNavigationBar = () => {
           </Navbar>
         </Container>
       </div>
-    </>
+    </div>
   );
 };

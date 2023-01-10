@@ -32,7 +32,7 @@ export const NavigationBar = () => {
             </div>
           </NavbarBrand>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle caret color className="d-flex align-items-center">
+            <DropdownToggle caret color="white" className="d-flex align-items-center">
               <div>
                 <img
                   src={avatar}

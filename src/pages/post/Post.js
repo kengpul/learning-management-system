@@ -1,11 +1,13 @@
-import './post.css';
+import "./post.css";
 
-import { SideBar } from '../../components/Navbar/SideBar';
+import { SideNavigationBar } from "../../components/Navbar/SideNavigationBar";
+import { BottomNavigationBar } from "../../components/Navbar/BottomNavigation";
 
 export const Post = () => {
   return (
     <div>
-      <SideBar />
+      <SideNavigationBar />
+      <BottomNavigationBar />
     </div>
   );
 };

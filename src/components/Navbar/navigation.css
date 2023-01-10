@@ -1,3 +1,52 @@
+.landing-page .contact-details,
+.landing-page .authenticate-button:hover {
+  background-color: var(--light-blue);
+}
+
+.landing-page .main-navbar {
+  background-color: var(--main-color);
+}
+
+.landing-page i {
+  color: var(--light-blue);
+}
+
+.landing-page .nav-item {
+  color: white;
+}
+.landing-page .nav-item:hover {
+  color: grey;
+}
+
 .post-navbar {
-    background-color: white;
+  background-color: white;
+}
+
+.side-nav {
+  background-color: var(--main-color);
+}
+
+.side-nav .navigation-btn,
+.side-nav .fas {
+  color: white;
+  text-decoration: none;
+  transition: 0.15s ease-in-out;
+}
+.side-nav .navigation-btn:hover > .side-nav .fas,
+.side-nav .navigation-btn:hover {
+  color: var(--main-color);
+  background-color: white;
+}
+
+.side-nav .active,
+.side-nav .active .fas {
+  color: var(--main-color);
+  background-color: white;
+}
+
+.fixed-bottom {
+  background-color: var(--main-color);
+}
+.fixed-bottom .fas {
+  color: white;
 }
