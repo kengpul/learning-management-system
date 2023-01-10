@@ -1,80 +1,59 @@
 import { useState } from "react";
-import {Link} from 'react-router-dom';
-
-import "./navbar.css";
-import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 import {
   Container,
-  List,
-  Nav,
   Navbar,
   NavbarBrand,
-  NavItem,
-  NavbarToggler,
-  Collapse,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
 } from "reactstrap";
+import logo from "../../assets/logo.png";
+import avatar from "../../assets/default-avatar.png";
+import "./navigation.css";
 
 export const NavigationBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   return (
-    <>
-      <Container fluid="true" className="contact-details d-none d-sm-block">
-        <Container
-          fluid="true"
-          className="container-md py-1 d-flex justify-content-center justify-content-md-end"
-        >
-          <List type="unstyled" className="list-group list-group-horizontal">
-            <li className="list-group-item border-end">
-              <i className="fas fa-phone-alt me-1"></i>
-              +63.123.456.7890
-            </li>
-            <li className="list-group-item border-end">
-              <i className="fas fa-envelope me-1"></i>
-              info.icct.edu.ph
-            </li>
-            <li className="list-group-item">
-              Follow us on
-              <i className="fab fa-facebook-f ms-1"></i>
-              <i className="fab fa-twitter mx-1"></i>
-              <i className="fab fa-facebook-messenger"></i>
-            </li>
-          </List>
-        </Container>
-      </Container>
-      <div className="main-navbar">
-        <Container>
-          <Navbar dark expand="md">
-            <NavbarBrand href="/" className="d-flex align-items-center">
+    <Container fluid className="post-navbar shadow-sm">
+      <Container>
+        <Navbar>
+          <NavbarBrand href="/post" className="d-flex align-items-center">
+            <div>
+              <img src={logo} width={50} alt="logo" />
+            </div>
+            <div className="d-none d-sm-flex flex-column text-start border-start ms-1 ps-2">
+              <span className="fw-bold fs-5">ICCT Colleges</span>
+              <span className="fs-6">Learning Management System</span>
+            </div>
+          </NavbarBrand>
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle caret color className="d-flex align-items-center">
               <div>
-                <img src={logo} width={50} alt="logo" />
+                <img
+                  src={avatar}
+                  width="45"
+                  className="rounded-circle"
+                  alt=""
+                />
               </div>
-              <div className="d-flex flex-column text-start border-start ms-1 ps-2">
-                <span className="fw-bold fs-5">ICCT Colleges</span>
-                <span className="fs-6">Believe in Yourself</span>
+              <div className="mx-2 d-none d-sm-block">
+                <div className="fw-bold">Paul</div>
+                <div className="text-muted">Student</div>
               </div>
-            </NavbarBrand>
-            <NavbarToggler onClick={toggle} />
-            <Collapse isOpen={isOpen} navbar>
-              <Nav navbar>
-                <NavItem>
-                  <Link to="/" className="nav-item ms-3 text-decoration-none">Home</Link>
-                </NavItem>
-              </Nav>
-
-              <Nav className="ms-auto " navbar>
-                <NavItem>
-                  <Link  className="authenticate-button btn border text-white" to="/connect">
-                    Login/Register
-                  </Link>
-                </NavItem>
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </Container>
-      </div>
-    </>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>Profile</DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem>Logout</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </Navbar>
+      </Container>
+    </Container>
   );
 };
