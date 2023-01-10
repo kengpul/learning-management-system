@@ -1,0 +1,13 @@
+.side-nav {
+    background-color: var(--main-color);
+}
+
+.navigation-btn {
+    color: white;
+    text-decoration: none;
+    transition:  .15s ease-in-out;
+}
+.navigation-btn:hover {
+    color: var(--main-color);
+    background-color: white;
+}

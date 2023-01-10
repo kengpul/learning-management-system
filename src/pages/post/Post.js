@@ -1,9 +1,11 @@
 import './post.css';
 
+import { SideBar } from '../../components/Navbar/SideBar';
+
 export const Post = () => {
   return (
     <div>
-      <h1>Post</h1>
+      <SideBar />
     </div>
   );
 };
