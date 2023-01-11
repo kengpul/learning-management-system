@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, React } from "react";
 import "./connect.css";
 import logo from '../../assets/logo.png'
 
@@ -6,7 +6,7 @@ export const Connect = () => {
   const [state, setState] = useState();
 
   return (
-    <>
+    <div className="connect">
       <div
         className={
           state
@@ -141,6 +141,6 @@ export const Connect = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

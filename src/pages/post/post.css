@@ -1,3 +1,21 @@
 body {
-    background-color: #f4f4f7;
+    background-color: var(--light-grey);
+}
+
+
+
+.post textarea {
+    background-color: var(--light-grey);
+}
+.post button {
+    background-color: var(--main-color);
+}
+.post button:hover {
+    background-color: var(--light-blue);
+}
+
+@media screen and (min-width: 992px) {
+    .post .row>* {
+        padding-left: 0;
+    }
 }

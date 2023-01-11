@@ -32,16 +32,16 @@
   text-decoration: none;
   transition: 0.15s ease-in-out;
 }
-.side-nav .navigation-btn:hover > .side-nav .fas,
+.side-nav .navigation-btn:hover > .fas,
 .side-nav .navigation-btn:hover {
   color: var(--main-color);
-  background-color: white;
+  background-color: var(--light-grey);
 }
 
 .side-nav .active,
 .side-nav .active .fas {
   color: var(--main-color);
-  background-color: white;
+  background-color: var(--light-grey);
 }
 
 .fixed-bottom {

@@ -1,16 +1,12 @@
 import { NavLink } from "react-router-dom";
 
-import { Col } from "reactstrap";
 import avatar from "../../assets/default-avatar.png";
 import "./navigation.css";
 
 export const SideNavigationBar = () => {
   return (
-    <Col
-      lg="2"
-      className="d-none d-lg-block side-nav text-white rounded-end h-100 position-sticky top-0"
-    >
-      <div className="profile mt-3 mb-5 text-center">
+    <div className="d-none d-lg-block side-nav text-white rounded-end h-100 position-sticky top-0">
+      <div className="profile mb-5 text-center">
         <img
           src={avatar}
           className="img-fluid mt-3 rounded-circle"
@@ -54,6 +50,6 @@ export const SideNavigationBar = () => {
           <i className="fas fa-comment me-2"></i>CHATS
         </NavLink>
       </div>
-    </Col>
+    </div>
   );
 };

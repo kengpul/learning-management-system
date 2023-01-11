@@ -6,22 +6,22 @@
   box-sizing: border-box;
 }
 
-.authentication-container,
+.connect .authentication-container,
 input {
   font-family: "Poppins", sans-serif;
 }
 
-.authentication-container {
+.connect .authentication-container {
   position: relative;
   width: 100%;
   min-height: 100vh;
   overflow: hidden;
-  background: url('../../assets/connect-background.jpg');
+  background: url("../../assets/connect-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.forms-container {
+.connect .forms-container {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -29,7 +29,7 @@ input {
   left: 0;
 }
 
-.signin-signup {
+.connect .signin-signup {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -39,10 +39,9 @@ input {
   display: grid;
   grid-template-columns: 1fr;
   z-index: 5;
-  
 }
 
-form {
+.connect form {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,23 +53,22 @@ form {
   grid-row: 1 / 2;
 }
 
-form.sign-up-form {
+.connect form.sign-up-form {
   opacity: 0;
   z-index: 1;
 }
 
-form.sign-in-form {
+.connect form.sign-in-form {
   z-index: 2;
-  
 }
 
-.title {
+.connect .title {
   font-size: 2.2rem;
   color: rgb(252, 239, 239);
   margin-bottom: 10px;
 }
 
-.input-field {
+.connect .input-field {
   max-width: 380px;
   width: 100%;
   background-color: #fff8f8;
@@ -83,7 +81,7 @@ form.sign-in-form {
   position: relative;
 }
 
-.input-field i {
+.connect .input-field i {
   text-align: center;
   line-height: 55px;
   color: #acacac;
@@ -91,7 +89,8 @@ form.sign-in-form {
   font-size: 1.1rem;
 }
 
-.input-field input, .input-field select {
+.connect .input-field input,
+.input-field select {
   background: none;
   outline: none;
   border: none;
@@ -101,23 +100,24 @@ form.sign-in-form {
   color: #333;
 }
 
-.input-field input::placeholder, .input-field select {
+.connect .input-field input::placeholder,
+.input-field select {
   color: #aaa;
   font-weight: 500;
 }
 
-.social-text {
+.connect .social-text {
   padding: 0.7rem 0;
   font-size: 1rem;
   color: white;
 }
 
-.social-media {
+.connect .social-media {
   display: flex;
   justify-content: center;
 }
 
-.social-icon {
+.connect .social-icon {
   height: 46px;
   width: 46px;
   display: flex;
@@ -132,14 +132,14 @@ form.sign-in-form {
   transition: 0.3s;
 }
 
-.social-icon:hover {
-  color: #Da1212 ;
-  border-color: #Da1212 ;
+.connect .social-icon:hover {
+  color: #da1212;
+  border-color: #da1212;
 }
 
-.btn-submit {
+.connect .btn-submit {
   width: 150px;
-  background-color: #Da1212 ;
+  background-color: #da1212;
   border: none;
   outline: none;
   border-radius: 49px;
@@ -151,10 +151,10 @@ form.sign-in-form {
   transition: 0.5s;
 }
 
-.btn-submit:hover {
+.connect .btn-submit:hover {
   background-color: #041562;
 }
-.panels-container {
+.connect .panels-container {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -164,7 +164,7 @@ form.sign-in-form {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.authentication-container:before {
+.connect .authentication-container:before {
   content: "";
   position: absolute;
   height: 2000px;
@@ -172,24 +172,24 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #11468f  0%, #041562 100%);
+  background-image: linear-gradient(-45deg, #11468f 0%, #041562 100%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
 }
 
-.image {
+.connect .image {
   width: 50%;
   border-radius: 50%;
   transition: transform 1.1s ease-in-out;
   transition-delay: 0.4s;
 }
 
-.sign-in-image{
+.connect .sign-in-image {
   width: 70%;
   border-radius: 20%;
 }
-.panel {
+.connect .panel {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -198,34 +198,34 @@ form.sign-in-form {
   z-index: 6;
 }
 
-.left-panel {
+.connect .left-panel {
   pointer-events: all;
   padding: 3rem 17% 2rem 12%;
 }
 
-.right-panel {
+.connect .right-panel {
   pointer-events: none;
   padding: 3rem 12% 2rem 17%;
 }
 
-.panel .content {
+.connect .panel .content {
   color: #fff;
   transition: transform 0.9s ease-in-out;
   transition-delay: 0.6s;
 }
 
-.panel h3 {
+.connect .panel h3 {
   font-weight: 600;
   line-height: 1;
   font-size: 1.5rem;
 }
 
-.panel p {
+.connect .panel p {
   font-size: 0.95rem;
   padding: 0.7rem 0;
 }
 
-.btn-submit.transparent {
+.connect .btn-submit.transparent {
   margin: 0;
   background: none;
   border: 2px solid #fff;
@@ -235,72 +235,71 @@ form.sign-in-form {
   font-size: 0.8rem;
 }
 
-.right-panel .image,
-.right-panel .content {
+.connect .right-panel .image,
+.connect .right-panel .content {
   transform: translateX(800px);
 }
 
-
-.authentication-container.sign-up-mode:before {
+.connect .authentication-container.sign-up-mode:before {
   transform: translate(100%, -50%);
   right: 52%;
 }
 
-.authentication-container.sign-up-mode .left-panel .image,
-.authentication-container.sign-up-mode .left-panel .content {
+.connect .authentication-container.sign-up-mode .left-panel .image,
+.connect .authentication-container.sign-up-mode .left-panel .content {
   transform: translateX(-800px);
 }
 
-.authentication-container.sign-up-mode .signin-signup {
+.connect .authentication-container.sign-up-mode .signin-signup {
   left: 25%;
 }
 
-.authentication-container.sign-up-mode form.sign-up-form {
+.connect .authentication-container.sign-up-mode form.sign-up-form {
   opacity: 1;
   z-index: 2;
 }
 
-.authentication-container.sign-up-mode form.sign-in-form {
+.connect .authentication-container.sign-up-mode form.sign-in-form {
   opacity: 0;
   z-index: 1;
 }
 
-.authentication-container.sign-up-mode .right-panel .image,
-.authentication-container.sign-up-mode .right-panel .content {
+.connect .authentication-container.sign-up-mode .right-panel .image,
+.connect .authentication-container.sign-up-mode .right-panel .content {
   transform: translateX(0%);
 }
 
-.authentication-container.sign-up-mode .left-panel {
+.connect .authentication-container.sign-up-mode .left-panel {
   pointer-events: none;
 }
 
-.authentication-container.sign-up-mode .right-panel {
+.connect .authentication-container.sign-up-mode .right-panel {
   pointer-events: all;
 }
 
 @media (max-width: 870px) {
-  .authentication-container {
+  .connect .authentication-container {
     min-height: 800px;
     height: 100vh;
   }
-  .signin-signup {
+  .connect .signin-signup {
     width: 100%;
     top: 95%;
     transform: translate(-50%, -100%);
     transition: 1s 0.8s ease-in-out;
   }
 
-  .signin-signup,
-  .authentication-container.sign-up-mode .signin-signup {
+  .connect .signin-signup,
+  .connect .authentication-container.sign-up-mode .signin-signup {
     left: 50%;
   }
 
-  .panels-container {
+  .connect .panels-container {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 2fr 1fr;
   }
 
-  .panel {
+  .connect .panel {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
@@ -308,42 +307,42 @@ form.sign-in-form {
     grid-column: 1 / 2;
   }
 
-  .right-panel {
+  .connect .right-panel {
     grid-row: 3 / 4;
   }
 
-  .left-panel {
+  .connect .left-panel {
     grid-row: 1 / 2;
   }
 
-  .image {
+  .connect .image {
     width: 200px;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.6s;
   }
 
-  .panel .content {
+  .connect .panel .content {
     padding-right: 15%;
     transition: transform 0.9s ease-in-out;
     transition-delay: 0.8s;
   }
 
-  .panel h3 {
+  .connect .panel h3 {
     font-size: 1.2rem;
   }
 
-  .panel p {
+  .connect .panel p {
     font-size: 0.7rem;
     padding: 0.5rem 0;
   }
 
-  .btn-submit.transparent {
+  .connect .btn-submit.transparent {
     width: 110px;
     height: 35px;
     font-size: 0.7rem;
   }
 
-  .authentication-container:before {
+  .connect .authentication-container:before {
     width: 1500px;
     height: 1500px;
     transform: translateX(-50%);
@@ -354,54 +353,54 @@ form.sign-in-form {
     transition: 2s ease-in-out;
   }
 
-  .authentication-container.sign-up-mode:before {
+  .connect .authentication-container.sign-up-mode:before {
     transform: translate(-50%, 100%);
     bottom: 32%;
     right: initial;
   }
 
-  .authentication-container.sign-up-mode .left-panel .image,
-  .authentication-container.sign-up-mode .left-panel .content {
+  .connect .authentication-container.sign-up-mode .left-panel .image,
+  .connect .authentication-container.sign-up-mode .left-panel .content {
     transform: translateY(-300px);
   }
 
-  .authentication-container.sign-up-mode .right-panel .image,
-  .authentication-container.sign-up-mode .right-panel .content {
+  .connect .authentication-container.sign-up-mode .right-panel .image,
+  .connect .authentication-container.sign-up-mode .right-panel .content {
     transform: translateY(0px);
   }
 
-  .right-panel .image,
-  .right-panel .content {
+  .connect .right-panel .image,
+  .connect .right-panel .content {
     transform: translateY(300px);
   }
 
-  .authentication-container.sign-up-mode .signin-signup {
+  .connect .authentication-container.sign-up-mode .signin-signup {
     top: 5%;
     transform: translate(-50%, 0);
   }
 }
 
 @media (max-width: 570px) {
-  form {
+  .connect form {
     padding: 0 1.5rem;
   }
 
-  .image {
+  .connect .image {
     display: none;
   }
-  .panel .content {
+  .connect .panel .content {
     padding: 0.5rem 1rem;
   }
-  .authentication-container {
+  .connect .authentication-container {
     padding: 1.5rem;
   }
 
-  .authentication-container:before {
+  .connect .authentication-container:before {
     bottom: 72%;
     left: 50%;
   }
 
-  .authentication-container.sign-up-mode:before {
+  .connect .authentication-container.sign-up-mode:before {
     bottom: 28%;
     left: 50%;
   }
