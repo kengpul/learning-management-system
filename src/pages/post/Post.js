@@ -5,6 +5,7 @@ import { SideNavigationBar } from "../../components/Navbar/SideNavigationBar";
 import { BottomNavigationBar } from "../../components/Navbar/BottomNavigation";
 import { PostInput } from "../../components/Form/PostInput";
 import { PostCard } from "../../components/Card/PostCard";
+import { ListCard } from "../../components/Card/ListCard";
 
 export const Post = () => {
   return (
@@ -17,6 +18,12 @@ export const Post = () => {
         <Col lg="6">
           <PostInput />
           <PostCard />
+        </Col>
+
+        <Col lg="4">
+          <ListCard title={"Quizes"} />
+          <ListCard title={"Classes"} />
+          <ListCard title={"Groups"} />
         </Col>
 
         <BottomNavigationBar />

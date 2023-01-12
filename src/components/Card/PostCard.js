@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import {
   Card,
@@ -19,7 +19,7 @@ export const PostCard = () => {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   return (
-    <Card className="mt-2">
+    <Card className="mt-3">
       <CardBody>
         <CardTitle tag="h5" className="d-flex justify-content-between">
           <div>
@@ -39,9 +39,15 @@ export const PostCard = () => {
               </Button>
             </DropdownToggle>
             <DropdownMenu>
-              <Link to="" className="dropdown-item">Go to post</Link>
-              <Link to="" className="dropdown-item">Edit</Link>
-              <Link to="" className="dropdown-item">Delete</Link>
+              <Link to="" className="dropdown-item">
+                Go to post
+              </Link>
+              <Link to="" className="dropdown-item">
+                Edit
+              </Link>
+              <Link to="" className="dropdown-item">
+                Delete
+              </Link>
             </DropdownMenu>
           </Dropdown>
         </CardTitle>
@@ -51,7 +57,7 @@ export const PostCard = () => {
           <h6>1 hour ago</h6>
         </CardSubtitle>
 
-        <CardText className="mx-1">
+        <CardText className="mx-5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
           asperiores quia molestias eligendi maxime magnam facilis facere. Fuga
           sed adipisci culpa vel, tempora porro autem dolores aliquid architecto
