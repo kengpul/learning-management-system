@@ -3,7 +3,8 @@ import "./post.css";
 
 import { SideNavigationBar } from "../../components/Navbar/SideNavigationBar";
 import { BottomNavigationBar } from "../../components/Navbar/BottomNavigation";
-import { FormInput } from "../../components/Form/FormInput";
+import { PostInput } from "../../components/Form/PostInput";
+import { PostCard } from "../../components/Card/PostCard";
 
 export const Post = () => {
   return (
@@ -14,7 +15,8 @@ export const Post = () => {
         </Col>
 
         <Col lg="6">
-          <FormInput />
+          <PostInput />
+          <PostCard />
         </Col>
 
         <BottomNavigationBar />

@@ -1,6 +1,6 @@
 import { Form, FormGroup, FormFeedback, Label, Input, Button } from "reactstrap";
 
-export const FormInput = () => {
+export const PostInput = () => {
   return (
     <Form className="bg-white px-3 pt-3" encType="multipart/form-data">
       <FormGroup floating>
@@ -37,7 +37,7 @@ export const FormInput = () => {
           </Input>
         </FormGroup>
         <FormGroup>
-          <Button className="ms-3">Post</Button>
+          <Button className="ms-3 submit">Post</Button>
         </FormGroup>
       </div>
     </Form>

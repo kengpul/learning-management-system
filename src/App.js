@@ -1,7 +1,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 
 import { LandingNavigationBar } from "./components/Navbar/LandingNavigationBar";
 import { Home } from "./pages/Home";

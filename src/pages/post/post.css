@@ -7,10 +7,10 @@ body {
 .post textarea {
     background-color: var(--light-grey);
 }
-.post button {
+.post .submit {
     background-color: var(--main-color);
 }
-.post button:hover {
+.post .submit:hover {
     background-color: var(--light-blue);
 }
 

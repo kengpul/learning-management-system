@@ -24,6 +24,7 @@
 
 .side-nav {
   background-color: var(--main-color);
+  max-height: 500px;
 }
 
 .side-nav .navigation-btn,
