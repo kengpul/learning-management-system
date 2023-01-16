@@ -1,21 +1,23 @@
 body {
-    background-color: var(--light-grey);
+  background-color: var(--light-grey);
 }
 
-
+.post {
+  padding-bottom: 70px;
+}
 
 .post textarea {
-    background-color: var(--light-grey);
+  background-color: var(--light-grey);
 }
 .post .submit {
-    background-color: var(--main-color);
+  background-color: var(--main-color);
 }
 .post .submit:hover {
-    background-color: var(--light-blue);
+  background-color: var(--light-blue);
 }
 
 @media screen and (min-width: 992px) {
-    .post .row>* {
-        padding-left: 0;
-    }
+  .post .row > * {
+    padding-left: 0;
+  }
 }

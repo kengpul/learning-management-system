@@ -52,12 +52,11 @@ export const PostCard = () => {
           </Dropdown>
         </CardTitle>
 
-        <CardSubtitle className="ms-5 text-muted">
-          <h6>Student</h6>
+        <CardSubtitle className="ms-md-5 text-muted">
           <h6>1 hour ago</h6>
         </CardSubtitle>
 
-        <CardText className="mx-5">
+        <CardText className="mx-md-5">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
           asperiores quia molestias eligendi maxime magnam facilis facere. Fuga
           sed adipisci culpa vel, tempora porro autem dolores aliquid architecto

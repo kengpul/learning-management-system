@@ -5,7 +5,7 @@ import "./navigation.css";
 
 export const SideNavigationBar = () => {
   return (
-    <div className="d-none d-lg-block side-nav text-white rounded-end h-100 position-sticky top-0">
+    <div className="d-none d-lg-block side-nav text-white rounded h-100 position-sticky top-0">
       <div className="profile mb-5 text-center">
         <img
           src={avatar}
@@ -18,36 +18,36 @@ export const SideNavigationBar = () => {
           View Profile
         </NavLink>
       </div>
-      <div className="d-grid gap-2 pb-5">
+      <div className="d-grid gap-2">
         <NavLink
           to="/post"
-          className="navigation-btn ps-2 py-2 fw-bold text-start"
+          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-house-user me-2"></i>DASHBOARD
+          <i className="fas fa-house-user me-1"></i>DASHBOARD
         </NavLink>
         <NavLink
           to="/class"
-          className="navigation-btn ps-2 py-2 fw-bold text-start"
+          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-users me-2"></i>MY CLASS
+          <i className="fas fa-users me-1"></i>MY CLASS
         </NavLink>
         <NavLink
           to="/group"
-          className="navigation-btn ps-2 py-2 fw-bold text-start"
+          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-users me-2"></i>MY GROUP
+          <i className="fas fa-users me-1"></i>MY GROUP
         </NavLink>
         <NavLink
           to="/quiz"
-          className="navigation-btn ps-2 py-2 fw-bold text-start"
+          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-book-open me-2"></i>MY QUIZ
+          <i className="fas fa-book-open me-1"></i>MY QUIZ
         </NavLink>
         <NavLink
           to="/chats"
-          className="navigation-btn ps-2 py-2 fw-bold text-start"
+          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-comment me-2"></i>CHATS
+          <i className="fas fa-comment me-1"></i>CHATS
         </NavLink>
       </div>
     </div>

@@ -9,7 +9,7 @@ export const ListCard = ({ title }) => {
         <hr />
         <Card className="mb-2">
           <Link className="text-decoration-none">
-            <CardBody className="border-start border-5">
+            <CardBody className="border-start border-5 p-1">
               <CardTitle className="text-truncate m-0 text-black">
                 {title === "Quizes"
                   ? "Quiz #1 - THS1 Thesis Writing"

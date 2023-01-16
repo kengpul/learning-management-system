@@ -1,6 +1,6 @@
 import { useState, React } from "react";
 import "./connect.css";
-import logo from '../../assets/logo.png'
+import logo from "../../assets/logo.png";
 
 export const Connect = () => {
   const [state, setState] = useState();
@@ -47,7 +47,11 @@ export const Connect = () => {
                   Please provide a Password.
                 </div>
               </div>
-              <input type="submit" value="Login" className="btn btn-submit solid" />
+              <input
+                type="submit"
+                value="Login"
+                className="btn btn-submit solid"
+              />
             </form>
             <form
               action="/register"
@@ -133,11 +137,7 @@ export const Connect = () => {
                 Sign in
               </button>
             </div>
-            <img
-              src={logo}
-              className="image"
-              alt="register"
-            />
+            <img src={logo} className="image" alt="register" />
           </div>
         </div>
       </div>

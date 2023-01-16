@@ -1,4 +1,11 @@
-import { Form, FormGroup, FormFeedback, Label, Input, Button } from "reactstrap";
+import {
+  Form,
+  FormGroup,
+  FormFeedback,
+  Label,
+  Input,
+  Button,
+} from "reactstrap";
 
 export const PostInput = () => {
   return (
@@ -18,7 +25,7 @@ export const PostInput = () => {
       </FormGroup>
       <hr className="dropdown-divider" />
       <div className="d-flex justify-content-end align-items-center">
-        <FormGroup className="me-auto mt-2">
+        <FormGroup className="me-auto mt-2 pe-3">
           <Label htmlFor="image-upload">
             <i className="fas fa-2x fa-image" role="button"></i>
           </Label>

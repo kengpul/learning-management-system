@@ -27,7 +27,7 @@ export const Home = () => {
       <footer className="text-white d-block d-sm-flex justify-content-around align-items-center py-3">
         <h6>Terms of Services</h6>
         <h6>Privacy Policy</h6>
-        <h6>&copy;2023  ICCT Colleges</h6>
+        <h6>&copy;2023 ICCT Colleges</h6>
       </footer>
     </>
   );
