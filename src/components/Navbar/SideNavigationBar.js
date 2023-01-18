@@ -5,7 +5,7 @@ import "./navigation.css";
 
 export const SideNavigationBar = () => {
   return (
-    <div className="d-none d-lg-block side-nav text-white rounded h-100 position-sticky top-0">
+    <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
         <img
           src={avatar}

@@ -9,22 +9,24 @@ import { ListCard } from "../../components/Card/ListCard";
 
 export const Post = () => {
   return (
-    <Container className="post">
-      <Row className="mt-2 d-flex justify-content-center">
+    <Container fluid className="post">
+      <Row className="mt-2">
         <Col lg="2">
           <SideNavigationBar />
         </Col>
 
-        <Col lg="6">
-          <PostInput />
-          <PostCard />
-          <PostCard />
-        </Col>
+        <Col className="d-flex gap-3 justify-content-center">
+          <Col lg="7">
+            <PostInput />
+            <PostCard />
+            <PostCard />
+          </Col>
 
-        <Col lg="3">
-          <ListCard title={"Quizes"} />
-          <ListCard title={"Classes"} />
-          <ListCard title={"Groups"} />
+          <Col lg="3">
+            <ListCard title={"Quizes"} />
+            <ListCard title={"Classes"} />
+            <ListCard title={"Groups"} />
+          </Col>
         </Col>
 
         <BottomNavigationBar />
