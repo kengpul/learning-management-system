@@ -1,11 +1,14 @@
-import { Container, Row, Col } from "reactstrap";
-import "./post.css";
+import { Routes, Route } from "react-router-dom";
 
 import { SideNavigationBar } from "../../components/Navbar/SideNavigationBar";
 import { BottomNavigationBar } from "../../components/Navbar/BottomNavigation";
-import { PostInput } from "../../components/Form/PostInput";
 import { PostCard } from "../../components/Card/PostCard";
 import { ListCard } from "../../components/Card/ListCard";
+import { CreatePostButton } from "../../components/Card/CreatePostButton";
+import { Create } from "./Create";
+
+import { Container, Row, Col } from "reactstrap";
+import "./post.css";
 
 export const Post = () => {
   return (
@@ -15,22 +18,35 @@ export const Post = () => {
           <SideNavigationBar />
         </Col>
 
-        <Col className="d-flex gap-3 justify-content-center">
-          <Col lg="7">
-            <PostInput />
-            <PostCard />
-            <PostCard />
-          </Col>
-
-          <Col lg="3">
-            <ListCard title={"Quizes"} />
-            <ListCard title={"Classes"} />
-            <ListCard title={"Groups"} />
-          </Col>
-        </Col>
+       
+          <Routes>
+            <Route path="/post" element={<Feed />} />
+            <Route path="/post/create" element={<Create />} />
+          </Routes>
+    
 
         <BottomNavigationBar />
       </Row>
     </Container>
+  );
+};
+
+const Feed = () => {
+  return (
+    <>
+     <Col className="d-flex gap-lg-3 justify-content-center">
+      <Col lg="7">
+        <CreatePostButton />
+        <PostCard />
+        <PostCard />
+      </Col>
+
+      <Col lg="3">
+        <ListCard title={"Quizes"} />
+        <ListCard title={"Classes"} />
+        <ListCard title={"Groups"} />
+      </Col>
+      </Col>
+    </>
   );
 };

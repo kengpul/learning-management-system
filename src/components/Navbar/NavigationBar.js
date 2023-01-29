@@ -21,7 +21,7 @@ export const NavigationBar = () => {
     <Container fluid className="post-navbar shadow-sm">
       <Container>
         <Navbar>
-          <NavbarBrand href="/post" className="d-flex align-items-center">
+          <NavbarBrand href="/post/" className="d-flex align-items-center">
             <div>
               <img src={logo} width={50} alt="logo" />
             </div>

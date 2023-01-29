@@ -20,31 +20,31 @@ export const SideNavigationBar = () => {
       </div>
       <div className="d-grid gap-2">
         <NavLink
-          to="/post"
+          to="/post/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-house-user me-1"></i>DASHBOARD
         </NavLink>
         <NavLink
-          to="/class"
+          to="/class/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-users me-1"></i>MY CLASS
         </NavLink>
         <NavLink
-          to="/group"
+          to="/group/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-users me-1"></i>MY GROUP
         </NavLink>
         <NavLink
-          to="/quiz"
+          to="/quiz/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-book-open me-1"></i>MY QUIZ
         </NavLink>
         <NavLink
-          to="/chats"
+          to="/chats/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-comment me-1"></i>CHATS

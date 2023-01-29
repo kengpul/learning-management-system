@@ -13,3 +13,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.main-btn  {
+  background-color: var(--main-color) !important;
+}
+
+.main-btn:hover {
+  background-color: var(--light-blue) !important;
+}

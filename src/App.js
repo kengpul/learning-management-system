@@ -17,7 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/connect" element={<Connect />} />
-          <Route path="/post" element={<Post />} />
+          <Route path="/*" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </div>
