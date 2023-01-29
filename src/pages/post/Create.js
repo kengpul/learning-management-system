@@ -6,7 +6,7 @@ import Avatar from "../../assets/default-avatar.png";
 
 export const Create = () => {
   return (
-    <Col>
+    <Col className="create">
       <h1 className="">Create post</h1>
       <p className="text-muted border-bottom mb-3 pb-2">
         Choose group/class, type formatted texts or upload photos
@@ -17,7 +17,10 @@ export const Create = () => {
         </Col>
         <Col lg="5">
           <Card>
-            <CardHeader tag="h5" className="d-flex justify-content-between">
+            <CardHeader
+              tag="h5"
+              className="d-flex justify-content-between text-white card-header"
+            >
               Photos <span>1/5</span>
             </CardHeader>
             <CardBody>

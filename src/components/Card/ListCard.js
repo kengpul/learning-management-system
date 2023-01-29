@@ -1,20 +1,19 @@
 import { Link } from "react-router-dom";
-import { Card, CardBody, CardTitle } from "reactstrap";
+import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
 export const ListCard = ({ title }) => {
   return (
     <Card className="mb-3 d-none d-lg-block">
+        <CardHeader style={{backgroundColor: 'var(--light-blue)'}} tag="h5" className="text-white">My {title}</CardHeader>
       <CardBody>
-        <CardTitle tag="h5">My {title}</CardTitle>
-        <hr />
         <Card className="mb-2">
           <Link className="text-decoration-none">
             <CardBody className="border-start border-5 p-1">
-              <CardTitle className="text-truncate m-0 text-black">
+              <CardText className="text-truncate m-0 text-black">
                 {title === "Quizes"
                   ? "Quiz #1 - THS1 Thesis Writing"
                   : "THS1 - Thesis Writing 1"}
-              </CardTitle>
+              </CardText>
             </CardBody>
           </Link>
         </Card>

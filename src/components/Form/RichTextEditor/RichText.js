@@ -77,7 +77,7 @@ class RichText extends React.Component {
     return (
       <>
         <div className="RichEditor-root rounded">
-          <div className="controls  align-items-center position-sticky top-0">
+          <div className="controls align-items-center position-sticky top-0">
             <div className="d-flex align-items-start gap-2 border-bottom mb-3">
               <Select
                 options={options}

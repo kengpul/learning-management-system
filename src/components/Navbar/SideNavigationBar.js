@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import avatar from "../../assets/default-avatar.png";
 import "./navigation.css";
@@ -14,9 +14,9 @@ export const SideNavigationBar = () => {
           alt=""
         />
         <h5 className="mt-3">Paul</h5>
-        <NavLink to="/profile" className="link-light text-decoration-none">
+        <Link to="/profile" className="link-light text-decoration-none">
           View Profile
-        </NavLink>
+        </Link>
       </div>
       <div className="d-grid gap-2">
         <NavLink
@@ -29,25 +29,25 @@ export const SideNavigationBar = () => {
           to="/class/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-users me-1"></i>MY CLASS
+          <i className="fas fa-users me-1"></i>CLASS
         </NavLink>
         <NavLink
           to="/group/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-users me-1"></i>MY GROUP
+          <i className="fas fa-users me-1"></i>GROUP
         </NavLink>
         <NavLink
           to="/quiz/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-book-open me-1"></i>MY QUIZ
+          <i className="fas fa-book-open me-1"></i>QUIZ
         </NavLink>
         <NavLink
           to="/chats/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-comment me-1"></i>CHATS
+          <i className="fas fa-comment me-1"></i>CHAT
         </NavLink>
       </div>
     </div>

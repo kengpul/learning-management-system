@@ -16,6 +16,10 @@ body {
   background-color: var(--light-blue);
 }
 
+.create .card-header {
+  background-color: var(--light-blue);
+}
+
 @media screen and (min-width: 992px) {
   .post .row > * {
     padding-left: 0;
