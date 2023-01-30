@@ -5,7 +5,7 @@ import "./navigation.css";
 
 export const BottomNavigationBar = () => {
   return (
-    <Nav className="fixed-bottom navbar-light d-block d-lg-none">
+    <Nav className="fixed-bottom navbar-light d-block d-lg-none pe-0">
       <Container
         fluid="true"
         className="d-flex justify-content-around fs-4 py-2"

@@ -11,7 +11,7 @@ export const Create = () => {
       <p className="text-muted border-bottom mb-3 pb-2">
         Choose group/class, type formatted texts or upload photos
       </p>
-      <Row className="mx-auto">
+      <Row className="mx-lg-auto">
         <Col lg="7" className="position-relative mb-3">
           <RichText />
         </Col>

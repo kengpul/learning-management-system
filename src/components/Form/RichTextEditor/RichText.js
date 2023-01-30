@@ -4,7 +4,7 @@ import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
 // import { stateToHTML } from "draft-js-export-html";
 
 import "draft-js/dist/Draft.css";
-import { Button } from "reactstrap";
+import { Button, Input } from "reactstrap";
 import "./RichText.css";
 
 class RichText extends React.Component {
@@ -78,7 +78,7 @@ class RichText extends React.Component {
       <>
         <div className="RichEditor-root rounded">
           <div className="controls align-items-center position-sticky top-0">
-            <div className="d-flex align-items-start gap-2 border-bottom mb-3">
+            <div className="d-flex align-items-start gap-2 border-md-bottom mb-md-3">
               <Select
                 options={options}
                 isMulti={true}
@@ -87,7 +87,7 @@ class RichText extends React.Component {
               />
               <Button className="ms-auto main-btn">Post</Button>
             </div>
-            <div>
+            <div className="d-none d-md-block">
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
@@ -98,7 +98,7 @@ class RichText extends React.Component {
               />
             </div>
           </div>
-          <div className={className} onClick={this.focus}>
+          <div className={`${className} d-none d-md-block`} onClick={this.focus}>
             <Editor
               blockStyleFn={getBlockStyle}
               customStyleMap={styleMap}
@@ -110,6 +110,9 @@ class RichText extends React.Component {
               ref={this.editorRef}
               spellCheck={true}
             />
+          </div>
+          <div className="d-block d-md-none">
+            <Input rows="5" type="textarea" placeholder="Type your post..."/>
           </div>
         </div>
       </>
