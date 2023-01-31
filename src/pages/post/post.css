@@ -20,6 +20,13 @@ body {
   background-color: var(--light-blue);
 }
 
+.create .ql-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: rgb(231, 229, 229);
+}
+
 @media screen and (min-width: 992px) {
   .post .row > * {
     padding-left: 0;
