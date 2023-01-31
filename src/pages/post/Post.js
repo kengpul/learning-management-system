@@ -6,6 +6,7 @@ import { PostCard } from "../../components/Card/PostCard";
 import { ListCard } from "../../components/Card/ListCard";
 import { CreatePostButton } from "../../components/Card/CreatePostButton";
 import { Create } from "./Create";
+import { Show } from "./Show";
 
 import { Container, Row, Col } from "reactstrap";
 import "./post.css";
@@ -18,12 +19,11 @@ export const Post = () => {
           <SideNavigationBar />
         </Col>
 
-       
           <Routes>
             <Route path="/post" element={<Feed />} />
             <Route path="/post/create" element={<Create />} />
+            <Route path="/post/id" element={<Show />} />
           </Routes>
-    
 
         <BottomNavigationBar />
       </Row>

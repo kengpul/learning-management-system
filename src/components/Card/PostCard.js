@@ -40,9 +40,6 @@ export const PostCard = () => {
             </DropdownToggle>
             <DropdownMenu>
               <Link to="" className="dropdown-item">
-                Go to post
-              </Link>
-              <Link to="" className="dropdown-item">
                 Edit
               </Link>
               <Link to="" className="dropdown-item">
@@ -52,16 +49,18 @@ export const PostCard = () => {
           </Dropdown>
         </CardTitle>
 
-        <CardSubtitle className="ms-md-5 mt-3 text-muted">
-          <h6>1 hour ago</h6>
-        </CardSubtitle>
+        <Link to="/post/id">
+          <CardSubtitle className="ms-md-5 mt-3 text-muted">
+            <h6>1 hour ago</h6>
+          </CardSubtitle>
 
-        <CardText className="mx-md-5">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-          asperiores quia molestias eligendi maxime magnam facilis facere. Fuga
-          sed adipisci culpa vel, tempora porro autem dolores aliquid architecto
-          voluptas sunt!
-        </CardText>
+          <CardText className="mx-md-5">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
+            asperiores quia molestias eligendi maxime magnam facilis facere.
+            Fuga sed adipisci culpa vel, tempora porro autem dolores aliquid
+            architecto voluptas sunt!
+          </CardText>
+        </Link>
       </CardBody>
     </Card>
   );

@@ -6,6 +6,11 @@ body {
   padding-bottom: 70px;
 }
 
+.post a {
+  text-decoration: none;
+  color: var(--grey);
+}
+
 .post textarea {
   background-color: var(--light-grey);
 }
