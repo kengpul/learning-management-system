@@ -6,6 +6,11 @@ body {
   padding-bottom: 70px;
 }
 
+.post a {
+  text-decoration: none;
+  color: var(--grey);
+}
+
 .post textarea {
   background-color: var(--light-grey);
 }
@@ -14,6 +19,28 @@ body {
 }
 .post .submit:hover {
   background-color: var(--light-blue);
+}
+
+.post-card {
+  border-radius: 0;
+}
+
+.post-btn .btn {
+  border-radius: 0;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+.post .post-card .ql-editor > * {
+  cursor: pointer;
+}
+
+.comment-content {
+  background-color: var(--light-grey);
+}
+
+.post .post-card:hover {
+  border: 1px solid var(--grey);
 }
 
 .create .card-header {
