@@ -1,3 +1,9 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --main-color: #041562;
   --light-blue: #11468f;
@@ -14,7 +20,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.main-btn  {
+.main-btn {
   background-color: var(--main-color) !important;
 }
 
