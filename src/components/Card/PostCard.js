@@ -19,11 +19,14 @@ import {
   Input,
 } from "reactstrap";
 import Avatar from "../../assets/default-avatar.png";
+import { usePostsContext } from "../../hooks/usePostsContext";
 
 export const PostCard = ({ post }) => {
   const [modal, setModal] = useState(false);
   const [expand, setExpand] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [comment, setComment] = useState("");
+  const { dispatch } = usePostsContext();
 
   const card = useRef(null);
 
@@ -31,16 +34,64 @@ export const PostCard = ({ post }) => {
   const toggleModal = () => setModal(!modal);
   const toggleExpand = () => setExpand(!expand);
 
-  const rtf = new Intl.RelativeTimeFormat("en", { style: "narrow" });
-  const diff = new Date() - new Date(post.createdAt);
-  const days = Array.from(diff.toString())[0];
-  const minutes =
-    new Date().getMinutes() - new Date(post.createdAt).getMinutes();
+  const created = new Date(post.createdAt);
+  const days = new Date().getUTCDate() - created.getUTCDate();
+  const hours = new Date().getHours() - new Date(post.createdAt).getHours();
+  const minutes = Math.round(
+    (new Date().getTime() - new Date(post.createdAt).getTime()) / 60000
+  );
+
+  console.log(minutes);
+
+  // Issue in minutes
+  // - minutes is automatically set t 1 hour after 60 minutes
+
+  // console.log(days, hours, minutes);
+
+  const handleDates = () => {
+    if (days > 0) {
+      return `${days}d`;
+    } else if (hours > 0 && days < 1) {
+      return `${hours}h`;
+    } else if (minutes > 0 && hours < 1 && days < 1) {
+      return `${minutes}m`;
+    } else {
+      return "Just now";
+    }
+  };
 
   const handleDelete = async (id) => {
-    await fetch(`${process.env.REACT_APP_API_URI}${id}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URI}${id}`, {
       method: "DELETE",
     });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "DELETE_POST", payload: json });
+    }
+  };
+
+  const handleComment = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URI}${post._id}/comment`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: comment }),
+      }
+    );
+
+    const json = await response.json();
+
+    if (response.ok) {
+      dispatch({ type: "EDIT_POST", payload: json });
+      setComment("");
+    }
   };
 
   return (
@@ -58,9 +109,7 @@ export const PostCard = ({ post }) => {
             <span className="text-primary">THS1</span>
           </div>
           <CardSubtitle className="text-muted ms-2">
-            {diff > 100000000
-              ? rtf.format(-days, "days")
-              : rtf.format(-minutes, "minutes")}
+            {handleDates()}
           </CardSubtitle>
           <Dropdown
             toggle={toggleDropdown}
@@ -121,11 +170,7 @@ export const PostCard = ({ post }) => {
         <ModalHeader tag="h6" toggle={toggleModal}>
           Jhon <span className="text-muted">Posted to</span>{" "}
           <span className="text-primary">THS1</span>
-          <CardSubtitle className="text-muted">
-            {diff > 100000000
-              ? rtf.format(-days, "days")
-              : rtf.format(-minutes, "minutes")}
-          </CardSubtitle>
+          <span className="ms-2 text-muted">{handleDates()}</span>
         </ModalHeader>
         <ModalBody>
           <ReactQuill value={post.content} theme={"bubble"} readOnly={true} />
@@ -138,23 +183,32 @@ export const PostCard = ({ post }) => {
             </Button>
           </div>
           <Card className="mt-3">
-            <CardBody className="d-flex align-items-start">
-              <img
-                src={Avatar}
-                className="rounded-circle me-2"
-                alt=""
-                width="30"
-              />
-              <div className="d-flex flex-column px-3 py-2 rounded comment-content">
-                <span>Jhon doe 1 hour ago</span>
-                <span>Lorem ipsum</span>
-              </div>
-            </CardBody>
+            {post.comments &&
+              post.comments.map((comment) => (
+                <CardBody
+                  key={comment._id}
+                  className="d-flex align-items-start"
+                >
+                  <img
+                    src={Avatar}
+                    className="rounded-circle me-2"
+                    alt=""
+                    width="30"
+                  />
+                  <div className="d-flex flex-column px-3 py-2 rounded comment-content">
+                    <span>Jhon doe 1 hour ago</span>
+                    <span>{comment.text}</span>
+                  </div>
+                </CardBody>
+              ))}
           </Card>
         </ModalBody>
         <ModalFooter>
-          <Form className="d-flex w-100 gap-2">
-            <Input />
+          <Form onSubmit={handleComment} className="d-flex w-100 gap-2">
+            <Input
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
             <Button className="main-btn">Comment</Button>
           </Form>
         </ModalFooter>

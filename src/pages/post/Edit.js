@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { RichTextForm } from "../../components/form/RichTextForm";
+import { usePostsContext } from "../../hooks/usePostsContext";
 
 export const Edit = () => {
   const [form, setForm] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { dispatch } = usePostsContext();
 
   useEffect(() => {
     if (id) {
@@ -31,7 +33,10 @@ export const Edit = () => {
       body: JSON.stringify({ content: form }),
     });
 
+    const json = await response.json();
+
     if (response.ok) {
+      dispatch({ type: "EDIT_POST", payload: json });
       navigate("/post");
     }
   };
