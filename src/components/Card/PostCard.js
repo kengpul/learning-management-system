@@ -41,13 +41,6 @@ export const PostCard = ({ post }) => {
     (new Date().getTime() - new Date(post.createdAt).getTime()) / 60000
   );
 
-  console.log(minutes);
-
-  // Issue in minutes
-  // - minutes is automatically set t 1 hour after 60 minutes
-
-  // console.log(days, hours, minutes);
-
   const handleDates = () => {
     if (days > 0) {
       return `${days}d`;
@@ -56,7 +49,7 @@ export const PostCard = ({ post }) => {
     } else if (minutes > 0 && hours < 1 && days < 1) {
       return `${minutes}m`;
     } else {
-      return "Just now";
+      return "now";
     }
   };
 
@@ -166,7 +159,7 @@ export const PostCard = ({ post }) => {
         </Button>
       </div>
 
-      <Modal scrollable={true} isOpen={modal} toggle={toggleModal} size="lg">
+      <Modal className="modal-post" scrollable={true} isOpen={modal} toggle={toggleModal} size="lg">
         <ModalHeader tag="h6" toggle={toggleModal}>
           Jhon <span className="text-muted">Posted to</span>{" "}
           <span className="text-primary">THS1</span>

@@ -27,7 +27,7 @@ export const Post = () => {
     };
 
     fetchPost();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container fluid className="post">

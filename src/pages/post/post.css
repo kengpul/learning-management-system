@@ -54,6 +54,15 @@ body {
   background-color: rgb(231, 229, 229);
 }
 
+.post .ql-editor p img,
+.modal-post .ql-editor p img {
+  max-width: 100%;
+}
+
+.ql-container.ql-disabled .ql-tooltip {
+  display: none;
+}
+
 @media screen and (min-width: 992px) {
   .post .row > * {
     padding-left: 0;
