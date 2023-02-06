@@ -22,7 +22,7 @@ export const RichTextForm = ({ handleSubmit, form, setForm }) => {
       formData.append("image", input.files[0]);
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URI}uploadImage`,
+        `${process.env.REACT_APP_API_URI}uploadimage`,
         {
           method: "POST",
           body: formData,
