@@ -1,6 +1,9 @@
 import { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import { Link } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
+
+import { ToastCard } from "./ToastCard";
 
 import {
   Card,
@@ -17,16 +20,16 @@ import {
   ModalFooter,
   Form,
   Input,
+  Spinner,
 } from "reactstrap";
 import Avatar from "../../assets/default-avatar.png";
-import { usePostsContext } from "../../hooks/usePostsContext";
 
 export const PostCard = ({ post }) => {
   const [modal, setModal] = useState(false);
   const [expand, setExpand] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [comment, setComment] = useState("");
-  const { dispatch } = usePostsContext();
+  const { destroy, create, pending, error } = useFetch();
 
   const card = useRef(null);
 
@@ -54,37 +57,15 @@ export const PostCard = ({ post }) => {
   };
 
   const handleDelete = async (id) => {
-    const response = await fetch(`${process.env.REACT_APP_API_URI}${id}`, {
-      method: "DELETE",
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      dispatch({ type: "DELETE_POST", payload: json });
-    }
+    const url = process.env.REACT_APP_API_URI + id;
+    await destroy(url, "DELETE", "DELETE_POST");
   };
 
   const handleComment = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URI}${post._id}/comment`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ text: comment }),
-      }
-    );
-
-    const json = await response.json();
-
-    if (response.ok) {
-      dispatch({ type: "EDIT_POST", payload: json });
-      setComment("");
-    }
+    const url = `${process.env.REACT_APP_API_URI}${post._id}/comment`;
+    await create(url, "POST", "EDIT_POST", comment);
+    setComment("");
   };
 
   return (
@@ -122,7 +103,7 @@ export const PostCard = ({ post }) => {
                 onClick={() => handleDelete(post._id)}
                 className="dropdown-item"
               >
-                Delete
+                {pending ? <Spinner /> : "Delete"}
               </Link>
             </DropdownMenu>
           </Dropdown>
@@ -159,13 +140,20 @@ export const PostCard = ({ post }) => {
         </Button>
       </div>
 
-      <Modal className="modal-post" scrollable={true} isOpen={modal} toggle={toggleModal} size="lg">
+      <Modal
+        className="modal-post"
+        scrollable={true}
+        isOpen={modal}
+        toggle={toggleModal}
+        size="lg"
+      >
         <ModalHeader tag="h6" toggle={toggleModal}>
           Jhon <span className="text-muted">Posted to</span>{" "}
           <span className="text-primary">THS1</span>
           <span className="ms-2 text-muted">{handleDates()}</span>
         </ModalHeader>
         <ModalBody>
+          {error && <ToastCard message={error} color={"danger"} />}
           <ReactQuill value={post.content} theme={"bubble"} readOnly={true} />
           <div className="pt-3 border-top btn-group w-100">
             <Button className="main-btn">
@@ -189,8 +177,8 @@ export const PostCard = ({ post }) => {
                     width="30"
                   />
                   <div className="d-flex flex-column px-3 py-2 rounded comment-content">
-                    <span>Jhon doe 1 hour ago</span>
-                    <span>{comment.text}</span>
+                    <span>1 hour ago</span>
+                    <span>{comment.content}</span>
                   </div>
                 </CardBody>
               ))}
@@ -202,7 +190,9 @@ export const PostCard = ({ post }) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
-            <Button className="main-btn">Comment</Button>
+            <Button className="main-btn" disabled={pending}>
+              {pending ? <Spinner /> : "Comment"}
+            </Button>
           </Form>
         </ModalFooter>
       </Modal>
