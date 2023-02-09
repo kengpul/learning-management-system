@@ -1,12 +1,15 @@
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
 
-import { Button, Col, Form, Row } from "reactstrap";
+import { ToastCard } from "../Card/ToastCard";
+
+import { Button, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
 
-export const RichTextForm = ({ handleSubmit, form, setForm }) => {
+export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
+  const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef(null);
 
   const imageHandler = () => {
@@ -18,6 +21,7 @@ export const RichTextForm = ({ handleSubmit, form, setForm }) => {
     input.click();
 
     input.onchange = async () => {
+      setImageUpload(true);
       const formData = new FormData();
       formData.append("image", input.files[0]);
 
@@ -37,11 +41,13 @@ export const RichTextForm = ({ handleSubmit, form, setForm }) => {
           ref.current.getEditor().insertEmbed(index, "image", path);
         }
       }
+      setImageUpload(false);
     };
   };
 
   Quill.register("modules/imageHandler", imageHandler);
   Quill.register("modules/imageResize", ImageResize);
+  Quill.debug("error");
 
   const modules = useMemo(
     () => ({
@@ -75,6 +81,13 @@ export const RichTextForm = ({ handleSubmit, form, setForm }) => {
 
   return (
     <Col className="create">
+      {imageUpload && (
+        <ToastCard
+          spinner={true}
+          message={"Uploading image..."}
+          color={"primary"}
+        />
+      )}
       <h1 className="">Create post</h1>
       <p className="text-muted border-bottom mb-3 pb-2">
         Type formatted post, Select groups/classes.
@@ -98,8 +111,8 @@ export const RichTextForm = ({ handleSubmit, form, setForm }) => {
                 placeholder="Choose a group or class"
                 options={groupOptions}
               />
-              <Button type="submit" className="main-btn ">
-                Post
+              <Button disabled={pending} type="submit" className="main-btn">
+                {pending ? <Spinner /> : "Post"}
               </Button>
             </div>
           </Form>

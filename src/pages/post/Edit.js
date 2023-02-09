@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
+
+import { ToastCard } from "../../components/Card/ToastCard";
 import { RichTextForm } from "../../components/form/RichTextForm";
-import { usePostsContext } from "../../hooks/usePostsContext";
 
 export const Edit = () => {
-  const [form, setForm] = useState(null);
-  const navigate = useNavigate();
+  const [form, setForm] = useState("");
   const { id } = useParams();
-  const { dispatch } = usePostsContext();
+  const { create, pending, error } = useFetch();
 
   useEffect(() => {
     if (id) {
@@ -24,24 +25,19 @@ export const Edit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(`${process.env.REACT_APP_API_URI}${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ content: form }),
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      dispatch({ type: "EDIT_POST", payload: json });
-      navigate("/post");
-    }
+    const url = process.env.REACT_APP_API_URI + id;
+    await create(url, "PUT", "EDIT_POST", form);
   };
 
   return (
-    <RichTextForm handleSubmit={handleSubmit} form={form} setForm={setForm} />
+    <>
+      {error && <ToastCard message={error} color={"danger"} />}
+      <RichTextForm
+        handleSubmit={handleSubmit}
+        pending={pending}
+        form={form}
+        setForm={setForm}
+      />
+    </>
   );
 };
