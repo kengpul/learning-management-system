@@ -21,7 +21,7 @@ export const Post = () => {
   useEffect(() => {
     const fetchPost = async () => {
       setPending(true);
-      const response = await fetch(process.env.REACT_APP_API_URI);
+      const response = await fetch(process.env.REACT_APP_API_URI + "post");
       const json = await response.json();
 
       if (response.ok) {

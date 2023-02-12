@@ -10,7 +10,12 @@ export const Create = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await create(process.env.REACT_APP_API_URI, "POST", "CREATE_POST", form);
+    await create(
+      process.env.REACT_APP_API_URI + "post",
+      "POST",
+      "CREATE_POST",
+      form
+    );
   };
 
   return (

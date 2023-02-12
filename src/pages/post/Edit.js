@@ -13,7 +13,9 @@ export const Edit = () => {
   useEffect(() => {
     if (id) {
       const fetchPost = async () => {
-        const response = await fetch(`${process.env.REACT_APP_API_URI}${id}`);
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URI}post/${id}`
+        );
         const post = await response.json();
         if (response.ok) {
           setForm(post.content);
@@ -25,7 +27,7 @@ export const Edit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = process.env.REACT_APP_API_URI + id;
+    const url = `${process.env.REACT_APP_API_URI}post/${id}`;
     await create(url, "PUT", "EDIT_POST", form);
   };
 

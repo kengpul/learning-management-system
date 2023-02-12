@@ -26,7 +26,7 @@ export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
       formData.append("image", input.files[0]);
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URI}uploadimage`,
+        `${process.env.REACT_APP_API_URI}post/uploadimage`,
         {
           method: "POST",
           body: formData,

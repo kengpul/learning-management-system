@@ -57,13 +57,13 @@ export const PostCard = ({ post }) => {
   };
 
   const handleDelete = async (id) => {
-    const url = process.env.REACT_APP_API_URI + id;
+    const url = `${process.env.REACT_APP_API_URI}post/${id}`;
     await destroy(url, "DELETE", "DELETE_POST");
   };
 
   const handleComment = async (e) => {
     e.preventDefault();
-    const url = `${process.env.REACT_APP_API_URI}${post._id}/comment`;
+    const url = `${process.env.REACT_APP_API_URI}post/${post._id}/comment`;
     await create(url, "POST", "EDIT_POST", comment);
     setComment("");
   };
