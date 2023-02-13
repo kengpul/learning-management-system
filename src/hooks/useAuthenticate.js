@@ -2,10 +2,12 @@ import { useState } from "react";
 
 export const useAuthenticate = () => {
   const [isPending, setIsPending] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [error, setError] = useState(null);
 
   const login = async (username, password) => {
     setError(null);
+    setIsRegistered(false);
     setIsPending(true);
 
     const response = await fetch(
@@ -21,11 +23,12 @@ export const useAuthenticate = () => {
 
     if (!response.ok) {
       setError(json.error.message);
+      setIsPending(false);
     } else {
+      setIsPending(false);
       localStorage.setItem("user", JSON.stringify(json));
+      return json;
     }
-
-    setIsPending(false);
   };
 
   const signup = async (username, password, email, type) => {
@@ -45,12 +48,13 @@ export const useAuthenticate = () => {
 
     if (!response.ok) {
       setError(json.error.message);
+      setIsPending(false);
     } else {
-      localStorage.setItem("user", JSON.stringify(json));
+      setIsRegistered(true);
+      setIsPending(false);
+      return json;
     }
-
-    setIsPending(false);
   };
 
-  return { login, signup, isPending, error, setError };
+  return { login, signup, isRegistered, isPending, error, setError };
 };

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthenticate } from "../../hooks/useAuthenticate";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { ToastCard } from "../../components/Card/ToastCard";
 import { Button, Spinner } from "reactstrap";
@@ -13,7 +14,10 @@ export const Connect = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [type, setType] = useState("Student");
-  const { login, signup, isPending, error, setError } = useAuthenticate();
+
+  const { dispatch } = useAuthContext();
+  const { login, signup, isPending, error, setError, isRegistered } =
+    useAuthenticate();
 
   const togglePage = () => {
     if (state === "sign-up-mode") {
@@ -23,17 +27,20 @@ export const Connect = () => {
     }
     setUsername("");
     setPassword("");
+    setEmail("");
     setError(null);
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await login(username, password);
+    const user = await login(username, password);
+    dispatch({ type: "LOGIN", payload: user });
   };
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    await signup(username, password, email, type);
+    const user = await signup(username, password, email, type);
+    if (user) togglePage();
   };
 
   return (
@@ -48,6 +55,12 @@ export const Connect = () => {
         <div className="forms-container">
           <div className="signin-signup">
             {error && <ToastCard message={error} color={"danger"} />}
+            {isRegistered && (
+              <ToastCard
+                message={"Success, you may now sign in"}
+                color={"success"}
+              />
+            )}
             <form className="sign-in-form validate" onSubmit={handleLogin}>
               <h2 className="title">Log in</h2>
               <div className="input-field">
