@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { ToastCard } from "./ToastCard";
 
@@ -30,6 +31,7 @@ export const PostCard = ({ post }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [comment, setComment] = useState("");
   const { destroy, create, pending, error } = useFetch();
+  const { user } = useAuthContext();
 
   const card = useRef(null);
 
@@ -85,28 +87,30 @@ export const PostCard = ({ post }) => {
           <CardSubtitle className="text-muted ms-2">
             {handleDates()}
           </CardSubtitle>
-          <Dropdown
-            toggle={toggleDropdown}
-            isOpen={dropdownOpen}
-            className="ms-auto"
-          >
-            <DropdownToggle data-toggle="dropdown" tag="span">
-              <Button color="transparent">
-                <i className="fas fa-ellipsis-h" aria-hidden="true"></i>
-              </Button>
-            </DropdownToggle>
-            <DropdownMenu>
-              <Link to={`/post/${post._id}/edit`} className="dropdown-item">
-                Edit
-              </Link>
-              <Link
-                onClick={() => handleDelete(post._id)}
-                className="dropdown-item"
-              >
-                {pending ? <Spinner /> : "Delete"}
-              </Link>
-            </DropdownMenu>
-          </Dropdown>
+          {user.username === post.author.username && (
+            <Dropdown
+              toggle={toggleDropdown}
+              isOpen={dropdownOpen}
+              className="ms-auto"
+            >
+              <DropdownToggle data-toggle="dropdown" tag="span">
+                <Button color="transparent">
+                  <i className="fas fa-ellipsis-h" aria-hidden="true"></i>
+                </Button>
+              </DropdownToggle>
+              <DropdownMenu>
+                <Link to={`/post/${post._id}/edit`} className="dropdown-item">
+                  Edit
+                </Link>
+                <Link
+                  onClick={() => handleDelete(post._id)}
+                  className="dropdown-item"
+                >
+                  {pending ? <Spinner /> : "Delete"}
+                </Link>
+              </DropdownMenu>
+            </Dropdown>
+          )}
         </CardHeader>
         <Link
           onClick={toggleModal}

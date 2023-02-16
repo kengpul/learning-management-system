@@ -7,7 +7,7 @@ export const postsReducer = (state, action) => {
     case "GET_POSTS":
       return { posts: action.payload };
     case "CREATE_POST":
-      return { posts: [...state.posts, action.payload] };
+      return { posts: [action.payload, ...state.posts] };
     case "EDIT_POST":
       return {
         posts: state.posts.map((post) =>

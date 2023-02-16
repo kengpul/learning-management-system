@@ -17,7 +17,7 @@ import "./navigation.css";
 export const NavigationBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  const { dispatch } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -52,7 +52,7 @@ export const NavigationBar = () => {
                 />
               </div>
               <div className="mx-2 d-none d-sm-block">
-                <div className="fw-bold">Paul</div>
+                <div className="fw-bold">{user.username}</div>
                 <div className="text-muted">Student</div>
               </div>
             </DropdownToggle>
