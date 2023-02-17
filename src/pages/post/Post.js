@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { usePostsContext } from "../../hooks/usePostsContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { SideNavigationBar } from "../../components/Navbar/SideNavigationBar";
 import { BottomNavigationBar } from "../../components/Navbar/BottomNavigation";
@@ -17,11 +18,17 @@ import "./post.css";
 export const Post = () => {
   const [pending, setPending] = useState(false);
   const { posts, dispatch } = usePostsContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchPost = async () => {
       setPending(true);
-      const response = await fetch(process.env.REACT_APP_API_URI);
+      const response = await fetch(process.env.REACT_APP_API_URI + "post", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearers ${user.token}`,
+        },
+      });
       const json = await response.json();
 
       if (response.ok) {
@@ -30,8 +37,10 @@ export const Post = () => {
       setPending(false);
     };
 
-    fetchPost();
-  }, [dispatch]);
+    if (user) {
+      fetchPost();
+    }
+  }, [dispatch, user]);
 
   return (
     <Container fluid className="post">

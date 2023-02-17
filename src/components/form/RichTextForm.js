@@ -2,6 +2,7 @@ import { useRef, useMemo, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { ToastCard } from "../Card/ToastCard";
 
@@ -11,8 +12,10 @@ import "react-quill/dist/quill.snow.css";
 export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
   const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef(null);
+  const { user } = useAuthContext();
 
   const imageHandler = () => {
+    if (!user) return;
     const input = document.createElement("input");
 
     input.setAttribute("type", "file");
@@ -26,9 +29,10 @@ export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
       formData.append("image", input.files[0]);
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URI}uploadimage`,
+        `${process.env.REACT_APP_API_URI}post/uploadimage`,
         {
           method: "POST",
+          headers: { "Authorization": `Bearers ${user.token}` },
           body: formData,
         }
       );
@@ -70,6 +74,7 @@ export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
         modules: ["Resize", "DisplaySize"],
       },
     }),
+    // eslint-disable-next-line
     []
   );
 

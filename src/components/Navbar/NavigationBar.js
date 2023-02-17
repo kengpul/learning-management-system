@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import {
   Container,
@@ -16,6 +17,12 @@ import "./navigation.css";
 export const NavigationBar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const { user, dispatch } = useAuthContext();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    dispatch({ type: "LOGOUT" });
+  };
 
   return (
     <Container fluid className="post-navbar shadow-sm">
@@ -31,7 +38,11 @@ export const NavigationBar = () => {
             </div>
           </NavbarBrand>
           <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle caret color="white" className="d-flex align-items-center">
+            <DropdownToggle
+              caret
+              color="white"
+              className="d-flex align-items-center"
+            >
               <div>
                 <img
                   src={avatar}
@@ -41,14 +52,14 @@ export const NavigationBar = () => {
                 />
               </div>
               <div className="mx-2 d-none d-sm-block">
-                <div className="fw-bold">Paul</div>
-                <div className="text-muted">Student</div>
+                <div className="fw-bold">{user.username}</div>
+                <div className="text-muted">{user.type}</div>
               </div>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem>Profile</DropdownItem>
               <DropdownItem divider />
-              <DropdownItem>Logout</DropdownItem>
+              <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </Navbar>
