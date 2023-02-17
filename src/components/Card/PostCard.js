@@ -39,14 +39,14 @@ export const PostCard = ({ post }) => {
   const toggleModal = () => setModal(!modal);
   const toggleExpand = () => setExpand(!expand);
 
-  const created = new Date(post.createdAt);
-  const days = new Date().getUTCDate() - created.getUTCDate();
-  const hours = new Date().getHours() - new Date(post.createdAt).getHours();
-  const minutes = Math.round(
-    (new Date().getTime() - new Date(post.createdAt).getTime()) / 60000
-  );
+  const handleDates = (content) => {
+    const created = new Date(content);
+    const days = new Date().getUTCDate() - created.getUTCDate();
+    const hours = new Date().getHours() - new Date(content).getHours();
+    const minutes = Math.round(
+      (new Date().getTime() - new Date(content).getTime()) / 60000
+    );
 
-  const handleDates = () => {
     if (days > 0) {
       return `${days}d`;
     } else if (hours > 0 && days < 1) {
@@ -61,6 +61,12 @@ export const PostCard = ({ post }) => {
   const handleDelete = async (id) => {
     const url = `${process.env.REACT_APP_API_URI}post/${id}`;
     await destroy(url, "DELETE", "DELETE_POST");
+  };
+
+  const handleLike = async (e) => {
+    e.preventDefault();
+    const url = `${process.env.REACT_APP_API_URI}post/${post._id}/like`;
+    await create(url, "POST", "EDIT_POST", user.username);
   };
 
   const handleComment = async (e) => {
@@ -85,7 +91,7 @@ export const PostCard = ({ post }) => {
             <span className="text-primary">THS1</span>
           </div>
           <CardSubtitle className="text-muted ms-2">
-            {handleDates()}
+            {handleDates(post.createdAt)}
           </CardSubtitle>
           {user.username === post.author.username && (
             <Dropdown
@@ -136,11 +142,13 @@ export const PostCard = ({ post }) => {
         )}
       </Card>
       <div className="d-flex justify-content-around btn-group w-100 post-btn rounded-">
-        <Button>
-          <i className="fa-regular fa-thumbs-up me-2"></i>Like
+        <Button onClick={handleLike}>
+          <i className="fa-regular fa-thumbs-up me-1"></i>
+          {post.likes.length} Like
         </Button>
         <Button onClick={toggleModal}>
-          <i className="fa-regular fa-message me-2"></i>Comment
+          <i className="fa-regular fa-message me-1"></i>
+          {post.comments.length} Comment
         </Button>
       </div>
 
@@ -154,19 +162,11 @@ export const PostCard = ({ post }) => {
         <ModalHeader tag="h6" toggle={toggleModal}>
           Jhon <span className="text-muted">Posted to</span>{" "}
           <span className="text-primary">THS1</span>
-          <span className="ms-2 text-muted">{handleDates()}</span>
+          <span className="ms-2 text-muted">{handleDates(post.createdAt)}</span>
         </ModalHeader>
         <ModalBody>
           {error && <ToastCard message={error} color={"danger"} />}
           <ReactQuill value={post.content} theme={"bubble"} readOnly={true} />
-          <div className="pt-3 border-top btn-group w-100">
-            <Button className="main-btn">
-              <i className="fa-regular fa-thumbs-up me-2"></i>Like
-            </Button>
-            <Button className="main-btn">
-              <i className="fa-regular fa-message me-2"></i>Comment
-            </Button>
-          </div>
           <Card className="mt-3">
             {post.comments &&
               post.comments.map((comment) => (
@@ -181,7 +181,9 @@ export const PostCard = ({ post }) => {
                     width="30"
                   />
                   <div className="d-flex flex-column px-3 py-2 rounded comment-content">
-                    <span>1 hour ago</span>
+                    <span>
+                      {comment.username} {handleDates(comment.date)}
+                    </span>
                     <span>{comment.content}</span>
                   </div>
                 </CardBody>

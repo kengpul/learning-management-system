@@ -53,7 +53,7 @@ export const NavigationBar = () => {
               </div>
               <div className="mx-2 d-none d-sm-block">
                 <div className="fw-bold">{user.username}</div>
-                <div className="text-muted">Student</div>
+                <div className="text-muted">{user.type}</div>
               </div>
             </DropdownToggle>
             <DropdownMenu>
