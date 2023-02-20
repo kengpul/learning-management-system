@@ -59,3 +59,4 @@ export const useFetch = () => {
 
   return { pending, error, create, destroy };
 };
+
