@@ -1,10 +1,16 @@
 import { Link } from "react-router-dom";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
-export const ListCard = ({ title }) => {
+export default function ListCard({ title }) {
   return (
     <Card className="mb-3 d-none d-lg-block">
-        <CardHeader style={{backgroundColor: 'var(--light-blue)'}} tag="h5" className="text-white">My {title}</CardHeader>
+      <CardHeader
+        style={{ backgroundColor: "var(--light-blue)" }}
+        tag="h5"
+        className="text-white"
+      >
+        My {title}
+      </CardHeader>
       <CardBody>
         <Card className="mb-2">
           <Link className="text-decoration-none">
@@ -20,4 +26,4 @@ export const ListCard = ({ title }) => {
       </CardBody>
     </Card>
   );
-};
+}

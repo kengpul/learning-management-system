@@ -4,12 +4,12 @@ import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-import { ToastCard } from "../Card/ToastCard";
+import ToastCard from "../Card/ToastCard";
 
 import { Button, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
 
-export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
+export default function RichTextForm({ handleSubmit, form, setForm, pending }) {
   const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef(null);
   const { user } = useAuthContext();
@@ -32,7 +32,7 @@ export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
         `${process.env.REACT_APP_API_URI}post/uploadimage`,
         {
           method: "POST",
-          headers: { "Authorization": `Bearers ${user.token}` },
+          headers: { Authorization: `Bearers ${user.token}` },
           body: formData,
         }
       );
@@ -125,4 +125,4 @@ export const RichTextForm = ({ handleSubmit, form, setForm, pending }) => {
       </Row>
     </Col>
   );
-};
+}

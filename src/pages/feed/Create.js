@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useFetch } from "../../hooks/useFetch";
 
-import { ToastCard } from "../../components/Card/ToastCard";
-import { RichTextForm } from "../../components/form/RichTextForm";
+import ToastCard from "../../components/Card/ToastCard";
+import RichTextForm from "../../components/form/RichTextForm";
 
-export const Create = () => {
+export default function Create() {
   const [form, setForm] = useState("");
   const { create, pending, error } = useFetch();
 
@@ -29,4 +29,4 @@ export const Create = () => {
       />
     </>
   );
-};
+}

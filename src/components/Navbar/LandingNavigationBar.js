@@ -1,8 +1,7 @@
 import { useState, React } from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 import "./navigation.css";
-import logo from "../../assets/logo.png";
 
 import {
   Container,
@@ -15,12 +14,12 @@ import {
   Collapse,
 } from "reactstrap";
 
-export const LandingNavigationBar = () => {
+export default function LandingNavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div className="landing-page">
+    <div className="landing-page p-0">
       <Container fluid="true" className="contact-details d-none d-sm-block">
         <Container
           fluid="true"
@@ -49,7 +48,10 @@ export const LandingNavigationBar = () => {
           <Navbar dark expand="md">
             <NavbarBrand href="/" className="d-flex align-items-center">
               <div>
-                <img src={logo} width={50} alt="logo" />
+                <img
+                  src="https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_50/v1676885961/learning-management-system/assets/logo_pwtamk.png"
+                  alt="logo"
+                />
               </div>
               <div className="d-flex flex-column text-start border-start ms-1 ps-2">
                 <span className="fw-bold fs-5">ICCT Colleges</span>
@@ -60,13 +62,18 @@ export const LandingNavigationBar = () => {
             <Collapse isOpen={isOpen} navbar>
               <Nav navbar>
                 <NavItem>
-                  <Link to="/" className="nav-item ms-3 text-decoration-none">Home</Link>
+                  <Link to="/" className="nav-item ms-3 text-decoration-none">
+                    Home
+                  </Link>
                 </NavItem>
               </Nav>
 
               <Nav className="ms-auto " navbar>
                 <NavItem>
-                  <Link  className="authenticate-button btn border text-white" to="/connect">
+                  <Link
+                    className="authenticate-button btn border text-white"
+                    to="/connect"
+                  >
                     Login/Register
                   </Link>
                 </NavItem>
@@ -77,4 +84,4 @@ export const LandingNavigationBar = () => {
       </div>
     </div>
   );
-};
+}

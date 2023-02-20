@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import { Input } from "reactstrap";
-import Avatar from "../../assets/default-avatar.png";
 
-export const CreatePostButton = () => {
+export default function CreatePostButton() {
   return (
     <div className="bg-white p-3 d-flex rounded border">
-      <img src={Avatar} className="rounded-circle me-3" alt="" width="40" />
-      <Link to="/post/create" className="w-100 text-decoration-none">
+      <img
+        src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+        className="rounded-circle me-3"
+        alt=""
+        width="40"
+      />
+      <Link to="/feed/create" className="w-100 text-decoration-none">
         <Input
           placeholder="Start a post"
           style={{ background: "var(--light-grey)" }}
@@ -14,4 +18,4 @@ export const CreatePostButton = () => {
       </Link>
     </div>
   );
-};
+}
