@@ -2,13 +2,12 @@ import { useState } from "react";
 import { useAuthenticate } from "../../hooks/useAuthenticate";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-import { ToastCard } from "../../components/Card/ToastCard";
+import ToastCard from "../../components/Card/ToastCard";
 import { Button, Spinner } from "reactstrap";
 
 import "./connect.css";
-import logo from "../../assets/logo.png";
 
-export const Connect = () => {
+export default function Connect() {
   const [state, setState] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +43,7 @@ export const Connect = () => {
   };
 
   return (
-    <div className="connect">
+    <div className="connect px-0">
       <div
         className={
           state
@@ -180,10 +179,14 @@ export const Connect = () => {
                 Sign in
               </button>
             </div>
-            <img src={logo} className="image" alt="register" />
+            <img
+              src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885961/learning-management-system/assets/logo_pwtamk.png"
+              className="image"
+              alt="register"
+            />
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

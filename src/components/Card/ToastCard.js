@@ -1,6 +1,6 @@
 import { Toast, ToastBody, Spinner } from "reactstrap";
 
-export const ToastCard = ({ message, color, spinner }) => {
+export default function ToastCard({ message, color, spinner }) {
   return (
     <Toast
       className={`position-absolute top-25 start-50 translate-middle-x text-white bg-${color}`}
@@ -11,4 +11,4 @@ export const ToastCard = ({ message, color, spinner }) => {
       </ToastBody>
     </Toast>
   );
-};
+}

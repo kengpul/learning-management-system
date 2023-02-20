@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { Nav, Container } from "reactstrap";
 import "./navigation.css";
 
-export const BottomNavigationBar = () => {
+export default function BottomNavigationBar() {
   return (
     <Nav className="fixed-bottom navbar-light d-block d-lg-none pe-0">
       <Container
         fluid="true"
         className="d-flex justify-content-around fs-4 py-2"
       >
-        <Link to="/post" className="navbar-brand">
+        <Link to="/feed" className="navbar-brand">
           <i className="fas fa-house-user"></i>
         </Link>
         <Link to="/class" className="navbar-brand">
@@ -28,4 +28,4 @@ export const BottomNavigationBar = () => {
       </Container>
     </Nav>
   );
-};
+}

@@ -1,7 +1,7 @@
 import { Container, Row, Col, Button } from "reactstrap";
 import "./home.css";
 
-export const Home = () => {
+export default function Home() {
   return (
     <>
       <section id="introduction" className="main-background">
@@ -31,4 +31,4 @@ export const Home = () => {
       </footer>
     </>
   );
-};
+}
