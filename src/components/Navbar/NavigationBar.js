@@ -10,11 +10,9 @@ import {
   DropdownMenu,
   DropdownToggle,
 } from "reactstrap";
-import logo from "../../assets/logo.png";
-import avatar from "../../assets/default-avatar.png";
 import "./navigation.css";
 
-export const NavigationBar = () => {
+export default function NavigationBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const { user, dispatch } = useAuthContext();
@@ -28,9 +26,12 @@ export const NavigationBar = () => {
     <Container fluid className="post-navbar shadow-sm">
       <Container>
         <Navbar>
-          <NavbarBrand href="/post/" className="d-flex align-items-center">
+          <NavbarBrand href="/feed/" className="d-flex align-items-center">
             <div>
-              <img src={logo} width={50} alt="logo" />
+              <img
+                src="https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_50/v1676885961/learning-management-system/assets/logo_pwtamk.png"
+                alt="logo"
+              />
             </div>
             <div className="d-none d-sm-flex flex-column text-start border-start ms-1 ps-2">
               <span className="fw-bold fs-5">ICCT Colleges</span>
@@ -45,7 +46,7 @@ export const NavigationBar = () => {
             >
               <div>
                 <img
-                  src={avatar}
+                  src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
                   width="45"
                   className="rounded-circle"
                   alt=""
@@ -66,4 +67,4 @@ export const NavigationBar = () => {
       </Container>
     </Container>
   );
-};
+}

@@ -1,14 +1,13 @@
 import { NavLink, Link } from "react-router-dom";
 
-import avatar from "../../assets/default-avatar.png";
 import "./navigation.css";
 
-export const SideNavigationBar = () => {
+export default function SideNavigationBar() {
   return (
     <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
         <img
-          src={avatar}
+          src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
           className="img-fluid mt-3 rounded-circle"
           width="80"
           alt=""
@@ -20,7 +19,7 @@ export const SideNavigationBar = () => {
       </div>
       <div className="d-grid gap-2">
         <NavLink
-          to="/post/"
+          to="/feed/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-house-user me-1"></i>DASHBOARD
@@ -52,4 +51,4 @@ export const SideNavigationBar = () => {
       </div>
     </div>
   );
-};
+}

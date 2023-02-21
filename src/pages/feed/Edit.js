@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-import { ToastCard } from "../../components/Card/ToastCard";
-import { RichTextForm } from "../../components/form/RichTextForm";
+import ToastCard from "../../components/Card/ToastCard";
+import RichTextForm from "../../components/form/RichTextForm";
 
-export const Edit = () => {
+export default function Edit() {
   const [form, setForm] = useState("");
   const { id } = useParams();
   const { create, pending, error } = useFetch();
@@ -18,7 +18,7 @@ export const Edit = () => {
         const response = await fetch(
           `${process.env.REACT_APP_API_URI}post/${id}`,
           {
-            headers: { "Authorization": `Bearers ${user.token}` },
+            headers: { Authorization: `Bearers ${user.token}` },
           }
         );
         const post = await response.json();
@@ -49,4 +49,4 @@ export const Edit = () => {
       />
     </>
   );
-};
+}

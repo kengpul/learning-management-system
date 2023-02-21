@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
-import { ToastCard } from "./ToastCard";
+import ToastCard from "./ToastCard";
 
 import {
   Card,
@@ -23,9 +23,8 @@ import {
   Input,
   Spinner,
 } from "reactstrap";
-import Avatar from "../../assets/default-avatar.png";
 
-export const PostCard = ({ post }) => {
+export default function PostCard({ post }) {
   const [modal, setModal] = useState(false);
   const [expand, setExpand] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -82,12 +81,12 @@ export const PostCard = ({ post }) => {
         <CardHeader className="d-flex align-items-center bg-white border-0">
           <div>
             <img
-              src={Avatar}
+              src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
               className="rounded-circle me-2"
               alt=""
               width="40"
             />
-            Jhon <span className="text-muted">Posted to</span>
+            {user.username} <span className="text-muted">Posted to</span>
             <span className="text-primary">THS1</span>
           </div>
           <CardSubtitle className="text-muted ms-2">
@@ -160,7 +159,7 @@ export const PostCard = ({ post }) => {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          Jhon <span className="text-muted">Posted to</span>{" "}
+          {user.username} <span className="text-muted">Posted to</span>
           <span className="text-primary">THS1</span>
           <span className="ms-2 text-muted">{handleDates(post.createdAt)}</span>
         </ModalHeader>
@@ -175,7 +174,7 @@ export const PostCard = ({ post }) => {
                   className="d-flex align-items-start"
                 >
                   <img
-                    src={Avatar}
+                    src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
                     className="rounded-circle me-2"
                     alt=""
                     width="30"
@@ -204,4 +203,4 @@ export const PostCard = ({ post }) => {
       </Modal>
     </>
   );
-};
+}
