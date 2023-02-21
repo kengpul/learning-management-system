@@ -27,7 +27,7 @@ export const useFetch = () => {
 
     if (response.ok) {
       dispatch({ type, payload: json });
-      navigate("/feed");
+      navigate("/feed/");
     } else {
       setError(json.error.message);
       setTimeout(() => setError(null), "4500");
@@ -59,3 +59,4 @@ export const useFetch = () => {
 
   return { pending, error, create, destroy };
 };
+
