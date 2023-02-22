@@ -20,6 +20,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 .main-btn {
   background-color: var(--main-color) !important;
 }

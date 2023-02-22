@@ -14,6 +14,8 @@ import BottomNavigationBar from "./components/Navbar/BottomNavigation";
 
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Room from "./pages/room/Room";
+import Rooms from "./pages/room/Rooms";
 
 function App() {
   const { user, authReady } = useAuthContext();
@@ -53,6 +55,15 @@ function App() {
               <Route
                 path="/post/:id/edit"
                 element={user ? <Edit /> : <Navigate to="/connect" />}
+              />
+
+              <Route
+                path="/class"
+                element={user ? <Rooms /> : <Navigate to="/connect" />}
+              />
+              <Route
+                path="/class/c"
+                element={user ? <Room /> : <Navigate to="/connect" />}
               />
               <Route path="*" element={<Error />} />
             </Routes>
