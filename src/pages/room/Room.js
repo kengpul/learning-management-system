@@ -107,8 +107,6 @@ function Room() {
 
     const json = await response.json();
 
-    console.log(json);
-
     if (response.ok) {
       setRoom(json);
     }

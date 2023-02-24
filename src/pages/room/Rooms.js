@@ -17,6 +17,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  Spinner,
 } from "reactstrap";
 import "./room.css";
 
@@ -27,12 +28,19 @@ function Rooms() {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [pending, setPending] = useState(false);
+  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
-  const createModalToggle = () => setCreateModal(!createModal);
-  const joinModalToggle = () => setJoinModal(!joinModal);
+  const createModalToggle = () => {
+    setCreateModal(!createModal);
+    setError(null);
+  };
+  const joinModalToggle = () => {
+    setJoinModal(!joinModal);
+    setError(null);
+  };
 
   useEffect(() => {
     const getRooms = async () => {
@@ -72,7 +80,7 @@ function Rooms() {
     if (response.ok) {
       navigate(`/room/${json._id}`);
     } else {
-      setError(json.error);
+      setError(json.error.message);
     }
     setPending(false);
   };
@@ -91,20 +99,24 @@ function Rooms() {
 
     const json = await response.json();
 
-    console.log(json);
-
     if (response.ok) {
       setCode("");
       joinModalToggle();
+      setSuccess("Teacher will accept you to join in this room");
+      setTimeout(() => {
+        setSuccess(null);
+      }, "3500");
+    } else {
+      setError(json.error.message);
     }
     setPending(false);
   };
 
   return (
     <Col>
+      {success && <ToastCard message={success} color="success" />}
       <Row className="mt-3">
         <Col md="6" className="d-flex gap-3">
-         
           <Input placeholder="Search class" />
           <Button size="sm" className="main-btn" onClick={createModalToggle}>
             Create
@@ -115,6 +127,7 @@ function Rooms() {
         </Col>
 
         <Modal isOpen={createModal} toggle={createModalToggle}>
+          {error && <ToastCard message={error} color="danger" />}
           <ModalHeader toggle={createModalToggle}>Create</ModalHeader>
           <ModalBody>
             <Input
@@ -130,13 +143,18 @@ function Rooms() {
             />
           </ModalBody>
           <ModalFooter>
-            <Button className="main-btn" onClick={handleCreate}>
-              Create
+            <Button
+              className="main-btn"
+              onClick={handleCreate}
+              disabled={pending}
+            >
+              {pending ? <Spinner /> : "Create"}
             </Button>
           </ModalFooter>
         </Modal>
 
         <Modal isOpen={joinModal} toggle={joinModalToggle}>
+          {error && <ToastCard message={error} color="danger" />}
           <ModalHeader toggle={joinModalToggle}>Join</ModalHeader>
           <ModalBody>
             <Input
@@ -146,8 +164,12 @@ function Rooms() {
             />
           </ModalBody>
           <ModalFooter>
-            <Button className="main-btn" onClick={handleJoin}>
-              Join
+            <Button
+              className="main-btn"
+              onClick={handleJoin}
+              disabled={pending}
+            >
+              {pending ? <Spinner /> : "Join"}
             </Button>
           </ModalFooter>
         </Modal>
