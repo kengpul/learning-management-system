@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
@@ -9,10 +9,43 @@ import ToastCard from "../Card/ToastCard";
 import { Button, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
 
-export default function RichTextForm({ handleSubmit, form, setForm, pending }) {
+function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
+  const [options, setOptions] = useState([]);
   const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef(null);
   const { user } = useAuthContext();
+
+  // const groupOptions = [
+  //   { value: "THS1", label: "Thesis Writing 1" },
+  //   { value: "THS2", label: "Thesis Writing 2" },
+  //   { value: "CSPRAC", label: "CS Practicum" },
+  // ];
+
+  console.log(options);
+
+  useEffect(() => {
+    const fetchRooms = async () => {
+      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      const json = await response.json();
+
+      if (response.ok) {
+        const options = [];
+        for (let room of json) {
+          const option = { value: room._id, label: room.name };
+          options.push(option);
+        }
+        setOptions(options);
+      }
+      
+    };
+    if (user) fetchRooms();
+  }, [user]);
 
   const imageHandler = () => {
     if (!user) return;
@@ -78,12 +111,6 @@ export default function RichTextForm({ handleSubmit, form, setForm, pending }) {
     []
   );
 
-  const groupOptions = [
-    { value: "THS1", label: "Thesis Writing 1" },
-    { value: "THS2", label: "Thesis Writing 2" },
-    { value: "CSPRAC", label: "CS Practicum" },
-  ];
-
   return (
     <Col className="create">
       {imageUpload && (
@@ -114,7 +141,8 @@ export default function RichTextForm({ handleSubmit, form, setForm, pending }) {
                 className="w-100"
                 isMulti="true"
                 placeholder="Choose a group or class"
-                options={groupOptions}
+                options={options}
+                onChange={(selected) => setRooms(selected)}
               />
               <Button disabled={pending} type="submit" className="main-btn">
                 {pending ? <Spinner /> : "Post"}
@@ -126,3 +154,5 @@ export default function RichTextForm({ handleSubmit, form, setForm, pending }) {
     </Col>
   );
 }
+
+export default RichTextForm;

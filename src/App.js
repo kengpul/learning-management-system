@@ -58,11 +58,11 @@ function App() {
               />
 
               <Route
-                path="/class"
+                path="/room"
                 element={user ? <Rooms /> : <Navigate to="/connect" />}
               />
               <Route
-                path="/class/c"
+                path="/room/:id"
                 element={user ? <Room /> : <Navigate to="/connect" />}
               />
               <Route path="*" element={<Error />} />

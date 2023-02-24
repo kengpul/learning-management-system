@@ -6,6 +6,7 @@ import RichTextForm from "../../components/form/RichTextForm";
 
 export default function Create() {
   const [form, setForm] = useState("");
+  const [rooms, setRooms] = useState([]);
   const { create, pending, error } = useFetch();
 
   const handleSubmit = async (e) => {
@@ -14,7 +15,8 @@ export default function Create() {
       process.env.REACT_APP_API_URI + "post",
       "POST",
       "CREATE_POST",
-      form
+      form,
+      rooms
     );
   };
 
@@ -26,6 +28,7 @@ export default function Create() {
         pending={pending}
         form={form}
         setForm={setForm}
+        setRooms={setRooms}
       />
     </>
   );

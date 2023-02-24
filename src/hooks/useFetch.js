@@ -10,7 +10,7 @@ export const useFetch = () => {
   const { dispatch } = usePostsContext();
   const { user } = useAuthContext();
 
-  const create = async (url, method, type, content) => {
+  const create = async (url, method, type, content, rooms) => {
     if (!user) return;
     if (content === "<p><br></p>") content = "";
     setPending(true);
@@ -20,7 +20,7 @@ export const useFetch = () => {
         "Content-Type": "application/json",
         "Authorization": `Bearers ${user.token}`,
       },
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({ content, rooms }),
     });
 
     const json = await response.json();
