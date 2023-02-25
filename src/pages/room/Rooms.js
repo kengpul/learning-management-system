@@ -189,7 +189,6 @@ function Rooms() {
                       {room.teachers[0].username}
                     </CardSubtitle>
                   </CardBody>
-                  <Button className="btn-danger mt-2 me-2 btn-sm">Leave</Button>
                 </Link>
               </Card>
             </Col>

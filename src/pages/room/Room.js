@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -26,10 +26,13 @@ function Room() {
   const [pending, setPending] = useState(false);
   const [tab, setTab] = useState("#post");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [leaveDropdown, setLeaveDropdown] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
+  const toggleLeave = () => setLeaveDropdown((prevState) => !prevState);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -112,10 +115,25 @@ function Room() {
     }
   };
 
+  const handleLeave = async () => {
+    const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer: ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+
+    if (response.ok) {
+      navigate("/room");
+    }
+  };
+
   if (room)
     return (
       <Col className="mt-3 mb-5">
-        <header className="header-room rounded">
+        <header className="header-room rounded d-flex justify-content-between">
           <div className="text-center text-md-start text-white px-3 py-2">
             <h1>{room.name}</h1>
             <h2>{room.teachers[0].username}</h2>
@@ -132,6 +150,19 @@ function Room() {
               </div>
             </div>
           </div>
+
+          <Dropdown
+            isOpen={leaveDropdown}
+            toggle={toggleLeave}
+            className="text-white mt-3 me-3"
+          >
+            <DropdownToggle data-toggle="dropdown" tag="span" role="button">
+              <i class="fa-solid fa-ellipsis-vertical fa-2x"></i>
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem onClick={handleLeave}>Leave</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </header>
 
         <Row className="mt-3 d-flex flex-column-reverse flex-lg-row">
