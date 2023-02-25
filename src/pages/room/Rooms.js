@@ -23,10 +23,12 @@ import "./room.css";
 
 function Rooms() {
   const [rooms, setRooms] = useState(null);
+  const [searchRooms, setSearchRooms] = useState([]);
   const [createModal, setCreateModal] = useState(false);
   const [joinModal, setJoinModal] = useState(false);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
+  const [search, setSearch] = useState("");
   const [pending, setPending] = useState(false);
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
@@ -112,18 +114,51 @@ function Rooms() {
     setPending(false);
   };
 
+  const handleSearch = async () => {
+    const searchResults = [];
+    for (let room of rooms) {
+      if (room.name.toLowerCase().includes(search.trim().toLowerCase())) {
+        searchResults.push(room);
+      } else {
+        setError("No result");
+      }
+    }
+    if (searchResults.length) setError(null);
+    setSearchRooms(searchResults);
+  };
+
   return (
     <Col>
       {success && <ToastCard message={success} color="success" />}
       <Row className="mt-3">
-        <Col md="6" className="d-flex gap-3">
-          <Input placeholder="Search class" />
-          <Button size="sm" className="main-btn" onClick={createModalToggle}>
-            Create
-          </Button>
-          <Button size="sm" className="main-btn px-3" onClick={joinModalToggle}>
-            Join
-          </Button>
+        <Col>
+          <Row className="d-flex align-items-center">
+            <Col className="d-flex gap-3">
+              <Input
+                placeholder="Search class"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyUpCapture={handleSearch}
+              />
+            </Col>
+
+            <Col className="d-flex justify-content-end gap-2">
+              <Button
+                size="sm"
+                className="main-btn"
+                onClick={createModalToggle}
+              >
+                Create
+              </Button>
+              <Button
+                size="sm"
+                className="main-btn px-3"
+                onClick={joinModalToggle}
+              >
+                Join
+              </Button>
+            </Col>
+          </Row>
         </Col>
 
         <Modal isOpen={createModal} toggle={createModalToggle}>
@@ -175,7 +210,29 @@ function Rooms() {
         </Modal>
       </Row>
       <Row>
+        {error && <h2 className="text-muted text-center mt-3">{error}</h2>}
+        {searchRooms &&
+          searchRooms.map((room) => (
+            <Col md="4" className="mt-3 room-card" key={room._id}>
+              <Card>
+                <Link
+                  to={`/room/${room._id}`}
+                  className="text-dark d-flex align-items-start"
+                >
+                  <CardBody>
+                    <CardTitle>{room.name}</CardTitle>
+                    <CardSubtitle className="text-muted">
+                      {room.teachers[0].username}
+                    </CardSubtitle>
+                  </CardBody>
+                </Link>
+              </Card>
+            </Col>
+          ))}
+
         {rooms &&
+          searchRooms.length === 0 &&
+          !error &&
           rooms.map((room) => (
             <Col md="4" className="mt-3 room-card" key={room._id}>
               <Card>

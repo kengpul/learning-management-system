@@ -157,7 +157,7 @@ function Room() {
             className="text-white mt-3 me-3"
           >
             <DropdownToggle data-toggle="dropdown" tag="span" role="button">
-              <i class="fa-solid fa-ellipsis-vertical fa-2x"></i>
+              <i className="fa-solid fa-ellipsis-vertical fa-2x"></i>
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem onClick={handleLeave}>Leave</DropdownItem>
