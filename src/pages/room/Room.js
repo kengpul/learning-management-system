@@ -18,17 +18,28 @@ import {
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input,
 } from "reactstrap";
 import "./room.css";
+import ToastCard from "../../components/Card/ToastCard";
 
 function Room() {
   const [room, setRoom] = useState(null);
+  const [attendance, setAttendance] = useState("");
+  const [meeting, setMeeting] = useState("");
   const [pending, setPending] = useState(false);
+  const [error, setError] = useState(null);
   const [tab, setTab] = useState("#post");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [leaveDropdown, setLeaveDropdown] = useState(false);
+  const [linkModal, setLinkModal] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const toggleLeave = () => setLeaveDropdown((prevState) => !prevState);
+  const toggleLinks = () => setLinkModal((prevState) => !prevState);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -66,6 +77,8 @@ function Room() {
 
       if (response.ok) {
         setRoom(json);
+        setAttendance(json.link.attendance);
+        setMeeting(json.link.meeting);
       }
     };
 
@@ -130,6 +143,28 @@ function Room() {
     }
   };
 
+  const handleLinks = async () => {
+    const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer: ${user.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ attendance, meeting }),
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      setError(null);
+      setAttendance(json.attendance);
+      setMeeting(json.meeting);
+      toggleLinks();
+    } else {
+      setError(json.error);
+    }
+  };
+
   if (room)
     return (
       <Col className="mt-3 mb-5">
@@ -138,17 +173,80 @@ function Room() {
             <h1>{room.name}</h1>
             <h2>{room.teachers[0].username}</h2>
 
-            <div className="d-flex justify-content-center justify-content-md-start mt-5 fs-4">
-              <div className="text-center me-5">
-                <i className="fa-solid fa-clipboard-user"></i>
-                <p>Attendance</p>
-              </div>
+            {user.type === "Teacher" ? (
+              <div className="d-flex justify-content-center justify-content-md-start mt-5 fs-4">
+                <div
+                  className="text-center text-white me-5"
+                  role="button"
+                  onClick={toggleLinks}
+                >
+                  <i className="fa-solid fa-clipboard-user"></i>
+                  <p>Attendance</p>
+                </div>
 
-              <div className="text-center">
-                <i className="fa-solid fa-globe"></i>
-                <p>Meeting</p>
+                <div
+                  className="text-center"
+                  role="button"
+                  onClick={toggleLinks}
+                >
+                  <i className="fa-solid fa-globe"></i>
+                  <p>Meeting</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="d-flex justify-content-center justify-content-md-start mt-5 fs-4">
+                {attendance && (
+                  <a
+                    href={attendance}
+                    className="text-center text-white me-5"
+                    role="button"
+                    target="_blank"
+                  >
+                    <i className="fa-solid fa-clipboard-user"></i>
+                    <p>Attendance</p>
+                  </a>
+                )}
+                {meeting && (
+                  <a
+                    href={meeting}
+                    className="text-center text-white"
+                    role="button"
+                    target="_blank"
+                  >
+                    <i className="fa-solid fa-globe"></i>
+                    <p>Meeting</p>
+                  </a>
+                )}
+              </div>
+            )}
+
+            <Modal isOpen={linkModal} toggle={toggleLinks}>
+              <ModalHeader toggle={toggleLinks}>Links</ModalHeader>
+              {error && <ToastCard message={error.message} color="danger" />}
+              <ModalBody>
+                {error && (
+                  <p className="text-muted">
+                    Example of valud url: https://url.com
+                  </p>
+                )}
+                <Input
+                  placeholder="Attendance"
+                  value={attendance}
+                  onChange={(e) => setAttendance(e.target.value)}
+                />
+                <Input
+                  placeholder="Meeting"
+                  className="mt-3"
+                  value={meeting}
+                  onChange={(e) => setMeeting(e.target.value)}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button className="main-btn" onClick={handleLinks}>
+                  Update
+                </Button>
+              </ModalFooter>
+            </Modal>
           </div>
 
           <Dropdown
