@@ -1,0 +1,10 @@
+.header-room {
+  background-image: url("https://res.cloudinary.com/dsjrdrewd/image/upload/v1676959406/learning-management-system/assets/room-header_elzdv8.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+
+.room-card .card:hover {
+  border: 1px solid var(--grey)
+}

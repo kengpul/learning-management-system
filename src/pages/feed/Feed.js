@@ -11,6 +11,7 @@ import "./post.css";
 
 export default function Feed() {
   const [pending, setPending] = useState(false);
+  const [rooms, setRooms] = useState([]);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
 
@@ -31,8 +32,22 @@ export default function Feed() {
       setPending(false);
     };
 
+    const fetchRooms = async () => {
+      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearers ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setRooms(json);
+      }
+    };
+
     if (user) {
       fetchPost();
+      fetchRooms();
     }
   }, [dispatch, user]);
 
@@ -51,8 +66,7 @@ export default function Feed() {
 
       <Col lg="3">
         <ListCard title={"Quizes"} />
-        <ListCard title={"Classes"} />
-        <ListCard title={"Groups"} />
+        <ListCard title={"Rooms"} items={rooms} />
       </Col>
     </Col>
   );

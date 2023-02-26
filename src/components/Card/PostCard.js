@@ -86,8 +86,10 @@ export default function PostCard({ post }) {
               alt=""
               width="40"
             />
-            {user.username} <span className="text-muted">Posted to</span>
-            <span className="text-primary">THS1</span>
+            {user.username} <span className="text-muted">Posted to </span>
+            <Link to={`/room/${post.room._id}`}>
+              <span className="text-primary">{post.room.name}</span>
+            </Link>
           </div>
           <CardSubtitle className="text-muted ms-2">
             {handleDates(post.createdAt)}
@@ -159,8 +161,10 @@ export default function PostCard({ post }) {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          {user.username} <span className="text-muted">Posted to</span>
-          <span className="text-primary">THS1</span>
+          {user.username} <span className="text-muted">Posted to </span>
+          <Link to={`/room/${post.room._id}`}>
+            <span className="text-primary">{post.room.name}</span>
+          </Link>
           <span className="ms-2 text-muted">{handleDates(post.createdAt)}</span>
         </ModalHeader>
         <ModalBody>

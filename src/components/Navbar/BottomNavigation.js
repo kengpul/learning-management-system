@@ -13,7 +13,7 @@ export default function BottomNavigationBar() {
         <Link to="/feed" className="navbar-brand">
           <i className="fas fa-house-user"></i>
         </Link>
-        <Link to="/class" className="navbar-brand">
+        <Link to="/room" className="navbar-brand">
           <i className="fas fa-users"></i>
         </Link>
         <Link to="/group" className="navbar-brand">

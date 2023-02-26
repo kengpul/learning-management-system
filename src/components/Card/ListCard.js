@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
-export default function ListCard({ title }) {
+export default function ListCard({ title, items }) {
   return (
     <Card className="mb-3 d-none d-lg-block">
       <CardHeader
@@ -12,17 +12,19 @@ export default function ListCard({ title }) {
         My {title}
       </CardHeader>
       <CardBody>
-        <Card className="mb-2">
-          <Link className="text-decoration-none">
-            <CardBody className="border-start border-5 p-1">
-              <CardText className="text-truncate m-0 text-black">
-                {title === "Quizes"
-                  ? "Quiz #1 - THS1 Thesis Writing"
-                  : "THS1 - Thesis Writing 1"}
-              </CardText>
-            </CardBody>
-          </Link>
-        </Card>
+        {!items && <p className="text-muted">No {title}</p>}
+        {items &&
+          items.map((item) => (
+            <Card className="mb-2" key={item._id}>
+              <Link to={`/room/${item._id}`} className="text-decoration-none">
+                <CardBody className="border-start border-5 p-1">
+                  <CardText className="text-truncate m-0 text-black">
+                    {item.name}
+                  </CardText>
+                </CardBody>
+              </Link>
+            </Card>
+          ))}
       </CardBody>
     </Card>
   );

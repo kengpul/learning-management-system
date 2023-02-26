@@ -25,16 +25,10 @@ export default function SideNavigationBar() {
           <i className="fas fa-house-user me-1"></i>DASHBOARD
         </NavLink>
         <NavLink
-          to="/class/"
+          to="/room/"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
-          <i className="fas fa-users me-1"></i>CLASS
-        </NavLink>
-        <NavLink
-          to="/group/"
-          className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
-        >
-          <i className="fas fa-users me-1"></i>GROUP
+          <i className="fas fa-users me-1"></i>ROOM
         </NavLink>
         <NavLink
           to="/quiz/"
