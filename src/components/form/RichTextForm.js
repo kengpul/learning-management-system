@@ -15,14 +15,6 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
   const ref = useRef(null);
   const { user } = useAuthContext();
 
-  // const groupOptions = [
-  //   { value: "THS1", label: "Thesis Writing 1" },
-  //   { value: "THS2", label: "Thesis Writing 2" },
-  //   { value: "CSPRAC", label: "CS Practicum" },
-  // ];
-
-  console.log(options);
-
   useEffect(() => {
     const fetchRooms = async () => {
       const response = await fetch(process.env.REACT_APP_API_URI + "room", {
@@ -42,7 +34,6 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
         }
         setOptions(options);
       }
-      
     };
     if (user) fetchRooms();
   }, [user]);
@@ -140,7 +131,7 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
               <ReactSelect
                 className="w-100"
                 isMulti="true"
-                placeholder="Choose a group or class"
+                placeholder="Rooms"
                 options={options}
                 onChange={(selected) => setRooms(selected)}
               />

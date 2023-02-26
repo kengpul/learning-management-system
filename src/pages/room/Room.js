@@ -48,12 +48,15 @@ function Room() {
   useEffect(() => {
     const fetchPost = async () => {
       setPending(true);
-      const response = await fetch(process.env.REACT_APP_API_URI + "post", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearers ${user.token}`,
-        },
-      });
+      const response = await fetch(
+        process.env.REACT_APP_API_URI + "room/" + id,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearers ${user.token}`,
+          },
+        }
+      );
       const json = await response.json();
 
       if (response.ok) {
@@ -66,6 +69,7 @@ function Room() {
       const response = await fetch(
         process.env.REACT_APP_API_URI + "room/" + id,
         {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearers ${user.token}`,
