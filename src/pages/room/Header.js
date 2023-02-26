@@ -77,7 +77,7 @@ function Header({ room }) {
     <header className="header-room rounded d-flex justify-content-between">
       <div className="text-center text-md-start text-white px-3 py-2">
         <h1>{room.name}</h1>
-        <h2>{room.teachers[0].username}</h2>
+        <h2>{room.teachers.length && room.teachers[0].username}</h2>
 
         {user.type === "Teacher" ? (
           <div className="d-flex justify-content-center justify-content-md-start mt-5 fs-4">

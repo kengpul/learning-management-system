@@ -135,7 +135,12 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
                 options={options}
                 onChange={(selected) => setRooms(selected)}
               />
-              <Button disabled={pending} type="submit" className="main-btn">
+
+              <Button
+                disabled={pending}
+                type="submit"
+                className="main-btn ms-auto"
+              >
                 {pending ? <Spinner /> : "Post"}
               </Button>
             </div>

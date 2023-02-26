@@ -143,13 +143,15 @@ function Rooms() {
             </Col>
 
             <Col className="d-flex justify-content-end gap-2">
-              <Button
-                size="sm"
-                className="main-btn"
-                onClick={createModalToggle}
-              >
-                Create
-              </Button>
+              {user.type === "Teacher" && (
+                <Button
+                  size="sm"
+                  className="main-btn"
+                  onClick={createModalToggle}
+                >
+                  Create
+                </Button>
+              )}
               <Button
                 size="sm"
                 className="main-btn px-3"
@@ -222,7 +224,7 @@ function Rooms() {
                   <CardBody>
                     <CardTitle>{room.name}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {room.teachers[0].username}
+                      {room.teachers.length && room.teachers[0].username}
                     </CardSubtitle>
                   </CardBody>
                 </Link>
