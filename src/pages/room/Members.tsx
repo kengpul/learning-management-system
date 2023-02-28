@@ -1,4 +1,6 @@
+import React from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Room from "../../models/Room";
 
 import {
   ListGroup,
@@ -7,16 +9,21 @@ import {
   Button,
 } from "reactstrap";
 
-function Members({ room, setRoom }) {
+interface Props {
+  room: Room;
+  setRoom: React.Dispatch<React.SetStateAction<Room | null>>;
+}
+
+function Members({ room, setRoom }: Props) {
   const { user } = useAuthContext();
 
-  const handleReject = async (id) => {
+  const handleReject = async (id: string) => {
     const response = await fetch(
       process.env.REACT_APP_API_URI + "room/" + room._id + "/pending",
       {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ id }),
@@ -30,13 +37,13 @@ function Members({ room, setRoom }) {
     }
   };
 
-  const handleAccept = async (id) => {
+  const handleAccept = async (id: string) => {
     const response = await fetch(
       process.env.REACT_APP_API_URI + "room/" + room._id + "/pending",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ id }),

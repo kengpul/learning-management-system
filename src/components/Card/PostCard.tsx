@@ -1,8 +1,9 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef, FormEvent } from "react";
 import ReactQuill from "react-quill";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Post, { Request } from "../../models/Post";
 
 import ToastCard from "./ToastCard";
 
@@ -24,7 +25,7 @@ import {
   Spinner,
 } from "reactstrap";
 
-export default function PostCard({ post }) {
+function PostCard({ post }: { post: Post }) {
   const [modal, setModal] = useState(false);
   const [expand, setExpand] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -32,13 +33,13 @@ export default function PostCard({ post }) {
   const { destroy, create, pending, error } = useFetch();
   const { user } = useAuthContext();
 
-  const card = useRef(null);
+  const card = useRef<HTMLElement>(null);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleModal = () => setModal(!modal);
   const toggleExpand = () => setExpand(!expand);
 
-  const handleDates = (content) => {
+  const handleDates = (content: string) => {
     const created = new Date(content);
     const days = new Date().getUTCDate() - created.getUTCDate();
     const hours = new Date().getHours() - new Date(content).getHours();
@@ -57,21 +58,21 @@ export default function PostCard({ post }) {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     const url = `${process.env.REACT_APP_API_URI}post/${id}`;
-    await destroy(url, "DELETE", "DELETE_POST");
+    await destroy(url, "DELETE", Request.DELETE_POST);
   };
 
-  const handleLike = async (e) => {
+  const handleLike = async (e: FormEvent) => {
     e.preventDefault();
     const url = `${process.env.REACT_APP_API_URI}post/${post._id}/like`;
-    await create(url, "POST", "EDIT_POST", user.username);
+    await create(url, "POST", Request.EDIT_POST, user!.username);
   };
 
-  const handleComment = async (e) => {
+  const handleComment = async (e: FormEvent) => {
     e.preventDefault();
     const url = `${process.env.REACT_APP_API_URI}post/${post._id}/comment`;
-    await create(url, "POST", "EDIT_POST", comment);
+    await create(url, "POST", Request.EDIT_POST, comment);
     setComment("");
   };
 
@@ -86,7 +87,7 @@ export default function PostCard({ post }) {
               alt=""
               width="40"
             />
-            {user.username} <span className="text-muted">Posted to </span>
+            {user?.username} <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>
               <span className="text-primary">{post.room.name}</span>
             </Link>
@@ -94,7 +95,7 @@ export default function PostCard({ post }) {
           <CardSubtitle className="text-muted ms-2">
             {handleDates(post.createdAt)}
           </CardSubtitle>
-          {user.username === post.author.username && (
+          {user?.username === post.author.username && (
             <Dropdown
               toggle={toggleDropdown}
               isOpen={dropdownOpen}
@@ -110,6 +111,7 @@ export default function PostCard({ post }) {
                   Edit
                 </Link>
                 <Link
+                  to=""
                   onClick={() => handleDelete(post._id)}
                   className="dropdown-item"
                 >
@@ -120,11 +122,12 @@ export default function PostCard({ post }) {
           )}
         </CardHeader>
         <Link
+          to=""
           onClick={toggleModal}
           className="overflow-hidden"
           style={
             expand
-              ? { maxHeight: card.current.clientHeight }
+              ? { maxHeight: card.current?.clientHeight }
               : { maxHeight: "200px" }
           }
         >
@@ -161,7 +164,7 @@ export default function PostCard({ post }) {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          {user.username} <span className="text-muted">Posted to </span>
+          {user?.username} <span className="text-muted">Posted to </span>
           <Link to={`/room/${post.room._id}`}>
             <span className="text-primary">{post.room.name}</span>
           </Link>
@@ -208,3 +211,5 @@ export default function PostCard({ post }) {
     </>
   );
 }
+
+export default PostCard;

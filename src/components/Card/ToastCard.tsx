@@ -1,6 +1,13 @@
+import React from "react";
 import { Toast, ToastBody, Spinner } from "reactstrap";
 
-export default function ToastCard({ message, color, spinner }) {
+interface Props {
+  message: string;
+  color: string;
+  spinner?: boolean;
+}
+
+function ToastCard({ message, color, spinner }: Props) {
   return (
     <Toast
       className={`position-absolute top-25 start-50 translate-middle-x text-white bg-${color}`}
@@ -12,3 +19,5 @@ export default function ToastCard({ message, color, spinner }) {
     </Toast>
   );
 }
+
+export default ToastCard;

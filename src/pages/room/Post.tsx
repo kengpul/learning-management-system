@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { usePostsContext } from "../../hooks/usePostsContext";
@@ -6,6 +6,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 import CreatePostButton from "../../components/Card/CreatePostButton";
 import PostCard from "../../components/Card/PostCard";
+import { Request } from "../../models/Post";
 
 function Post() {
   const { posts, dispatch } = usePostsContext();
@@ -19,14 +20,14 @@ function Post() {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearers ${user.token}`,
+            Authorization: `Bearers ${user?.token}`,
           },
         }
       );
       const json = await response.json();
 
       if (response.ok) {
-        dispatch({ type: "GET_POSTS", payload: json });
+        dispatch!({ type: Request.GET_POSTS, payload: json });
       }
     };
 

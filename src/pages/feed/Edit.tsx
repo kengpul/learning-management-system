@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import ToastCard from "../../components/Card/ToastCard";
 import RichTextForm from "../../components/form/RichTextForm";
+import { Request } from "../../models/Post";
 
 export default function Edit() {
   const [form, setForm] = useState("");
@@ -18,7 +19,7 @@ export default function Edit() {
         const response = await fetch(
           `${process.env.REACT_APP_API_URI}post/${id}`,
           {
-            headers: { Authorization: `Bearers ${user.token}` },
+            headers: { Authorization: `Bearers ${user?.token}` },
           }
         );
         const post = await response.json();
@@ -32,10 +33,10 @@ export default function Edit() {
     }
   }, [id, user]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const url = `${process.env.REACT_APP_API_URI}post/${id}`;
-    await create(url, "PUT", "EDIT_POST", form);
+    await create(url, "PUT", Request.EDIT_POST, form);
   };
 
   return (

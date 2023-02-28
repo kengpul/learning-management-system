@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import PostCard from "../../components/Card/PostCard";
 import ListCard from "../../components/Card/ListCard";
 import CreatePostButton from "../../components/Card/CreatePostButton";
+import Room from "../../models/Room";
 
 import { Col, Spinner } from "reactstrap";
 import "./post.css";
+import { Request } from "../../models/Post";
 
 export default function Feed() {
   const [pending, setPending] = useState(false);
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
 
@@ -21,13 +23,13 @@ export default function Feed() {
       const response = await fetch(process.env.REACT_APP_API_URI + "post", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearers ${user.token}`,
+          Authorization: `Bearers ${user?.token}`,
         },
       });
       const json = await response.json();
 
       if (response.ok) {
-        dispatch({ type: "GET_POSTS", payload: json });
+        dispatch!({ type: Request.GET_POSTS, payload: json });
       }
       setPending(false);
     };
@@ -36,7 +38,7 @@ export default function Feed() {
       const response = await fetch(process.env.REACT_APP_API_URI + "room", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearers ${user.token}`,
+          Authorization: `Bearers ${user?.token}`,
         },
       });
       const json = await response.json();

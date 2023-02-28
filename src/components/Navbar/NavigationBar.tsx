@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
@@ -12,14 +13,14 @@ import {
 } from "reactstrap";
 import "./navigation.css";
 
-export default function NavigationBar() {
+function NavigationBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const { user, dispatch } = useAuthContext();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    dispatch({ type: "LOGOUT" });
+    dispatch!({ type: "LOGOUT", payload: null });
   };
 
   return (
@@ -53,8 +54,8 @@ export default function NavigationBar() {
                 />
               </div>
               <div className="mx-2 d-none d-sm-block">
-                <div className="fw-bold">{user.username}</div>
-                <div className="text-muted">{user.type}</div>
+                <div className="fw-bold">{user?.username}</div>
+                <div className="text-muted">{user?.type}</div>
               </div>
             </DropdownToggle>
             <DropdownMenu>
@@ -68,3 +69,5 @@ export default function NavigationBar() {
     </Container>
   );
 }
+
+export default NavigationBar;

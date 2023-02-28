@@ -1,7 +1,19 @@
+import React from "react";
 import { Link } from "react-router-dom";
+
 import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 
-export default function ListCard({ title, items }) {
+interface item {
+  _id: string;
+  name: string;
+}
+
+interface Props {
+  title: string;
+  items?: item[];
+}
+
+function ListCard({ title, items }: Props) {
   return (
     <Card className="mb-3 d-none d-lg-block">
       <CardHeader
@@ -29,3 +41,5 @@ export default function ListCard({ title, items }) {
     </Card>
   );
 }
+
+export default ListCard;

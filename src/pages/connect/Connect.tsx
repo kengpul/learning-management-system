@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useAuthenticate } from "../../hooks/useAuthenticate";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import ToastCard from "../../components/Card/ToastCard";
+import { AccountType, Account } from "../../models/User";
+
 import { Button, Spinner } from "reactstrap";
 
 import "./connect.css";
@@ -12,7 +14,7 @@ export default function Connect() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [type, setType] = useState("Student");
+  const [type, setType] = useState<AccountType>(Account.Student);
 
   const { dispatch } = useAuthContext();
   const { login, signup, isPending, error, setError, isRegistered } =
@@ -30,13 +32,13 @@ export default function Connect() {
     setError(null);
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     const user = await login(username, password);
-    dispatch({ type: "LOGIN", payload: user });
+    dispatch!({ type: "LOGIN", payload: user });
   };
 
-  const handleSignup = async (e) => {
+  const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
     const user = await signup(username, password, email, type);
     if (user) togglePage();
@@ -134,10 +136,16 @@ export default function Connect() {
                   aria-label="Default select example"
                   name="type"
                   value={type}
-                  onChange={(e) => setType(e.target.value)}
+                  onChange={(e) => {
+                    if (
+                      e.target.value === Account.Teacher ||
+                      e.target.value === Account.Student
+                    )
+                      setType(e.target.value);
+                  }}
                 >
-                  <option value="Student">Student</option>
-                  <option value="Teacher">Teacher</option>
+                  <option value={Account.Student}>Student</option>
+                  <option value={Account.Teacher}>Teacher</option>
                 </select>
               </div>
               <Button
