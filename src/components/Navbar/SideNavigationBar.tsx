@@ -1,8 +1,9 @@
+import React from "react";
 import { NavLink, Link } from "react-router-dom";
 
 import "./navigation.css";
 
-export default function SideNavigationBar() {
+function SideNavigationBar() {
   return (
     <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
@@ -46,3 +47,5 @@ export default function SideNavigationBar() {
     </div>
   );
 }
+
+export default SideNavigationBar;

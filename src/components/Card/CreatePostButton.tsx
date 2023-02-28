@@ -1,7 +1,8 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Input } from "reactstrap";
 
-export default function CreatePostButton() {
+function CreatePostButton() {
   return (
     <div className="bg-white p-3 d-flex rounded border">
       <img
@@ -19,3 +20,5 @@ export default function CreatePostButton() {
     </div>
   );
 }
+
+export default CreatePostButton;

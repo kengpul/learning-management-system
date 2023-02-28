@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, useEffect } from "react";
+import React, { useRef, useMemo, useState, useEffect, FormEvent } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
@@ -9,10 +9,29 @@ import ToastCard from "../Card/ToastCard";
 import { Button, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
 
-function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
-  const [options, setOptions] = useState([]);
+interface Props {
+  handleSubmit: (e: FormEvent) => void;
+  form: string;
+  setForm: React.Dispatch<React.SetStateAction<string>>;
+  pending: boolean;
+  setRooms?: React.Dispatch<React.SetStateAction<any>>;
+}
+
+interface Options {
+  value: string;
+  label: string;
+}
+
+function RichTextForm({
+  handleSubmit,
+  form,
+  setForm,
+  pending,
+  setRooms,
+}: Props) {
+  const [options, setOptions] = useState<Options[]>([]);
   const [imageUpload, setImageUpload] = useState(false);
-  const ref = useRef(null);
+  const ref = useRef<any>(null);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -20,14 +39,14 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
       const response = await fetch(process.env.REACT_APP_API_URI + "room", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       });
 
       const json = await response.json();
 
       if (response.ok) {
-        const options = [];
+        const options: Options[] = [];
         for (let room of json) {
           const option = { value: room._id, label: room.name };
           options.push(option);
@@ -50,7 +69,7 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
     input.onchange = async () => {
       setImageUpload(true);
       const formData = new FormData();
-      formData.append("image", input.files[0]);
+      if (input.files) formData.append("image", input.files[0]);
 
       const response = await fetch(
         `${process.env.REACT_APP_API_URI}post/uploadimage`,
@@ -130,10 +149,10 @@ function RichTextForm({ handleSubmit, form, setForm, pending, setRooms }) {
             <div className="d-flex gap-2 mt-2">
               <ReactSelect
                 className="w-100"
-                isMulti="true"
+                isMulti={true}
                 placeholder="Rooms"
                 options={options}
-                onChange={(selected) => setRooms(selected)}
+                onChange={(selected) => setRooms!(selected)}
               />
 
               <Button

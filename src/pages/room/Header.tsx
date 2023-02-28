@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import ToastCard from "../../components/Card/ToastCard";
+import Room from "../../models/Room";
+import { Account } from "../../models/User";
 
 import {
   Modal,
@@ -15,12 +18,11 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "reactstrap";
-import { useAuthContext } from "../../hooks/useAuthContext";
 
-function Header({ room }) {
+function Header({ room }: { room: Room }) {
   const [attendance, setAttendance] = useState("");
   const [meeting, setMeeting] = useState("");
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [leaveDropdown, setLeaveDropdown] = useState(false);
   const [linkModal, setLinkModal] = useState(false);
 
@@ -40,7 +42,7 @@ function Header({ room }) {
     const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer: ${user.token}`,
+        Authorization: `Bearer: ${user?.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ id }),
@@ -55,7 +57,7 @@ function Header({ room }) {
     const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
       method: "PUT",
       headers: {
-        Authorization: `Bearer: ${user.token}`,
+        Authorization: `Bearer: ${user?.token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ attendance, meeting }),
@@ -69,7 +71,7 @@ function Header({ room }) {
       setMeeting(json.meeting);
       toggleLinks();
     } else {
-      setError(json.error);
+      setError(json.error.message);
     }
   };
 
@@ -77,9 +79,9 @@ function Header({ room }) {
     <header className="header-room rounded d-flex justify-content-between">
       <div className="text-center text-md-start text-white px-3 py-2">
         <h1>{room.name}</h1>
-        <h2>{room.teachers.length && room.teachers[0].username}</h2>
+        <h2>{room.teachers && room.teachers[0].username}</h2>
 
-        {user.type === "Teacher" ? (
+        {user?.type === Account.Teacher ? (
           <div className="d-flex justify-content-center justify-content-md-start mt-5 fs-4">
             <div
               className="text-center text-white me-5"
@@ -126,7 +128,7 @@ function Header({ room }) {
 
         <Modal isOpen={linkModal} toggle={toggleLinks}>
           <ModalHeader toggle={toggleLinks}>Links</ModalHeader>
-          {error && <ToastCard message={error.message} color="danger" />}
+          {error && <ToastCard message={error} color="danger" />}
           <ModalBody>
             {error && (
               <p className="text-muted">

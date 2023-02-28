@@ -1,9 +1,10 @@
+import React from "react";
 import { Link } from "react-router-dom";
 
 import { Nav, Container } from "reactstrap";
 import "./navigation.css";
 
-export default function BottomNavigationBar() {
+function BottomNavigationBar() {
   return (
     <Nav className="fixed-bottom navbar-light d-block d-lg-none pe-0">
       <Container
@@ -29,3 +30,5 @@ export default function BottomNavigationBar() {
     </Nav>
   );
 }
+
+export default BottomNavigationBar;

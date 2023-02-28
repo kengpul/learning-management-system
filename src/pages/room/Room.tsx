@@ -1,9 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useParams } from "react-router-dom";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
+import RoomModel from "../../models/Room";
 
 import Header from "./Header";
+import Post from "./Post";
+import Members from "./Members";
 
 import {
   Col,
@@ -16,11 +19,9 @@ import {
   ListGroupItem,
 } from "reactstrap";
 import "./room.css";
-import Post from "./Post";
-import Members from "./Members";
 
 function Room() {
-  const [room, setRoom] = useState(null);
+  const [room, setRoom] = useState<RoomModel | null>(null);
   const [tab, setTab] = useState("#post");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -37,7 +38,7 @@ function Room() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearers ${user.token}`,
+            Authorization: `Bearers ${user?.token}`,
           },
         }
       );
@@ -52,7 +53,7 @@ function Room() {
     if (user) fetchRoom();
   }, [user, id]);
 
-  if (room)
+  if (room) {
     return (
       <Col className="mt-3 mb-5">
         <Header room={room} />
@@ -106,6 +107,9 @@ function Room() {
         </Row>
       </Col>
     );
+  } else {
+    return <Col></Col>;
+  }
 }
 
 export default Room;

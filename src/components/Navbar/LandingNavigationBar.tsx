@@ -1,4 +1,4 @@
-import { useState, React } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./navigation.css";
@@ -14,7 +14,7 @@ import {
   Collapse,
 } from "reactstrap";
 
-export default function LandingNavigationBar() {
+function LandingNavigationBar() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -85,3 +85,5 @@ export default function LandingNavigationBar() {
     </div>
   );
 }
+
+export default LandingNavigationBar;

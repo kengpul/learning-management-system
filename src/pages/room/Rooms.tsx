@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import Room from "../../models/Room";
 
 import ToastCard from "../../components/Card/ToastCard";
+import { Account } from "../../models/User";
 
 import {
   Col,
@@ -22,16 +24,16 @@ import {
 import "./room.css";
 
 function Rooms() {
-  const [rooms, setRooms] = useState(null);
-  const [searchRooms, setSearchRooms] = useState([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [searchRooms, setSearchRooms] = useState<Room[]>([]);
   const [createModal, setCreateModal] = useState(false);
   const [joinModal, setJoinModal] = useState(false);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [search, setSearch] = useState("");
   const [pending, setPending] = useState(false);
-  const [success, setSuccess] = useState(null);
-  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
 
@@ -50,7 +52,7 @@ function Rooms() {
       const response = await fetch(process.env.REACT_APP_API_URI + "room", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       });
 
@@ -65,14 +67,14 @@ function Rooms() {
     if (user) getRooms();
   }, [user]);
 
-  const handleCreate = async (e) => {
+  const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
     setPending(true);
     const response = await fetch(process.env.REACT_APP_API_URI + "room", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
       body: JSON.stringify({ name, code }),
     });
@@ -87,14 +89,14 @@ function Rooms() {
     setPending(false);
   };
 
-  const handleJoin = async (e) => {
+  const handleJoin = async (e: FormEvent) => {
     e.preventDefault();
     setPending(true);
     const response = await fetch(process.env.REACT_APP_API_URI + "room/join", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${user?.token}`,
       },
       body: JSON.stringify({ code }),
     });
@@ -107,7 +109,7 @@ function Rooms() {
       setSuccess("Teacher will accept you to join in this room");
       setTimeout(() => {
         setSuccess(null);
-      }, "3500");
+      }, 3500);
     } else {
       setError(json.error.message);
     }
@@ -143,7 +145,7 @@ function Rooms() {
             </Col>
 
             <Col className="d-flex justify-content-end gap-2">
-              {user.type === "Teacher" && (
+              {user?.type === Account.Teacher && (
                 <Button
                   size="sm"
                   className="main-btn"
@@ -224,7 +226,7 @@ function Rooms() {
                   <CardBody>
                     <CardTitle>{room.name}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {room.teachers.length && room.teachers[0].username}
+                      {room.teachers && room.teachers[0].username}
                     </CardSubtitle>
                   </CardBody>
                 </Link>
