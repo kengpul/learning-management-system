@@ -12,11 +12,13 @@ import Edit from "./pages/feed/Edit";
 import Error from "./pages/Error/Error";
 import SideNavigationBar from "./components/Navbar/SideNavigationBar";
 import BottomNavigationBar from "./components/Navbar/BottomNavigation";
+import Room from "./pages/room/Room";
+import Rooms from "./pages/room/Rooms";
+import Quizzes from "./pages/quiz/Quizzes";
+import QuizCreate from "./pages/quiz/Create";
 
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Room from "./pages/room/Room";
-import Rooms from "./pages/room/Rooms";
 
 function App() {
   const { user, authReady } = useAuthContext();
@@ -65,6 +67,14 @@ function App() {
               <Route
                 path="/room/:id"
                 element={user ? <Room /> : <Navigate to="/connect" />}
+              />
+              <Route
+                path="/quiz/"
+                element={user ? <Quizzes /> : <Navigate to="/connect" />}
+              />
+              <Route
+                path="/quiz/create"
+                element={user ? <QuizCreate /> : <Navigate to="/connect" />}
               />
               <Route path="*" element={<Error />} />
             </Routes>
