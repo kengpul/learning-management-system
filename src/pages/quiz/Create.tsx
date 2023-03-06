@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 import Header from "./Header";
 
@@ -12,6 +13,7 @@ import {
   Form,
   Button,
 } from "reactstrap";
+import ToastCard from "../../components/Card/ToastCard";
 
 interface Quiz {
   question: string;
@@ -29,6 +31,10 @@ function Create() {
     choice2: false,
     choice3: false,
   });
+  const [isBlank, setIsBlank] = useState(false);
+  const [error, setError] = useState<null | string>(null);
+
+  const { user } = useAuthContext();
 
   const reset = () => {
     setQuestion("");
@@ -58,15 +64,39 @@ function Create() {
     reset();
   };
 
-  const handleSubmit = (title: string, date: string) => {
-    console.log(title, date);
-    console.log(quizzes);
+  useEffect(() => {
+    if (!choice1 || !choice2 || !choice3) {
+      setIsBlank(true);
+    } else {
+      setIsBlank(false);
+    }
+  }, [choice1, choice2, choice3]);
+
+  const handleSubmit = async (title: string, due: string) => {
+    const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, due, quizzes }),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error.message);
+      setTimeout(() => {
+        setError(null);
+      }, 3500);
+    }
   };
 
   return (
     <Col className="mt-3">
       <Row>
-        <Header handleSubmit={handleSubmit} />
+        <Header handleSubmit={handleSubmit} questionLength={quizzes.length} />
+        {error && <ToastCard message={error} color="danger" />}
       </Row>
       <Row className="d-flex justify-content-center mt-3">
         <Col md="7">
@@ -83,7 +113,7 @@ function Create() {
                 <Input
                   type="radio"
                   id="choice1"
-                  name="choice[]"
+                  name="choice"
                   className="me-2 mt-2"
                   onChange={(e) =>
                     setChecked({
@@ -108,7 +138,7 @@ function Create() {
                 <Input
                   type="radio"
                   id="choice2"
-                  name="choice[]"
+                  name="choice"
                   className="me-2 mt-2"
                   onChange={(e) =>
                     setChecked({
@@ -154,7 +184,9 @@ function Create() {
                   />
                 </Label>
               </FormGroup>
-              <Button className="main-btn w-100">Add</Button>
+              <Button className="main-btn w-100" disabled={isBlank}>
+                Add
+              </Button>
             </Form>
           </Card>
         </Col>

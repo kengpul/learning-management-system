@@ -11,10 +11,11 @@ import {
 } from "reactstrap";
 
 interface Props {
+  questionLength: number;
   handleSubmit: (title: string, date: string) => void;
 }
 
-function Header({ handleSubmit }: Props) {
+function Header({ questionLength, handleSubmit }: Props) {
   const [title, setTitle] = useState("");
   const [due, setDue] = useState("");
 
@@ -51,10 +52,8 @@ function Header({ handleSubmit }: Props) {
           />
         </NavbarText>
 
-        <div>
-          <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
-          <NavbarText>Questions: 0</NavbarText>
-        </div>
+        <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
+        <NavbarText>Questions: {questionLength}</NavbarText>
 
         <Button onClick={handleSave}>Save</Button>
       </Navbar>
