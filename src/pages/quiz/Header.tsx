@@ -1,4 +1,5 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
+import IQuiz from "../../models/Quiz";
 
 import {
   Button,
@@ -12,16 +13,24 @@ import {
 
 interface Props {
   questionLength: number;
-  handleSubmit: (title: string, date: string) => void;
+  handleSubmit?: (title: string, date: string) => void;
+  quiz?: IQuiz;
 }
 
-function Header({ questionLength, handleSubmit }: Props) {
+function Header({ questionLength, handleSubmit, quiz }: Props) {
   const [title, setTitle] = useState("");
   const [due, setDue] = useState("");
 
+  useEffect(() => {
+    if (quiz) {
+      setTitle(quiz.title);
+      setDue(quiz.due);
+    }
+  }, []);
+
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
-    handleSubmit(title, due);
+    handleSubmit!(title, due);
   };
 
   return (
@@ -55,7 +64,7 @@ function Header({ questionLength, handleSubmit }: Props) {
         <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
         <NavbarText>Questions: {questionLength}</NavbarText>
 
-        <Button onClick={handleSave}>Save</Button>
+        <Button onClick={handleSave}>{quiz ? "Edit" : "Save"}</Button>
       </Navbar>
     </Col>
   );

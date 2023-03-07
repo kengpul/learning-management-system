@@ -16,6 +16,7 @@ import Room from "./pages/room/Room";
 import Rooms from "./pages/room/Rooms";
 import Quizzes from "./pages/quiz/Quizzes";
 import QuizCreate from "./pages/quiz/Create";
+import Quiz from "./pages/quiz/Quiz";
 
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -75,6 +76,10 @@ function App() {
               <Route
                 path="/quiz/create"
                 element={user ? <QuizCreate /> : <Navigate to="/connect" />}
+              />
+              <Route
+                path="/quiz/:id"
+                element={user ? <Quiz /> : <Navigate to="/connect" />}
               />
               <Route path="*" element={<Error />} />
             </Routes>

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import IQuiz from "../../models/Quiz";
 
 import {
   Button,
@@ -13,6 +15,27 @@ import {
 } from "reactstrap";
 
 function Quizzes() {
+  const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    const getQuizzes = async () => {
+      const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {
+        headers: {
+          Authorization: `Bearers ${user!.token}`,
+        },
+      });
+
+      const json = await response.json();
+
+      if (response.ok) {
+        setQuizzes(json);
+      }
+    };
+
+    if (user) getQuizzes();
+  }, []);
+
   return (
     <Col className="mt-3">
       <Row className="d-flex justify-content-between flex-column-reverse flex-md-row">
@@ -27,16 +50,24 @@ function Quizzes() {
       </Row>
 
       <Row>
-        <Col md="4" className="mt-3 room-card">
-          <Card>
-            <Link to="" className="text-dark d-flex align-items-start">
-              <CardBody>
-                <CardTitle>Quiz title</CardTitle>
-                <CardSubtitle className="text-muted">Subtitle</CardSubtitle>
-              </CardBody>
-            </Link>
-          </Card>
-        </Col>
+        {quizzes.length &&
+          quizzes.map((quiz) => (
+            <Col md="4" className="mt-3 room-card" key={quiz._id}>
+              <Card>
+                <Link
+                  to={`/quiz/${quiz._id}`}
+                  className="text-dark d-flex align-items-start"
+                >
+                  <CardBody>
+                    <CardTitle>{quiz.title}</CardTitle>
+                    <CardSubtitle className="text-muted">
+                      {quiz.author.username}
+                    </CardSubtitle>
+                  </CardBody>
+                </Link>
+              </Card>
+            </Col>
+          ))}
       </Row>
     </Col>
   );

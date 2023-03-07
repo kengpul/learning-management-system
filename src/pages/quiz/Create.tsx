@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import Header from "./Header";
@@ -34,6 +35,7 @@ function Create() {
   const [isBlank, setIsBlank] = useState(false);
   const [error, setError] = useState<null | string>(null);
 
+  const navigate = useNavigate();
   const { user } = useAuthContext();
 
   const reset = () => {
@@ -89,6 +91,8 @@ function Create() {
       setTimeout(() => {
         setError(null);
       }, 3500);
+    } else {
+      navigate(`/quiz/${json._id}`);
     }
   };
 
