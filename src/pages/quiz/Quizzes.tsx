@@ -65,11 +65,13 @@ function Quizzes() {
         </Col>
         <Col md="2">
           <Link to="/quiz/create">
-            <Button className="main-btn w-100">Create</Button>
+            <Button size="sm" className="main-btn w-100">
+              Create
+            </Button>
           </Link>
         </Col>
       </Row>
-      
+
       {error && <h2 className="text-muted text-center mt-3">{error}</h2>}
 
       <Row>
@@ -95,7 +97,8 @@ function Quizzes() {
 
       <Row>
         {quizzes.length > 0 &&
-          searchQuizzes.length === 0 && !error &&
+          searchQuizzes.length === 0 &&
+          !error &&
           quizzes.map((quiz) => (
             <Col md="4" className="mt-3 room-card" key={quiz._id}>
               <Card>
@@ -114,8 +117,6 @@ function Quizzes() {
             </Col>
           ))}
       </Row>
-
-   
     </Col>
   );
 }

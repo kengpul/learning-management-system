@@ -16,7 +16,7 @@ interface SingleQuiz {
   }>;
 }
 
-function Quiz() {
+function Edit() {
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState<null | string>(null);
@@ -224,4 +224,4 @@ function Quiz() {
   );
 }
 
-export default Quiz;
+export default Edit;
