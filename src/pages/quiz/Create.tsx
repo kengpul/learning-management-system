@@ -67,12 +67,12 @@ function Create() {
   };
 
   useEffect(() => {
-    if (!choice1 || !choice2 || !choice3) {
+    if (!question || !choice1 || !choice2 || !choice3) {
       setIsBlank(true);
     } else {
       setIsBlank(false);
     }
-  }, [choice1, choice2, choice3]);
+  }, [question, choice1, choice2, choice3]);
 
   const handleSubmit = async (title: string, due: string) => {
     const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {

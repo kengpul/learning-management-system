@@ -34,7 +34,7 @@ function Quizzes() {
     };
 
     if (user) getQuizzes();
-  }, []);
+  }, [user]);
 
   return (
     <Col className="mt-3">
@@ -50,7 +50,7 @@ function Quizzes() {
       </Row>
 
       <Row>
-        {quizzes.length &&
+        {quizzes.length > 0 &&
           quizzes.map((quiz) => (
             <Col md="4" className="mt-3 room-card" key={quiz._id}>
               <Card>

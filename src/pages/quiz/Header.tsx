@@ -14,10 +14,18 @@ import {
 interface Props {
   questionLength: number;
   handleSubmit?: (title: string, date: string) => void;
+  disabled?: boolean;
+  setDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
   quiz?: IQuiz;
 }
 
-function Header({ questionLength, handleSubmit, quiz }: Props) {
+function Header({
+  questionLength,
+  disabled,
+  setDisabled,
+  handleSubmit,
+  quiz,
+}: Props) {
   const [title, setTitle] = useState("");
   const [due, setDue] = useState("");
 
@@ -26,7 +34,7 @@ function Header({ questionLength, handleSubmit, quiz }: Props) {
       setTitle(quiz.title);
       setDue(quiz.due);
     }
-  }, []);
+  }, [quiz]);
 
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
@@ -44,6 +52,7 @@ function Header({ questionLength, handleSubmit, quiz }: Props) {
           <Input
             placeholder="Title"
             value={title}
+            disabled={disabled}
             onChange={(e) => setTitle(e.target.value)}
           />
         </NavbarBrand>
@@ -57,6 +66,7 @@ function Header({ questionLength, handleSubmit, quiz }: Props) {
             id="due"
             name="due"
             value={due}
+            disabled={disabled}
             onChange={(e) => setDue(e.target.value)}
           />
         </NavbarText>
@@ -64,7 +74,11 @@ function Header({ questionLength, handleSubmit, quiz }: Props) {
         <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
         <NavbarText>Questions: {questionLength}</NavbarText>
 
-        <Button onClick={handleSave}>{quiz ? "Edit" : "Save"}</Button>
+        {quiz && disabled ? (
+          <Button onClick={() => setDisabled!(false)}>Edit</Button>
+        ) : (
+          <Button onClick={handleSave}>Save</Button>
+        )}
       </Navbar>
     </Col>
   );

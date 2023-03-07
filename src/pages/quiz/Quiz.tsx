@@ -4,6 +4,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import IQuiz from "../../models/Quiz";
 
 import Header from "./Header";
+import ToastCard from "../../components/Card/ToastCard";
 
 import { Card, Col, FormGroup, Input, Label, Row, Form } from "reactstrap";
 
@@ -17,6 +18,8 @@ interface SingleQuiz {
 
 function Quiz() {
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
+  const [disabled, setDisabled] = useState(true);
+  const [error, setError] = useState<null | string>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
 
@@ -40,11 +43,6 @@ function Quiz() {
 
     if (user) getQuiz();
   }, [user, id]);
-
-  const handleSubmit = (title: string, due: string) => {
-    console.log(title, due);
-    console.log(quiz);
-  };
 
   const handleUpdateQuestion = (object: SingleQuiz, value: string) => {
     const index = quiz!.quizzes.indexOf(object);
@@ -85,16 +83,42 @@ function Quiz() {
     }
   };
 
+  const handleSubmit = async (title: string, due: string) => {
+    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, due, quizzes: quiz!.quizzes }),
+    });
+
+    const json = await response.json();
+
+    if (response.ok) {
+      setQuiz(json);
+      setDisabled(true);
+    } else {
+      setError(json.error.message);
+      setTimeout(() => {
+        setError(null);
+      }, 3500);
+    }
+  };
+
   return (
     <Col className="my-3">
       <Row>
         {quiz && (
           <Header
             handleSubmit={handleSubmit}
+            disabled={disabled}
+            setDisabled={setDisabled}
             questionLength={quiz.quizzes.length}
             quiz={quiz}
           />
         )}
+        {error && <ToastCard message={error} color="danger" />}
       </Row>
       <Row className="d-flex justify-content-center">
         <Col md="7">
@@ -106,6 +130,7 @@ function Quiz() {
                     placeholder="Question"
                     className="mb-3"
                     name="question"
+                    disabled={disabled}
                     defaultValue={q.question}
                     onChange={(e) => handleUpdateQuestion(q, e.target.value)}
                   />
@@ -115,6 +140,7 @@ function Quiz() {
                       id="choice1"
                       name="choice"
                       className="me-2 mt-2"
+                      disabled={disabled}
                       defaultChecked={q.choices[0].isCorrect}
                       onChange={(e) => handleUpdateChoice(q, 0)}
                     />
@@ -123,6 +149,7 @@ function Quiz() {
                         placeholder="Answer"
                         bsSize="sm"
                         defaultValue={q.choices[0].answer}
+                        disabled={disabled}
                         onChange={(e) =>
                           handleUpdateAnswers(q, 0, e.target.value)
                         }
@@ -136,6 +163,7 @@ function Quiz() {
                       name="choice"
                       className="me-2 mt-2"
                       defaultChecked={q.choices[1].isCorrect}
+                      disabled={disabled}
                       onChange={(e) => handleUpdateChoice(q, 1)}
                     />
                     <Label for="choice2">
@@ -143,6 +171,7 @@ function Quiz() {
                         placeholder="Answer"
                         bsSize="sm"
                         defaultValue={q.choices[1].answer}
+                        disabled={disabled}
                         onChange={(e) =>
                           handleUpdateAnswers(q, 1, e.target.value)
                         }
@@ -156,6 +185,7 @@ function Quiz() {
                       name="choice"
                       className="me-2 mt-2"
                       defaultChecked={q.choices[2].isCorrect}
+                      disabled={disabled}
                       onChange={(e) => handleUpdateChoice(q, 2)}
                     />
                     <Label for="choice3">
@@ -163,6 +193,7 @@ function Quiz() {
                         placeholder="Answer"
                         bsSize="sm"
                         defaultValue={q.choices[2].answer}
+                        disabled={disabled}
                         onChange={(e) =>
                           handleUpdateAnswers(q, 2, e.target.value)
                         }
