@@ -14,6 +14,7 @@ import {
 interface Props {
   questionLength: number;
   handleSubmit?: (title: string, date: string) => void;
+  handleDelete?: () => void;
   disabled?: boolean;
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
   quiz?: IQuiz;
@@ -24,6 +25,7 @@ function Header({
   disabled,
   setDisabled,
   handleSubmit,
+  handleDelete,
   quiz,
 }: Props) {
   const [title, setTitle] = useState("");
@@ -73,6 +75,12 @@ function Header({
 
         <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
         <NavbarText>Questions: {questionLength}</NavbarText>
+
+        {quiz && (
+          <Button color="danger" onClick={handleDelete}>
+            Delete
+          </Button>
+        )}
 
         {quiz && disabled ? (
           <Button onClick={() => setDisabled!(false)}>Edit</Button>

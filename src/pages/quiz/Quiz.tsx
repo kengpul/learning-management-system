@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import IQuiz from "../../models/Quiz";
 
@@ -22,6 +22,7 @@ function Quiz() {
   const [error, setError] = useState<null | string>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -83,6 +84,19 @@ function Quiz() {
     }
   };
 
+  const handleDelete = async () => {
+    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearrers ${user?.token}`,
+      },
+    });
+
+    if (response.ok) {
+      navigate("/quiz");
+    }
+  };
+
   const handleSubmit = async (title: string, due: string) => {
     const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
       method: "PUT",
@@ -112,6 +126,7 @@ function Quiz() {
         {quiz && (
           <Header
             handleSubmit={handleSubmit}
+            handleDelete={handleDelete}
             disabled={disabled}
             setDisabled={setDisabled}
             questionLength={quiz.quizzes.length}
@@ -142,7 +157,7 @@ function Quiz() {
                       className="me-2 mt-2"
                       disabled={disabled}
                       defaultChecked={q.choices[0].isCorrect}
-                      onChange={(e) => handleUpdateChoice(q, 0)}
+                      onChange={() => handleUpdateChoice(q, 0)}
                     />
                     <Label for="choice1">
                       <Input
@@ -164,7 +179,7 @@ function Quiz() {
                       className="me-2 mt-2"
                       defaultChecked={q.choices[1].isCorrect}
                       disabled={disabled}
-                      onChange={(e) => handleUpdateChoice(q, 1)}
+                      onChange={() => handleUpdateChoice(q, 1)}
                     />
                     <Label for="choice2">
                       <Input
@@ -186,7 +201,7 @@ function Quiz() {
                       className="me-2 mt-2"
                       defaultChecked={q.choices[2].isCorrect}
                       disabled={disabled}
-                      onChange={(e) => handleUpdateChoice(q, 2)}
+                      onChange={() => handleUpdateChoice(q, 2)}
                     />
                     <Label for="choice3">
                       <Input
