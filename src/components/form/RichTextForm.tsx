@@ -125,14 +125,16 @@ function RichTextForm({
 
   return (
     <Col className="mt-3">
-      <ButtonGroup className="w-50">
-        <Button active={tab === "text"} onClick={() => setTab("text")}>
-          Text
-        </Button>
-        <Button active={tab === "quiz"} onClick={() => setTab("quiz")}>
-          Quiz
-        </Button>
-      </ButtonGroup>
+      <Col className="d-flex justify-content-center">
+        <ButtonGroup className="w-50">
+          <Button active={tab === "text"} onClick={() => setTab("text")}>
+            Text
+          </Button>
+          <Button active={tab === "quiz"} onClick={() => setTab("quiz")}>
+            Quiz
+          </Button>
+        </ButtonGroup>
+      </Col>
       {tab === "text" && (
         <Col className="create mt-3">
           {imageUpload && (
@@ -158,7 +160,7 @@ function RichTextForm({
                   <ReactSelect
                     className="w-100"
                     isMulti={true}
-                    placeholder="Rooms"
+                    placeholder="Select rooms"
                     options={options}
                     onChange={(selected) => setRooms!(selected)}
                   />
