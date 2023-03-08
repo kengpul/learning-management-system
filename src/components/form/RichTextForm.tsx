@@ -6,8 +6,9 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 import ToastCard from "../Card/ToastCard";
 
-import { Button, Col, Form, Row, Spinner } from "reactstrap";
+import { Button, ButtonGroup, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
+import QuizForm from "./QuizForm";
 
 interface Props {
   handleSubmit: (e: FormEvent) => void;
@@ -29,6 +30,7 @@ function RichTextForm({
   pending,
   setRooms,
 }: Props) {
+  const [tab, setTab] = useState<"text" | "quiz">("text");
   const [options, setOptions] = useState<Options[]>([]);
   const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef<any>(null);
@@ -122,50 +124,60 @@ function RichTextForm({
   );
 
   return (
-    <Col className="create">
-      {imageUpload && (
-        <ToastCard
-          spinner={true}
-          message={"Uploading image..."}
-          color={"primary"}
-        />
-      )}
-      <h1 className="">Create post</h1>
-      <p className="text-muted border-bottom mb-3 pb-2">
-        Type formatted post, Select groups/classes.
-      </p>
-      <Row className="mx-lg-auto">
-        <Col md="7" className="mb-3 mx-auto">
-          <Form onSubmit={handleSubmit}>
-            <ReactQuill
-              className="bg-white"
-              theme="snow"
-              placeholder="Type your post here"
-              modules={modules}
-              value={form}
-              onChange={(e) => setForm(e)}
-              ref={ref}
+    <Col className="mt-3">
+      <ButtonGroup className="w-50">
+        <Button active={tab === "text"} onClick={() => setTab("text")}>
+          Text
+        </Button>
+        <Button active={tab === "quiz"} onClick={() => setTab("quiz")}>
+          Quiz
+        </Button>
+      </ButtonGroup>
+      {tab === "text" && (
+        <Col className="create mt-3">
+          {imageUpload && (
+            <ToastCard
+              spinner={true}
+              message={"Uploading image..."}
+              color={"primary"}
             />
-            <div className="d-flex gap-2 mt-2">
-              <ReactSelect
-                className="w-100"
-                isMulti={true}
-                placeholder="Rooms"
-                options={options}
-                onChange={(selected) => setRooms!(selected)}
-              />
+          )}
+          <Row className="mx-lg-auto">
+            <Col md="7" className="mb-3 mx-auto">
+              <Form onSubmit={handleSubmit}>
+                <ReactQuill
+                  className="bg-white"
+                  theme="snow"
+                  placeholder="Type your post here"
+                  modules={modules}
+                  value={form}
+                  onChange={(e) => setForm(e)}
+                  ref={ref}
+                />
+                <div className="d-flex gap-2 mt-2">
+                  <ReactSelect
+                    className="w-100"
+                    isMulti={true}
+                    placeholder="Rooms"
+                    options={options}
+                    onChange={(selected) => setRooms!(selected)}
+                  />
 
-              <Button
-                disabled={pending}
-                type="submit"
-                className="main-btn ms-auto"
-              >
-                {pending ? <Spinner /> : "Post"}
-              </Button>
-            </div>
-          </Form>
+                  <Button
+                    disabled={pending}
+                    type="submit"
+                    className="main-btn ms-auto"
+                  >
+                    {pending ? <Spinner /> : "Post"}
+                  </Button>
+                </div>
+              </Form>
+            </Col>
+          </Row>
         </Col>
-      </Row>
+      )}
+
+      {tab === "quiz" && <QuizForm />}
     </Col>
   );
 }
