@@ -6,7 +6,7 @@ export default interface Quiz {
   due: string;
   quizzes: Array<{
     question: string;
-    choices: Array<{ answer: string; isCorrect: boolean }>;
+    choices: Array<{ answer: string; isCorrect: boolean; _id: string }>;
   }>;
   author: IUser;
 }

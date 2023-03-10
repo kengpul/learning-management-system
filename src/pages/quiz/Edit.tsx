@@ -13,6 +13,7 @@ interface SingleQuiz {
   choices: Array<{
     answer: string;
     isCorrect: boolean;
+    _id: string;
   }>;
 }
 

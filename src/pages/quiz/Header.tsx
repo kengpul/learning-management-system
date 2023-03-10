@@ -15,9 +15,11 @@ interface Props {
   questionLength: number;
   handleSubmit?: (title: string, date: string) => void;
   handleDelete?: () => void;
+  handlePublish?: () => void;
   disabled?: boolean;
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
   quiz?: IQuiz;
+  isStudent?: boolean;
 }
 
 function Header({
@@ -25,8 +27,10 @@ function Header({
   disabled,
   setDisabled,
   handleSubmit,
+  handlePublish,
   handleDelete,
   quiz,
+  isStudent,
 }: Props) {
   const [title, setTitle] = useState("");
   const [due, setDue] = useState("");
@@ -50,42 +54,61 @@ function Header({
         style={{ backgroundColor: "var(--light-blue)" }}
         dark
       >
-        <NavbarBrand>
-          <Input
-            placeholder="Title"
-            value={title}
-            disabled={disabled}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </NavbarBrand>
-
-        <NavbarText className="d-flex align-items-center">
-          <Label for="due" className="me-2 mt-2">
-            Due:
-          </Label>
-          <Input
-            type="date"
-            id="due"
-            name="due"
-            value={due}
-            disabled={disabled}
-            onChange={(e) => setDue(e.target.value)}
-          />
-        </NavbarText>
-
-        <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
-        <NavbarText>Questions: {questionLength}</NavbarText>
-
-        {quiz && (
-          <Button color="danger" onClick={handleDelete}>
-            Delete
-          </Button>
+        {isStudent ? (
+          <NavbarBrand>
+            <h5 className="text-white">{title}</h5>
+          </NavbarBrand>
+        ) : (
+          <NavbarBrand>
+            <Input
+              placeholder="Title"
+              value={title}
+              disabled={disabled}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </NavbarBrand>
         )}
 
-        {quiz && disabled ? (
-          <Button onClick={() => setDisabled!(false)}>Edit</Button>
+        {!isStudent && (
+          <NavbarText className="d-flex align-items-center">
+            <Label for="due" className="me-2 mt-2">
+              Due:
+            </Label>
+            <Input
+              type="date"
+              id="due"
+              name="due"
+              value={due}
+              disabled={disabled}
+              onChange={(e) => setDue(e.target.value)}
+            />
+          </NavbarText>
+        )}
+
+        <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
+        {!isStudent ? (
+          <>
+            <NavbarText>Questions: {questionLength}</NavbarText>
+
+            {quiz && (
+              <Button color="danger" onClick={handleDelete}>
+                Delete
+              </Button>
+            )}
+
+            {quiz && disabled ? (
+              <Button onClick={() => setDisabled!(false)}>Edit</Button>
+            ) : (
+              <Button onClick={handleSave}>Save</Button>
+            )}
+          </>
         ) : (
-          <Button onClick={handleSave}>Save</Button>
+          <>
+            <NavbarText>
+              Questions: {questionLength}/{quiz?.quizzes.length}
+            </NavbarText>
+            <Button onClick={handlePublish}>Submit</Button>
+          </>
         )}
       </Navbar>
     </Col>

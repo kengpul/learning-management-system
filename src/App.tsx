@@ -14,6 +14,7 @@ import SideNavigationBar from "./components/Navbar/SideNavigationBar";
 import BottomNavigationBar from "./components/Navbar/BottomNavigation";
 import Room from "./pages/room/Room";
 import Rooms from "./pages/room/Rooms";
+import Quiz from "./pages/quiz/Quiz";
 import Quizzes from "./pages/quiz/Quizzes";
 import QuizCreate from "./pages/quiz/Create";
 import QuizEdit from "./pages/quiz/Edit";
@@ -79,7 +80,7 @@ function App() {
               />
               <Route
                 path="/quiz/:id"
-                element={user ? <QuizEdit /> : <Navigate to="/connect" />}
+                element={user ? <Quiz /> : <Navigate to="/connect" />}
               />
               <Route path="*" element={<Error />} />
             </Routes>
