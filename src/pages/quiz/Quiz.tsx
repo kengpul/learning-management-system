@@ -83,7 +83,20 @@ function Quiz() {
     for (let answer of selected) {
       if (answer.isCorrect) score++;
     }
-    console.log(score);
+
+    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearers ${user?.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ score }),
+    });
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log(json);
+    }
   };
 
   return (
