@@ -20,6 +20,7 @@ interface SingleQuiz {
 function Edit() {
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
   const [disabled, setDisabled] = useState(true);
+  const [success, setSucces] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -113,6 +114,10 @@ function Edit() {
     if (response.ok) {
       setQuiz(json);
       setDisabled(true);
+      setSucces("Successfully Updated");
+      setTimeout(() => {
+        setSucces(null);
+      }, 3500);
     } else {
       setError(json.error.message);
       setTimeout(() => {
@@ -134,6 +139,7 @@ function Edit() {
             quiz={quiz}
           />
         )}
+        {success && <ToastCard message={success} color="success" />}
         {error && <ToastCard message={error} color="danger" />}
       </Row>
       <Row className="d-flex justify-content-center">

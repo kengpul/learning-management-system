@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import IQuiz from "../../models/Quiz";
 
@@ -14,6 +14,10 @@ import {
   Form,
   Row,
   Button,
+  CardHeader,
+  CardBody,
+  CardText,
+  CardSubtitle,
 } from "reactstrap";
 
 interface SingleQuiz {
@@ -37,6 +41,7 @@ function Quiz() {
   const [quizIndex, setQuizIndex] = useState(0);
   const [selected, setSelected] = useState<SingleChoice[]>([]);
   const [timer, setTimer] = useState("");
+  const [score, setScore] = useState<null | number>(null);
   const { id } = useParams();
   const { user } = useAuthContext();
 
@@ -128,13 +133,25 @@ function Quiz() {
     const json = await response.json();
 
     if (response.ok) {
-      console.log(json);
+      setScore(json.score);
     }
   };
 
   return (
     <Col className="mt-3">
-      {quiz && (
+      {score && score >= 0 && (
+        <Col md="6" className="offset-md-3">
+          <Card className="mt-5">
+            <CardHeader className="d-flex justify-content-between">
+              <CardText>{quiz?.title} </CardText>Score: {score}
+            </CardHeader>
+          </Card>
+          <Link to="/quiz">
+            <Button className="main-btn mt-3 w-100">Go back to quizzes</Button>
+          </Link>
+        </Col>
+      )}
+      {quiz && score === null && (
         <>
           {getTimer()}
           <Header
