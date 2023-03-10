@@ -52,6 +52,25 @@ function Quizzes() {
     setSearchQuizzes(searchResults);
   };
 
+  const handleDates = (content: string) => {
+    const created = new Date(content);
+    const days = new Date().getUTCDate() + created.getUTCDate() - 20;
+    const hours = new Date().getHours() + new Date(content).getHours();
+    const minutes = Math.round(
+      (new Date().getTime() + new Date(content).getTime()) / 60000
+    );
+
+    if (days > 0) {
+      return `${days}d`;
+    } else if (hours > 0 && days < 1) {
+      return `${hours}h`;
+    } else if (minutes > 0 && hours < 1 && days < 1) {
+      return `${minutes}m`;
+    } else {
+      return "now";
+    }
+  };
+
   return (
     <Col className="mt-3">
       <Row className="d-flex justify-content-between flex-column-reverse flex-md-row">
@@ -64,11 +83,20 @@ function Quizzes() {
           />
         </Col>
         <Col md="2">
-          <Link to="/quiz/create">
-            <Button size="sm" className="main-btn w-100">
-              Create
-            </Button>
-          </Link>
+          {user?.type === "Teacher" && (
+            <div className="d-md-flex justify-content-end gap-2">
+              <Link to="/feed/create">
+                <Button size="sm" className="main-btn w-100">
+                  Assign
+                </Button>
+              </Link>
+              <Link to="/quiz/create">
+                <Button size="sm" className="main-btn my-md-0 my-3 w-100">
+                  Create
+                </Button>
+              </Link>
+            </div>
+          )}
         </Col>
       </Row>
 
@@ -86,7 +114,7 @@ function Quizzes() {
                   <CardBody>
                     <CardTitle>{quiz.title}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {quiz.author.username}
+                      {handleDates(quiz.due)}
                     </CardSubtitle>
                   </CardBody>
                 </Link>
@@ -109,7 +137,7 @@ function Quizzes() {
                   <CardBody>
                     <CardTitle>{quiz.title}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {quiz.author.username}
+                      {handleDates(quiz.due)}
                     </CardSubtitle>
                   </CardBody>
                 </Link>

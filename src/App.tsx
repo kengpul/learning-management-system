@@ -80,7 +80,17 @@ function App() {
               />
               <Route
                 path="/quiz/:id"
-                element={user ? <Quiz /> : <Navigate to="/connect" />}
+                element={
+                  user ? (
+                    user.type === "Teacher" ? (
+                      <QuizEdit />
+                    ) : (
+                      <Quiz />
+                    )
+                  ) : (
+                    <Navigate to="/connect" />
+                  )
+                }
               />
               <Route path="*" element={<Error />} />
             </Routes>
