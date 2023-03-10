@@ -19,6 +19,7 @@ interface Props {
   disabled?: boolean;
   setDisabled?: React.Dispatch<React.SetStateAction<boolean>>;
   quiz?: IQuiz;
+  timer?: string;
   isStudent?: boolean;
 }
 
@@ -30,6 +31,7 @@ function Header({
   handlePublish,
   handleDelete,
   quiz,
+  timer,
   isStudent,
 }: Props) {
   const [title, setTitle] = useState("");
@@ -85,7 +87,9 @@ function Header({
           </NavbarText>
         )}
 
-        <NavbarText className="me-3">Timer: 60 minutes</NavbarText>
+        <NavbarText className="me-3">
+          Timer: {timer ? timer : "60 minutes"}
+        </NavbarText>
         {!isStudent ? (
           <>
             <NavbarText>Questions: {questionLength}</NavbarText>

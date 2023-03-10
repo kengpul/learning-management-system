@@ -36,6 +36,7 @@ function Quiz() {
   const [choice, setChoice] = useState<null | SingleChoice>(null);
   const [quizIndex, setQuizIndex] = useState(0);
   const [selected, setSelected] = useState<SingleChoice[]>([]);
+  const [timer, setTimer] = useState("");
   const { id } = useParams();
   const { user } = useAuthContext();
 
@@ -61,6 +62,38 @@ function Quiz() {
       getQuiz();
     }
   }, [user, id]);
+
+  const getTimer = () => {
+    var time = 30;
+    var saved_countdown = localStorage.getItem(
+      `${user?.username}-quiz-${quiz?._id}-timer`
+    );
+
+    if (saved_countdown == null) {
+      var new_countdown = new Date().getTime() + (time + 2) * 60 * 60 * 1000;
+      time = new_countdown;
+      localStorage.setItem(
+        `${user?.username}-quiz-${quiz?._id}-timer`,
+        new_countdown as unknown as string
+      );
+    } else {
+      time = saved_countdown as unknown as number;
+    }
+
+    var x = setInterval(() => {
+      var now = new Date().getTime();
+      var distance = time - now;
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setTimer(`${minutes}:${seconds}`);
+
+      if (minutes <= 0) {
+        localStorage.removeItem("saved_countdown");
+        handlePublish();
+        clearInterval(x);
+      }
+    }, 1000);
+  };
 
   const handleGetAnswers = (object: SingleQuiz, choiceIndex: number) => {
     const quizIndex = quiz!.quizzes.indexOf(object);
@@ -103,9 +136,11 @@ function Quiz() {
     <Col className="mt-3">
       {quiz && (
         <>
+          {getTimer()}
           <Header
             questionLength={quizIndex + 1}
             quiz={quiz}
+            timer={timer}
             handlePublish={handlePublish}
             isStudent
           />
