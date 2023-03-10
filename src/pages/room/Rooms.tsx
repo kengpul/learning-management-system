@@ -137,7 +137,7 @@ function Rooms() {
           <Row className="d-flex align-items-center">
             <Col className="d-flex gap-3">
               <Input
-                placeholder="Search class"
+                placeholder="Search room name"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyUpCapture={handleSearch}
