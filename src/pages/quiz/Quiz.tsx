@@ -15,9 +15,7 @@ import {
   Row,
   Button,
   CardHeader,
-  CardBody,
   CardText,
-  CardSubtitle,
 } from "reactstrap";
 
 interface SingleQuiz {
