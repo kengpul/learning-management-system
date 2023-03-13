@@ -21,24 +21,28 @@ function SideNavigationBar() {
       <div className="d-grid gap-2">
         <NavLink
           to="/feed/"
+          data-cy="feed"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-house-user me-1"></i>DASHBOARD
         </NavLink>
         <NavLink
           to="/room/"
+          data-cy="room"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-users me-1"></i>ROOM
         </NavLink>
         <NavLink
           to="/quiz/"
+          data-cy="quiz"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-book-open me-1"></i>QUIZ
         </NavLink>
         <NavLink
           to="/chats/"
+          data-cy="chat"
           className="navigation-btn ps-1 py-2 mx-2 rounded fw-bold"
         >
           <i className="fas fa-comment me-1"></i>CHAT

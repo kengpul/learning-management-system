@@ -11,7 +11,7 @@ function CreatePostButton() {
         alt=""
         width="40"
       />
-      <Link to="/feed/create" className="w-100 text-decoration-none">
+      <Link to="/feed/create" data-cy="create" className="w-100 text-decoration-none">
         <Input
           placeholder="Start a post"
           style={{ background: "var(--light-grey)" }}

@@ -147,6 +147,7 @@ function Rooms() {
             <Col className="d-flex justify-content-end gap-2">
               {user?.type === Account.Teacher && (
                 <Button
+                  data-cy="create"
                   size="sm"
                   className="main-btn"
                   onClick={createModalToggle}
@@ -155,6 +156,7 @@ function Rooms() {
                 </Button>
               )}
               <Button
+                data-cy="join"
                 size="sm"
                 className="main-btn px-3"
                 onClick={joinModalToggle}
@@ -172,17 +174,20 @@ function Rooms() {
             <Input
               placeholder="Name"
               className="mb-3"
+              data-cy="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <Input
               placeholder="Code"
+              data-cy="code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />
           </ModalBody>
           <ModalFooter>
             <Button
+              data-cy="create-room"
               className="main-btn"
               onClick={handleCreate}
               disabled={pending}
@@ -197,6 +202,7 @@ function Rooms() {
           <ModalHeader toggle={joinModalToggle}>Join</ModalHeader>
           <ModalBody>
             <Input
+              data-cy="input-code"
               placeholder="Code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
@@ -204,6 +210,7 @@ function Rooms() {
           </ModalBody>
           <ModalFooter>
             <Button
+              data-cy="join-room"
               className="main-btn"
               onClick={handleJoin}
               disabled={pending}

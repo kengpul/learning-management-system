@@ -86,13 +86,19 @@ function Header({ room }: { room: Room }) {
             <div
               className="text-center text-white me-5"
               role="button"
+              data-cy="attendance"
               onClick={toggleLinks}
             >
               <i className="fa-solid fa-clipboard-user"></i>
               <p>Attendance</p>
             </div>
 
-            <div className="text-center" role="button" onClick={toggleLinks}>
+            <div
+              className="text-center"
+              role="button"
+              data-cy="meeting"
+              onClick={toggleLinks}
+            >
               <i className="fa-solid fa-globe"></i>
               <p>Meeting</p>
             </div>
@@ -102,6 +108,7 @@ function Header({ room }: { room: Room }) {
             {attendance && (
               <a
                 href={attendance}
+                data-cy="attendance"
                 className="text-center text-white me-5"
                 role="button"
                 target="_blank"
@@ -114,6 +121,7 @@ function Header({ room }: { room: Room }) {
             {meeting && (
               <a
                 href={meeting}
+                data-cy="meeting"
                 className="text-center text-white"
                 role="button"
                 target="_blank"
@@ -136,11 +144,13 @@ function Header({ room }: { room: Room }) {
               </p>
             )}
             <Input
+              data-cy="input-attendance"
               placeholder="Attendance"
               value={attendance}
               onChange={(e) => setAttendance(e.target.value)}
             />
             <Input
+              data-cy="input-meeting"
               placeholder="Meeting"
               className="mt-3"
               value={meeting}
@@ -148,7 +158,7 @@ function Header({ room }: { room: Room }) {
             />
           </ModalBody>
           <ModalFooter>
-            <Button className="main-btn" onClick={handleLinks}>
+            <Button className="main-btn" data-cy="update" onClick={handleLinks}>
               Update
             </Button>
           </ModalFooter>
@@ -160,11 +170,18 @@ function Header({ room }: { room: Room }) {
         toggle={toggleLeave}
         className="text-white mt-3 me-3"
       >
-        <DropdownToggle data-toggle="dropdown" tag="span" role="button">
+        <DropdownToggle
+          data-toggle="dropdown"
+          data-cy="toggle-leave"
+          tag="span"
+          role="button"
+        >
           <i className="fa-solid fa-ellipsis-vertical fa-2x"></i>
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={handleLeave}>Leave</DropdownItem>
+          <DropdownItem data-cy="leave" onClick={handleLeave}>
+            Leave
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </header>
