@@ -3,6 +3,10 @@ describe("Feed", () => {
     cy.login();
   });
 
+  afterEach(() => {
+    cy.url().should("eq", "http://localhost:3001/feed/");
+  });
+
   it("create post", () => {
     cy.getByData("create").click();
     cy.url().should("eq", "http://localhost:3001/feed/create");
@@ -10,7 +14,6 @@ describe("Feed", () => {
     cy.get(".css-qbdosj-Input").click();
     cy.get("#react-select-3-option-0").click();
     cy.getByData("post").contains("Post").click();
-    cy.url().should("eq", "http://localhost:3001/feed/");
   });
 
   it("update post", () => {
@@ -18,12 +21,10 @@ describe("Feed", () => {
     cy.getByData("toggle-edit").first().click();
     cy.get(".ql-editor").contains("test post").type(" edited");
     cy.getByData("post").contains("Post").click();
-    cy.url().should("eq", "http://localhost:3001/feed/");
   });
 
   it("delete post", () => {
     cy.getByData("toggle-modify-post").first().click();
     cy.getByData("toggle-delete").first().click();
-    cy.url().should("eq", "http://localhost:3001/feed/");
   });
 });

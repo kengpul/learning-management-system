@@ -127,10 +127,10 @@ function RichTextForm({
     <Col className="mt-3">
       <Col className="d-flex justify-content-center">
         <ButtonGroup className="w-50">
-          <Button active={tab === "text"} onClick={() => setTab("text")}>
+          <Button data-cy="toggle-text" active={tab === "text"} onClick={() => setTab("text")}>
             Text
           </Button>
-          <Button active={tab === "quiz"} onClick={() => setTab("quiz")}>
+          <Button data-cy="toggle-quiz" active={tab === "quiz"} onClick={() => setTab("quiz")}>
             Quiz
           </Button>
         </ButtonGroup>

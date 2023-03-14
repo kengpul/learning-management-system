@@ -111,7 +111,7 @@ function QuizForm() {
       {success && <p className="text-success">{success}</p>}
       {error && <p className="text-danger">{error}</p>}
       <Row>
-        <Col md="5">
+        <Col md="5" data-cy="select-room">
           <ReactSelect
             placeholder="Select room"
             options={roomOptions}
@@ -120,7 +120,7 @@ function QuizForm() {
             onChange={(selected) => setSelectedRooms(selected)}
           />
         </Col>
-        <Col md="5" className="my-3 my-md-0">
+        <Col md="5" className="my-3 my-md-0" data-cy="select-quiz">
           <ReactSelect
             placeholder="Select quiz"
             options={quizOptions}
@@ -131,6 +131,7 @@ function QuizForm() {
         </Col>
         <Col>
           <Button
+            data-cy="post-quiz"
             disabled={disabled}
             className="main-btn w-100"
             onClick={handleSubmit}

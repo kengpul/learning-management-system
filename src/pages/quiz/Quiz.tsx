@@ -171,6 +171,7 @@ function Quiz() {
                     <FormGroup>
                       <Input
                         type="radio"
+                        data-cy="choice1"
                         id="choice1"
                         name="choice"
                         className="me-2 mt-2"
@@ -185,6 +186,7 @@ function Quiz() {
                     <FormGroup>
                       <Input
                         type="radio"
+                        data-cy="choice2"
                         id="choice2"
                         name="choice"
                         className="me-2 mt-2"
@@ -199,6 +201,7 @@ function Quiz() {
                     <FormGroup>
                       <Input
                         type="radio"
+                        data-cy="choice3u"
                         id="choice3"
                         name="choice"
                         className="me-2 mt-2"
@@ -213,6 +216,7 @@ function Quiz() {
                   </Form>
                   {selected.length !== quiz!.quizzes.length && (
                     <Button
+                      data-cy="next-question"
                       className="main-btn"
                       onClick={handleNext}
                       disabled={!choice}

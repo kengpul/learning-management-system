@@ -107,6 +107,7 @@ function Create() {
           <Card className="p-3">
             <Form onSubmit={handleAdd}>
               <Input
+                data-cy="input-question"
                 placeholder="Question"
                 className="mb-3"
                 name="question"
@@ -116,6 +117,7 @@ function Create() {
               <FormGroup>
                 <Input
                   type="radio"
+                  data-cy="toggle-choice1"
                   id="choice1"
                   name="choice"
                   className="me-2 mt-2"
@@ -129,6 +131,7 @@ function Create() {
                 />
                 <Label for="choice1">
                   <Input
+                    data-cy="input-choice1"
                     placeholder="Answer"
                     bsSize="sm"
                     value={choice1}
@@ -141,6 +144,7 @@ function Create() {
               <FormGroup>
                 <Input
                   type="radio"
+                  data-cy="toggle-choice2"
                   id="choice2"
                   name="choice"
                   className="me-2 mt-2"
@@ -154,6 +158,7 @@ function Create() {
                 />
                 <Label for="choice2">
                   <Input
+                    data-cy="input-choice2"
                     placeholder="Answer"
                     bsSize="sm"
                     value={choice2}
@@ -166,6 +171,7 @@ function Create() {
               <FormGroup>
                 <Input
                   type="radio"
+                  data-cy="toggle-choice3"
                   id="choice3"
                   name="choice"
                   className="me-2 mt-2"
@@ -179,6 +185,7 @@ function Create() {
                 />
                 <Label for="choice3">
                   <Input
+                    data-cy="input-choice3"
                     placeholder="Answer"
                     bsSize="sm"
                     value={choice3}
@@ -188,7 +195,11 @@ function Create() {
                   />
                 </Label>
               </FormGroup>
-              <Button className="main-btn w-100" disabled={isBlank}>
+              <Button
+                className="main-btn w-100"
+                disabled={isBlank}
+                data-cy="add-question"
+              >
                 Add
               </Button>
             </Form>
