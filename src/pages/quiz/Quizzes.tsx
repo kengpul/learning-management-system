@@ -86,12 +86,16 @@ function Quizzes() {
           {user?.type === "Teacher" && (
             <div className="d-md-flex justify-content-end gap-2">
               <Link to="/feed/create">
-                <Button size="sm" className="main-btn w-100">
+                <Button size="sm" className="main-btn w-100" data-cy="assign">
                   Assign
                 </Button>
               </Link>
               <Link to="/quiz/create">
-                <Button size="sm" className="main-btn my-md-0 my-3 w-100">
+                <Button
+                  size="sm"
+                  className="main-btn my-md-0 my-3 w-100"
+                  data-cy="toggle-create"
+                >
                   Create
                 </Button>
               </Link>
@@ -134,7 +138,7 @@ function Quizzes() {
                   to={`/quiz/${quiz._id}`}
                   className="text-dark d-flex align-items-start"
                 >
-                  <CardBody>
+                  <CardBody data-cy="quiz-card">
                     <CardTitle>{quiz.title}</CardTitle>
                     <CardSubtitle className="text-muted">
                       {handleDates(quiz.due)}

@@ -66,6 +66,7 @@ function Header({
               placeholder="Title"
               value={title}
               disabled={disabled}
+              data-cy="input-title"
               onChange={(e) => setTitle(e.target.value)}
             />
           </NavbarBrand>
@@ -80,6 +81,7 @@ function Header({
               type="date"
               id="due"
               name="due"
+              data-cy="input-due"
               value={due}
               disabled={disabled}
               onChange={(e) => setDue(e.target.value)}
@@ -95,15 +97,19 @@ function Header({
             <NavbarText>Questions: {questionLength}</NavbarText>
 
             {quiz && (
-              <Button color="danger" onClick={handleDelete}>
+              <Button data-cy="delete" color="danger" onClick={handleDelete}>
                 Delete
               </Button>
             )}
 
             {quiz && disabled ? (
-              <Button onClick={() => setDisabled!(false)}>Edit</Button>
+              <Button data-cy="edit" onClick={() => setDisabled!(false)}>
+                Edit
+              </Button>
             ) : (
-              <Button onClick={handleSave}>Save</Button>
+              <Button data-cy="save" onClick={handleSave}>
+                Save
+              </Button>
             )}
           </>
         ) : (
@@ -111,7 +117,7 @@ function Header({
             <NavbarText>
               Questions: {questionLength}/{quiz?.quizzes.length}
             </NavbarText>
-            <Button onClick={handlePublish}>Submit</Button>
+            <Button data-cy="submit" onClick={handlePublish}>Submit</Button>
           </>
         )}
       </Navbar>

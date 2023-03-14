@@ -103,17 +103,18 @@ function PostCard({ post }: { post: Post }) {
             >
               <DropdownToggle data-toggle="dropdown" tag="span">
                 <Button color="transparent">
-                  <i className="fas fa-ellipsis-h" aria-hidden="true"></i>
+                  <i className="fas fa-ellipsis-h" aria-hidden="true" data-cy="toggle-modify-post"></i>
                 </Button>
               </DropdownToggle>
               <DropdownMenu>
-                <Link to={`/post/${post._id}/edit`} className="dropdown-item">
+                <Link to={`/post/${post._id}/edit`} className="dropdown-item" data-cy="toggle-edit">
                   Edit
                 </Link>
                 <Link
                   to=""
                   onClick={() => handleDelete(post._id)}
                   className="dropdown-item"
+                  data-cy="toggle-delete"
                 >
                   {pending ? <Spinner /> : "Delete"}
                 </Link>

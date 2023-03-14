@@ -71,6 +71,7 @@ export default function Connect() {
                   type="text"
                   placeholder="Username"
                   name="username"
+                  data-cy="login-username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -83,6 +84,7 @@ export default function Connect() {
                 <input
                   type="password"
                   name="password"
+                  data-cy="login-password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -91,6 +93,7 @@ export default function Connect() {
               <Button
                 className="main-btn px-5 rounded-pill"
                 disabled={isPending}
+                data-cy="login"
                 type="submit"
               >
                 {isPending ? <Spinner /> : "LOGIN"}
@@ -104,6 +107,7 @@ export default function Connect() {
                   type="text"
                   placeholder="Username"
                   name="username"
+                  data-cy="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -114,6 +118,7 @@ export default function Connect() {
                   type="text"
                   placeholder="Email"
                   name="email"
+                  data-cy="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -124,6 +129,7 @@ export default function Connect() {
                   type="password"
                   placeholder="Password"
                   name="password"
+                  data-cy="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -135,6 +141,7 @@ export default function Connect() {
                   id="type"
                   aria-label="Default select example"
                   name="type"
+                  data-cy="type"
                   value={type}
                   onChange={(e) => {
                     if (
@@ -151,6 +158,7 @@ export default function Connect() {
               <Button
                 className="main-btn px-5 rounded-pill"
                 disabled={isPending}
+                data-cy="signup"
                 type="submit"
               >
                 {isPending ? <Spinner /> : "SIGN UP"}
@@ -169,6 +177,7 @@ export default function Connect() {
               <button
                 className="btn btn-submit transparent"
                 id="sign-up-btn"
+                data-cy="signup-toggle"
                 onClick={togglePage}
               >
                 Sign up
