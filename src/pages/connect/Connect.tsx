@@ -73,7 +73,9 @@ export default function Connect() {
                   name="username"
                   data-cy="login-username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.trim().toLowerCase())
+                  }
                 />
                 <div className="invalid-tooltip">
                   Please provide a Username.
@@ -87,7 +89,7 @@ export default function Connect() {
                   data-cy="login-password"
                   placeholder="Password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value.trim())}
                 />
               </div>
               <Button
@@ -109,7 +111,9 @@ export default function Connect() {
                   name="username"
                   data-cy="username"
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) =>
+                    setUsername(e.target.value.trim().toLowerCase())
+                  }
                 />
               </div>
               <div className="input-field">
@@ -120,7 +124,9 @@ export default function Connect() {
                   name="email"
                   data-cy="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) =>
+                    setEmail(e.target.value.trim().toLowerCase())
+                  }
                 />
               </div>
               <div className="input-field">
@@ -131,7 +137,7 @@ export default function Connect() {
                   name="password"
                   data-cy="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value.trim())}
                 />
               </div>
 
