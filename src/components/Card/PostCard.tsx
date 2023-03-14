@@ -87,7 +87,7 @@ function PostCard({ post }: { post: Post }) {
               alt=""
               width="40"
             />
-            {user?.username} <span className="text-muted">Posted to </span>
+            {post.author.username} <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>
               <span className="text-primary">{post.room.name}</span>
             </Link>
@@ -165,7 +165,7 @@ function PostCard({ post }: { post: Post }) {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          {user?.username} <span className="text-muted">Posted to </span>
+          {post.author.username} <span className="text-muted">Posted to </span>
           <Link to={`/room/${post.room._id}`}>
             <span className="text-primary">{post.room.name}</span>
           </Link>
