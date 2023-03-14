@@ -158,6 +158,7 @@ function RichTextForm({
                 />
                 <div className="d-flex gap-2 mt-2">
                   <ReactSelect
+                    data-cy="select-room"
                     className="w-100"
                     isMulti={true}
                     placeholder="Select rooms"
@@ -167,6 +168,7 @@ function RichTextForm({
 
                   <Button
                     disabled={pending}
+                    data-cy="post"
                     type="submit"
                     className="main-btn ms-auto"
                   >
