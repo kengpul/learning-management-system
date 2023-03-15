@@ -25,6 +25,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   const { user, authReady } = useAuthContext();
 
+  const requireAuth = (element: JSX.Element) => {
+    return user ? element : <Navigate to="/connect" />;
+  };
+  const optionalAuth = (element: JSX.Element) => {
+    return !user ? element : <Navigate to="/connect" />;
+  };
+
   return (
     <Container fluid>
       <Row>
@@ -39,59 +46,30 @@ function App() {
                 <BottomNavigationBar />
               </>
             )}
+
             <Routes>
-              <Route
-                path="/"
-                element={!user ? <Home /> : <Navigate to="/feed/" />}
-              />
-              <Route
-                path="/connect"
-                element={!user ? <Connect /> : <Navigate to="/feed/" />}
-              />
+              <Route path="/" element={optionalAuth(<Home />)} />
+              <Route path="/connect" element={optionalAuth(<Connect />)} />
 
-              <Route
-                path="/feed/"
-                element={user ? <Feed /> : <Navigate to="/connect" />}
-              />
-              <Route
-                path="/feed/create"
-                element={user ? <Create /> : <Navigate to="/connect" />}
-              />
-              <Route
-                path="/post/:id/edit"
-                element={user ? <Edit /> : <Navigate to="/connect" />}
-              />
+              <Route path="/feed/" element={requireAuth(<Feed />)} />
+              <Route path="/feed/create" element={requireAuth(<Create />)} />
+              <Route path="/post/:id/edit" element={requireAuth(<Edit />)} />
 
-              <Route
-                path="/room"
-                element={user ? <Rooms /> : <Navigate to="/connect" />}
-              />
-              <Route
-                path="/room/:id"
-                element={user ? <Room /> : <Navigate to="/connect" />}
-              />
-              <Route
-                path="/quiz/"
-                element={user ? <Quizzes /> : <Navigate to="/connect" />}
-              />
+              <Route path="/room" element={requireAuth(<Rooms />)} />
+              <Route path="/room/:id" element={requireAuth(<Room />)} />
+
+              <Route path="/quiz/" element={requireAuth(<Quizzes />)} />
               <Route
                 path="/quiz/create"
-                element={user ? <QuizCreate /> : <Navigate to="/connect" />}
+                element={requireAuth(<QuizCreate />)}
               />
               <Route
                 path="/quiz/:id"
-                element={
-                  user ? (
-                    user.type === "Teacher" ? (
-                      <QuizEdit />
-                    ) : (
-                      <Quiz />
-                    )
-                  ) : (
-                    <Navigate to="/connect" />
-                  )
-                }
+                element={requireAuth(
+                  user?.type === "Teacher" ? <QuizEdit /> : <Quiz />
+                )}
               />
+
               <Route path="*" element={<Error />} />
             </Routes>
           </BrowserRouter>
