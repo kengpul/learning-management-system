@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useParams } from "react-router-dom";
-
+import { NavLink, useParams, Link } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import RoomModel from "../../models/Room";
-
 import Header from "./Header";
 import Post from "./Post";
 import Members from "./Members";
-
 import {
   Col,
   Row,
@@ -22,13 +20,13 @@ import "./room.css";
 
 function Room() {
   const [room, setRoom] = useState<RoomModel | null>(null);
+  const [rooms, setRooms] = useState<RoomModel[]>([]);
   const [tab, setTab] = useState("#post");
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-
   const { user } = useAuthContext();
   const { id } = useParams();
+  const { get } = useFetch();
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -50,8 +48,16 @@ function Room() {
       }
     };
 
-    if (user) fetchRoom();
-  }, [user, id]);
+    const fetchAllRooms = async () => {
+      const rooms = await get("/room");
+      if (!rooms.error) setRooms(rooms);
+    };
+
+    if (user) {
+      fetchRoom();
+      fetchAllRooms();
+    }
+  }, [user, id]); // eslint-disable-line
 
   if (room) {
     return (
@@ -71,10 +77,12 @@ function Room() {
                 My Class
               </DropdownToggle>
               <DropdownMenu className="w-100">
-                <DropdownItem>Some Action</DropdownItem>
-                <DropdownItem>Foo Action</DropdownItem>
-                <DropdownItem>Bar Action</DropdownItem>
-                <DropdownItem>Quo Action</DropdownItem>
+                {rooms &&
+                  rooms.map((room) => (
+                    <DropdownItem key={room._id}>
+                      <Link to={`/room/${room._id}`}>{room.name}</Link>
+                    </DropdownItem>
+                  ))}
               </DropdownMenu>
             </Dropdown>
 
