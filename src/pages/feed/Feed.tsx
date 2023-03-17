@@ -50,8 +50,8 @@ export default function Feed() {
       </Col>
 
       <Col lg="3">
-        <ListCard title={"Quizes"} />
-        <ListCard title={"Rooms"} items={rooms} />
+        <ListCard title={"Quizes"} link={"/quiz/"} />
+        <ListCard title={"Rooms"} items={rooms} link={"/room/"} />
       </Col>
     </Col>
   );

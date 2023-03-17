@@ -11,9 +11,10 @@ interface item {
 interface Props {
   title: string;
   items?: item[];
+  link: string;
 }
 
-function ListCard({ title, items }: Props) {
+function ListCard({ title, items, link }: Props) {
   return (
     <Card className="mb-3 d-none d-lg-block">
       <CardHeader
@@ -26,7 +27,7 @@ function ListCard({ title, items }: Props) {
       <CardBody>
         {!items && <p className="text-muted">No {title}</p>}
         {items &&
-          items.map((item) => (
+          items.slice(0, 3).map((item) => (
             <Card className="mb-2" key={item._id}>
               <Link to={`/room/${item._id}`} className="text-decoration-none">
                 <CardBody className="border-start border-5 p-1">
@@ -37,6 +38,7 @@ function ListCard({ title, items }: Props) {
               </Link>
             </Card>
           ))}
+        {items && items.length > 2 && <Link to={link}>See all</Link>}
       </CardBody>
     </Card>
   );
