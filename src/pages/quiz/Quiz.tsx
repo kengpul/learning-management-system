@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 import IQuiz from "../../models/Quiz";
-
 import Header from "./Header";
-
 import {
   Card,
   Col,
@@ -42,29 +42,20 @@ function Quiz() {
   const [score, setScore] = useState<null | number>(null);
   const { id } = useParams();
   const { user } = useAuthContext();
+  const { get, modify } = useFetch();
 
   useEffect(() => {
     const getQuiz = async () => {
-      const response = await fetch(
-        process.env.REACT_APP_API_URI + "quiz/" + id,
-        {
-          headers: {
-            Authorization: `Bearers ${user?.token}`,
-          },
-        }
-      );
-
-      const json = await response.json();
-
-      if (response.ok) {
-        setQuiz(json);
+      const quiz = await get(`/quiz/${id}`);
+      if (!quiz.error) {
+        setQuiz(quiz);
       }
     };
 
     if (user) {
       getQuiz();
     }
-  }, [user, id]);
+  }, [user, id]); // eslint-disable-line
 
   const getTimer = () => {
     var time = 30;
@@ -119,20 +110,8 @@ function Quiz() {
     for (let answer of selected) {
       if (answer.isCorrect) score++;
     }
-
-    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearers ${user?.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ score }),
-    });
-    const json = await response.json();
-
-    if (response.ok) {
-      setScore(json.score);
-    }
+    const publish = await modify(`/quiz/${id}`, Method.POST, { score });
+    if (!publish.error) setScore(publish.score);
   };
 
   return (

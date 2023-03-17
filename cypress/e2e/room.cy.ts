@@ -16,7 +16,7 @@ describe("Room", () => {
   });
 
   it("update the links", () => {
-    cy.get(".card-title").click();
+    cy.get(".card-title").first().click();
     cy.getByData("attendance").click();
     cy.getByData("input-attendance").type(
       "https://drive.google.com/drive/my-drive"

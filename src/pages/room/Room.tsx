@@ -33,7 +33,7 @@ function Room() {
   useEffect(() => {
     const fetchRoom = async () => {
       const response = await fetch(
-        process.env.REACT_APP_API_URI + "room/" + id,
+        process.env.REACT_APP_API_URI + "/room/" + id,
         {
           method: "POST",
           headers: {

@@ -12,7 +12,7 @@ export const useAuthenticate = () => {
     setIsPending(true);
 
     const response = await fetch(
-      `${process.env.REACT_APP_API_URI}connect/login`,
+      `${process.env.REACT_APP_API_URI}/connect/login`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,7 +42,7 @@ export const useAuthenticate = () => {
     setIsPending(true);
 
     const response = await fetch(
-      `${process.env.REACT_APP_API_URI}connect/signup`,
+      `${process.env.REACT_APP_API_URI}/connect/signup`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

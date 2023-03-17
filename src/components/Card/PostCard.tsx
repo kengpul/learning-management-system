@@ -1,10 +1,9 @@
 import React, { useState, useRef, FormEvent } from "react";
 import ReactQuill from "react-quill";
-import { Link } from "react-router-dom";
-import { useFetch } from "../../hooks/useFetch";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Post, { Request } from "../../models/Post";
-
+import { Method } from "../../models/enums";
 import ToastCard from "./ToastCard";
 
 import {
@@ -24,14 +23,18 @@ import {
   Input,
   Spinner,
 } from "reactstrap";
+import { useFetch } from "../../hooks/useFetch";
+import { usePostsContext } from "../../hooks/usePostsContext";
 
 function PostCard({ post }: { post: Post }) {
   const [modal, setModal] = useState(false);
   const [expand, setExpand] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [comment, setComment] = useState("");
-  const { destroy, create, pending, error } = useFetch();
   const { user } = useAuthContext();
+  const { modify: postRequest, destroy, isPending, error } = useFetch();
+  const { dispatch } = usePostsContext();
+  const navigate = useNavigate();
 
   const card = useRef<HTMLElement>(null);
 
@@ -59,20 +62,34 @@ function PostCard({ post }: { post: Post }) {
   };
 
   const handleDelete = async (id: string) => {
-    const url = `${process.env.REACT_APP_API_URI}post/${id}`;
-    await destroy(url, "DELETE", Request.DELETE_POST);
+    const post = await destroy(`/post/${id}`);
+    if (!post.error) {
+      dispatch!({ type: Request.DELETE_POST, payload: post });
+    }
   };
 
   const handleLike = async (e: FormEvent) => {
     e.preventDefault();
-    const url = `${process.env.REACT_APP_API_URI}post/${post._id}/like`;
-    await create(url, "POST", Request.EDIT_POST, user!.username);
+    const url = `/post/${post._id}/like`;
+    const postResponse = await postRequest(url, Method.POST, {
+      content: user!.username,
+    });
+    if (!postResponse.error) {
+      dispatch!({ type: Request.EDIT_POST, payload: postResponse });
+      navigate("/feed/");
+    }
   };
 
   const handleComment = async (e: FormEvent) => {
     e.preventDefault();
-    const url = `${process.env.REACT_APP_API_URI}post/${post._id}/comment`;
-    await create(url, "POST", Request.EDIT_POST, comment);
+    const url = `/post/${post._id}/comment`;
+    const postResponse = await postRequest(url, Method.POST, {
+      content: comment,
+    });
+    if (!postResponse.error) {
+      dispatch!({ type: Request.EDIT_POST, payload: postResponse });
+      navigate("/feed/");
+    }
     setComment("");
   };
 
@@ -87,7 +104,8 @@ function PostCard({ post }: { post: Post }) {
               alt=""
               width="40"
             />
-            {post.author.username} <span className="text-muted">Posted to </span>
+            {post.author.username}{" "}
+            <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>
               <span className="text-primary">{post.room.name}</span>
             </Link>
@@ -103,11 +121,19 @@ function PostCard({ post }: { post: Post }) {
             >
               <DropdownToggle data-toggle="dropdown" tag="span">
                 <Button color="transparent">
-                  <i className="fas fa-ellipsis-h" aria-hidden="true" data-cy="toggle-modify-post"></i>
+                  <i
+                    className="fas fa-ellipsis-h"
+                    aria-hidden="true"
+                    data-cy="toggle-modify-post"
+                  ></i>
                 </Button>
               </DropdownToggle>
               <DropdownMenu>
-                <Link to={`/post/${post._id}/edit`} className="dropdown-item" data-cy="toggle-edit">
+                <Link
+                  to={`/post/${post._id}/edit`}
+                  className="dropdown-item"
+                  data-cy="toggle-edit"
+                >
                   Edit
                 </Link>
                 <Link
@@ -116,7 +142,7 @@ function PostCard({ post }: { post: Post }) {
                   className="dropdown-item"
                   data-cy="toggle-delete"
                 >
-                  {pending ? <Spinner /> : "Delete"}
+                  {isPending ? <Spinner /> : "Delete"}
                 </Link>
               </DropdownMenu>
             </Dropdown>
@@ -203,8 +229,8 @@ function PostCard({ post }: { post: Post }) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
-            <Button className="main-btn" disabled={pending}>
-              {pending ? <Spinner /> : "Comment"}
+            <Button className="main-btn" disabled={isPending}>
+              {isPending ? <Spinner /> : "Comment"}
             </Button>
           </Form>
         </ModalFooter>

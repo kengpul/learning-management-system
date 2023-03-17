@@ -3,12 +3,11 @@ import ReactQuill, { Quill } from "react-quill";
 import ReactSelect from "react-select";
 import ImageResize from "quill-image-resize-module-react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { useFetch } from "../../hooks/useFetch";
 import ToastCard from "../Card/ToastCard";
-
+import QuizForm from "./QuizForm";
 import { Button, ButtonGroup, Col, Form, Row, Spinner } from "reactstrap";
 import "react-quill/dist/quill.snow.css";
-import QuizForm from "./QuizForm";
 
 interface Props {
   handleSubmit: (e: FormEvent) => void;
@@ -35,21 +34,14 @@ function RichTextForm({
   const [imageUpload, setImageUpload] = useState(false);
   const ref = useRef<any>(null);
   const { user } = useAuthContext();
+  const { get } = useFetch();
 
   useEffect(() => {
     const fetchRooms = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-
-      const json = await response.json();
-
-      if (response.ok) {
+      const rooms = await get("/room");
+      if (!rooms.error) {
         const options: Options[] = [];
-        for (let room of json) {
+        for (let room of rooms) {
           const option = { value: room._id, label: room.name };
           options.push(option);
         }
@@ -57,7 +49,7 @@ function RichTextForm({
       }
     };
     if (user) fetchRooms();
-  }, [user]);
+  }, [user]); // eslint-disable-line
 
   const imageHandler = () => {
     if (!user) return;
@@ -72,18 +64,15 @@ function RichTextForm({
       setImageUpload(true);
       const formData = new FormData();
       if (input.files) formData.append("image", input.files[0]);
-
       const response = await fetch(
-        `${process.env.REACT_APP_API_URI}post/uploadimage`,
+        `${process.env.REACT_APP_API_URI}/post/uploadimage`,
         {
           method: "POST",
           headers: { Authorization: `Bearers ${user.token}` },
           body: formData,
         }
       );
-
       const path = await response.json();
-
       if (response.ok) {
         if (ref.current) {
           const index = ref.current.selection.index;
@@ -127,10 +116,18 @@ function RichTextForm({
     <Col className="mt-3">
       <Col className="d-flex justify-content-center">
         <ButtonGroup className="w-50">
-          <Button data-cy="toggle-text" active={tab === "text"} onClick={() => setTab("text")}>
+          <Button
+            data-cy="toggle-text"
+            active={tab === "text"}
+            onClick={() => setTab("text")}
+          >
             Text
           </Button>
-          <Button data-cy="toggle-quiz" active={tab === "quiz"} onClick={() => setTab("quiz")}>
+          <Button
+            data-cy="toggle-quiz"
+            active={tab === "quiz"}
+            onClick={() => setTab("quiz")}
+          >
             Quiz
           </Button>
         </ButtonGroup>

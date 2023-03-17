@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import Room from "../../models/Room";
 
 import {
@@ -8,6 +7,8 @@ import {
   ListGroupItemHeading,
   Button,
 } from "reactstrap";
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 
 interface Props {
   room: Room;
@@ -15,46 +16,18 @@ interface Props {
 }
 
 function Members({ room, setRoom }: Props) {
-  const { user } = useAuthContext();
+  const { modify, destroy } = useFetch();
 
   const handleReject = async (id: string) => {
-    const response = await fetch(
-      process.env.REACT_APP_API_URI + "room/" + room._id + "/pending",
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      }
-    );
-
-    const json = await response.json();
-
-    if (response.ok) {
-      setRoom(json);
-    }
+    const student = await destroy(`/room/${room._id}/pending`, { id });
+    if (!student) setRoom(student);
   };
 
   const handleAccept = async (id: string) => {
-    const response = await fetch(
-      process.env.REACT_APP_API_URI + "room/" + room._id + "/pending",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      }
-    );
-
-    const json = await response.json();
-
-    if (response.ok) {
-      setRoom(json);
-    }
+    const accepted = await modify(`/room/${room._id}/pending`, Method.POST, {
+      id,
+    });
+    if (!accepted.error) setRoom(accepted);
   };
 
   return (

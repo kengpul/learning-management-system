@@ -26,10 +26,10 @@ function App() {
   const { user, authReady } = useAuthContext();
 
   const requireAuth = (element: JSX.Element) => {
-    return user ? element : <Navigate to="/connect" />;
+    return user ? element : <Navigate to="/connect/" />;
   };
   const optionalAuth = (element: JSX.Element) => {
-    return !user ? element : <Navigate to="/connect" />;
+    return !user ? element : <Navigate to="/feed/" />;
   };
 
   return (

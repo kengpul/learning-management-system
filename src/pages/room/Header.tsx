@@ -18,11 +18,12 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "reactstrap";
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 
 function Header({ room }: { room: Room }) {
   const [attendance, setAttendance] = useState("");
   const [meeting, setMeeting] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [leaveDropdown, setLeaveDropdown] = useState(false);
   const [linkModal, setLinkModal] = useState(false);
 
@@ -32,6 +33,7 @@ function Header({ room }: { room: Room }) {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuthContext();
+  const { modify, destroy, error } = useFetch();
 
   useEffect(() => {
     setAttendance(room.link.attendance);
@@ -39,39 +41,19 @@ function Header({ room }: { room: Room }) {
   }, [room]);
 
   const handleLeave = async () => {
-    const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer: ${user?.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id }),
-    });
-
-    if (response.ok) {
-      navigate("/room");
-    }
+    const room = await destroy(`/room/${id}`, { id });
+    if (!room.error) navigate("/room");
   };
 
   const handleLinks = async () => {
-    const response = await fetch(process.env.REACT_APP_API_URI + "room/" + id, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer: ${user?.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ attendance, meeting }),
+    const room = await modify(`/room/${id}`, Method.PUT, {
+      attendance,
+      meeting,
     });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      setError(null);
-      setAttendance(json.attendance);
-      setMeeting(json.meeting);
+    if (!room.error) {
+      setAttendance(room.attendance);
+      setMeeting(room.meeting);
       toggleLinks();
-    } else {
-      setError(json.error.message);
     }
   };
 

@@ -1,7 +1,8 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import ReactSelect, { MultiValue } from "react-select";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 import { Button, Col, Row } from "reactstrap";
 
 interface Options {
@@ -17,9 +18,8 @@ function QuizForm() {
     []
   );
   const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState<null | string>(null);
-  const [success, setSuccess] = useState<null | string>(null);
   const { user } = useAuthContext();
+  const { get, modify, error, success, setSuccess } = useFetch();
 
   useEffect(() => {
     if (selectedRooms.length === 0 || selectedQuizzes.length === 0) {
@@ -29,17 +29,10 @@ function QuizForm() {
     }
 
     const getRooms = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
-        headers: {
-          Authorization: `Bearers ${user?.token}`,
-        },
-      });
-
-      const json = await response.json();
-
-      if (response.ok) {
+      const rooms = await get("/room");
+      if (!rooms.error) {
         const options = [];
-        for (let room of json) {
+        for (let room of rooms) {
           const option = {
             value: room._id,
             label: room.name,
@@ -51,17 +44,10 @@ function QuizForm() {
     };
 
     const getQuizzes = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {
-        headers: {
-          Authorization: `Bearers ${user?.token}`,
-        },
-      });
-
-      const json = await response.json();
-
-      if (response.ok) {
+      const quizzes = await get("/quiz");
+      if (!quizzes.error) {
         const options = [];
-        for (let quiz of json) {
+        for (let quiz of quizzes) {
           const option = {
             value: quiz._id,
             label: quiz.title,
@@ -76,33 +62,23 @@ function QuizForm() {
       getRooms();
       getQuizzes();
     }
-  }, [user, selectedQuizzes, selectedRooms]);
+  }, [user, selectedQuizzes, selectedRooms]); // eslint-disable-line
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch(
-      process.env.REACT_APP_API_URI + "quiz/publish",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearers ${user?.token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ selectedRooms, selectedQuizzes }),
-      }
-    );
+    const body = {
+      selectedRooms,
+      selectedQuizzes,
+    };
 
-    const json = await response.json();
+    const quiz = await modify("/quiz/publish", Method.POST, body);
 
-    if (response.ok) {
+    if (!quiz.error) {
       setSuccess("Successfully posted");
       setSelectedRooms([]);
       setSelectedQuizzes([]);
       setTimeout(() => setSuccess(null), 3500);
-    } else {
-      setError(json.error.message);
-      setTimeout(() => setError(null), 3500);
     }
   };
 

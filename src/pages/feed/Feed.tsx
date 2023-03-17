@@ -1,63 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { Request } from "../../models/Post";
+import { useFetch } from "../../hooks/useFetch";
 import PostCard from "../../components/Card/PostCard";
 import ListCard from "../../components/Card/ListCard";
 import CreatePostButton from "../../components/Card/CreatePostButton";
 import Room from "../../models/Room";
-
+import ToastCard from "../../components/Card/ToastCard";
 import { Col, Spinner } from "reactstrap";
 import "./post.css";
-import { Request } from "../../models/Post";
 
 export default function Feed() {
-  const [pending, setPending] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
+  const { error, isPending, get } = useFetch();
 
   useEffect(() => {
     const fetchPost = async () => {
-      setPending(true);
-      const response = await fetch(process.env.REACT_APP_API_URI + "post", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearers ${user?.token}`,
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        dispatch!({ type: Request.GET_POSTS, payload: json });
-      }
-      setPending(false);
+      const posts = await get("/post");
+      if (posts) dispatch!({ type: Request.GET_POSTS, payload: posts });
+      setSuccess(true);
     };
-
     const fetchRooms = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearers ${user?.token}`,
-        },
-      });
-      const json = await response.json();
-      if (response.ok) {
-        setRooms(json);
-      }
+      const rooms = await get("/room");
+      if (rooms) setRooms(rooms);
     };
 
     if (user) {
       fetchPost();
       fetchRooms();
     }
-  }, [dispatch, user]);
+  }, [user, success, dispatch]); // eslint-disable-line
 
   return (
     <Col className="d-lg-flex gap-lg-3 justify-content-lg-center post mt-3">
+      {error && <ToastCard message="test" color="danger" />}
       <Col lg="7">
         <CreatePostButton />
-        {pending && (
+        {isPending && (
           <div className="text-center text-muted mt-5">
             <Spinner />
             <p className="mt-1">Loading posts...</p>

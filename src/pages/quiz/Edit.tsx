@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 import IQuiz from "../../models/Quiz";
-
 import Header from "./Header";
 import ToastCard from "../../components/Card/ToastCard";
-
 import { Card, Col, FormGroup, Input, Label, Row, Form } from "reactstrap";
 
 interface SingleQuiz {
@@ -21,31 +21,21 @@ function Edit() {
   const [quiz, setQuiz] = useState<IQuiz | null>(null);
   const [disabled, setDisabled] = useState(true);
   const [success, setSucces] = useState<null | string>(null);
-  const [error, setError] = useState<null | string>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { get, modify, destroy, error } = useFetch();
 
   useEffect(() => {
     const getQuiz = async () => {
-      const response = await fetch(
-        process.env.REACT_APP_API_URI + "quiz/" + id,
-        {
-          headers: {
-            Authorization: `Bearer ${user!.token}`,
-          },
-        }
-      );
-
-      const json = await response.json();
-
-      if (response.ok) {
-        setQuiz(json);
+      const quiz = await get(`/quiz/${id}`);
+      if (!quiz.error) {
+        setQuiz(quiz);
       }
     };
 
     if (user) getQuiz();
-  }, [user, id]);
+  }, [user, id]); // eslint-disable-line
 
   const handleUpdateQuestion = (object: SingleQuiz, value: string) => {
     const index = quiz!.quizzes.indexOf(object);
@@ -87,41 +77,23 @@ function Edit() {
   };
 
   const handleDelete = async () => {
-    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearrers ${user?.token}`,
-      },
-    });
-
-    if (response.ok) {
-      navigate("/quiz");
-    }
+    const quiz = await destroy(`/quiz/${id}`);
+    if (!quiz.error) navigate("/quiz");
   };
 
   const handleSubmit = async (title: string, due: string) => {
-    const response = await fetch(process.env.REACT_APP_API_URI + "quiz/" + id, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${user?.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, due, quizzes: quiz!.quizzes }),
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      setQuiz(json);
+    const body = {
+      title,
+      due,
+      quizzes: quiz!.quizzes,
+    };
+    const quizUpdate = await modify(`/quiz/${id}`, Method.PUT, body);
+    if (!quizUpdate.error) {
+      setQuiz(quizUpdate);
       setDisabled(true);
       setSucces("Successfully Updated");
       setTimeout(() => {
         setSucces(null);
-      }, 3500);
-    } else {
-      setError(json.error.message);
-      setTimeout(() => {
-        setError(null);
       }, 3500);
     }
   };

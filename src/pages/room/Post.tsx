@@ -7,32 +7,24 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import CreatePostButton from "../../components/Card/CreatePostButton";
 import PostCard from "../../components/Card/PostCard";
 import { Request } from "../../models/Post";
+import { useFetch } from "../../hooks/useFetch";
 
 function Post() {
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
   const { id } = useParams();
+  const { get } = useFetch();
 
   useEffect(() => {
     const fetchPost = async () => {
-      const response = await fetch(
-        process.env.REACT_APP_API_URI + "room/" + id,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearers ${user?.token}`,
-          },
-        }
-      );
-      const json = await response.json();
-
-      if (response.ok) {
-        dispatch!({ type: Request.GET_POSTS, payload: json });
+      const post = await get(`/room/${id}`);
+      if (!post.error) {
+        dispatch!({ type: Request.GET_POSTS, payload: post });
       }
     };
 
     fetchPost();
-  }, [dispatch, id, user]);
+  }, [dispatch, id, user]); // eslint-disable-line
 
   return (
     <>

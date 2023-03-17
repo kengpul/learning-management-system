@@ -1,9 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
+import ToastCard from "../../components/Card/ToastCard";
 import Header from "./Header";
-
 import {
   Row,
   Col,
@@ -14,7 +14,6 @@ import {
   Form,
   Button,
 } from "reactstrap";
-import ToastCard from "../../components/Card/ToastCard";
 
 interface Quiz {
   question: string;
@@ -33,10 +32,8 @@ function Create() {
     choice3: false,
   });
   const [isBlank, setIsBlank] = useState(false);
-  const [error, setError] = useState<null | string>(null);
-
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { modify, error } = useFetch();
 
   const reset = () => {
     setQuestion("");
@@ -75,24 +72,15 @@ function Create() {
   }, [question, choice1, choice2, choice3]);
 
   const handleSubmit = async (title: string, due: string) => {
-    const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${user?.token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, due, quizzes }),
-    });
+    const body = {
+      title,
+      due,
+      quizzes,
+    };
 
-    const json = await response.json();
-
-    if (!response.ok) {
-      setError(json.error.message);
-      setTimeout(() => {
-        setError(null);
-      }, 3500);
-    } else {
-      navigate(`/quiz/${json._id}`);
+    const quiz = await modify("/quiz", Method.POST, body);
+    if (!quiz.error) {
+      navigate(`/quiz/${quiz._id}`);
     }
   };
 

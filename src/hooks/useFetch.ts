@@ -1,73 +1,79 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { usePostsContext } from "./usePostsContext";
 import { useAuthContext } from "./useAuthContext";
-import { ActionType } from "../models/Post";
 
-interface Options {
-  value: string;
-  label: string;
-}
+type Method = "POST" | "PUT" | "DELETE";
 
 export const useFetch = () => {
-  const [pending, setPending] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const { dispatch } = usePostsContext();
+  const [isPending, seIsPending] = useState(false);
   const { user } = useAuthContext();
 
-  const create = async (
-    url: string,
-    method: string,
-    type: ActionType,
-    content: string,
-    rooms?: Options[]
-  ) => {
-    if (!user) return;
-    if (content === "<p><br></p>") content = "";
-    setPending(true);
-    const response = await fetch(url, {
-      method,
+  const get = async (url: string) => {
+    seIsPending(true);
+    setError(null);
+    const response = await fetch(`${process.env.REACT_APP_API_URI}${url}`, {
+      method: "GET",
       headers: {
+        Authorization: `Bearers ${user?.token}`,
         "Content-Type": "application/json",
-        Authorization: `Bearers ${user.token}`,
       },
-      body: JSON.stringify({ content, rooms }),
     });
-
     const json = await response.json();
-
     if (response.ok) {
-      dispatch!({ type, payload: json });
-      navigate("/feed/");
+      seIsPending(false);
+      return json;
     } else {
       setError(json.error.message);
-      setTimeout(() => setError(null), 4500);
+      console.log(json);
+      setTimeout(() => setError(null), 3500);
+      seIsPending(false);
     }
-
-    setPending(false);
   };
 
-  const destroy = async (url: string, method: string, type: ActionType) => {
-    if (!user) return;
-    setPending(true);
-    const response = await fetch(url, {
+  const modify = async (url: string, method: Method, body: {}) => {
+    seIsPending(true);
+    setError(null);
+    const response = await fetch(`${process.env.REACT_APP_API_URI}${url}`, {
       method,
       headers: {
-        Authorization: `Bearers ${user.token}`,
+        Authorization: `Bearers ${user?.token}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({ ...body }),
     });
-
     const json = await response.json();
-
     if (response.ok) {
-      dispatch!({ type, payload: json });
+      seIsPending(false);
+      return json;
     } else {
       setError(json.error.message);
-      setTimeout(() => setError(null), 4500);
+      setTimeout(() => setError(null), 3500);
+      seIsPending(false);
     }
-    setPending(false);
   };
 
-  return { pending, error, create, destroy };
+  const destroy = async (url: string, body?: {}) => {
+    seIsPending(true);
+    setError(null);
+    const response = await fetch(`${process.env.REACT_APP_API_URI}${url}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearers ${user?.token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...body }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      seIsPending(false);
+      return json;
+    } else {
+      setError(json.error.message);
+      setTimeout(() => setError(null), 3500);
+      seIsPending(false);
+    }
+  }
+
+  return { error, isPending, success, setSuccess, get, modify, destroy };
 };

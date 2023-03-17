@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useFetch } from "../../hooks/useFetch";
 import IQuiz from "../../models/Quiz";
-
 import {
   Button,
   Card,
@@ -20,24 +20,18 @@ function Quizzes() {
   const [search, setSearch] = useState("");
   const [error, setError] = useState<null | string>(null);
   const { user } = useAuthContext();
+  const { get } = useFetch();
 
   useEffect(() => {
     const getQuizzes = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URI + "quiz", {
-        headers: {
-          Authorization: `Bearers ${user!.token}`,
-        },
-      });
-
-      const json = await response.json();
-
-      if (response.ok) {
-        setQuizzes(json);
+      const quizzes = await get("/quiz");
+      if (!quizzes.error) {
+        setQuizzes(quizzes);
       }
     };
 
     if (user) getQuizzes();
-  }, [user]);
+  }, [user]); // eslint-disable-line
 
   const handleSearch = async () => {
     const searchResults = [];

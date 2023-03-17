@@ -22,6 +22,8 @@ import {
   Spinner,
 } from "reactstrap";
 import "./room.css";
+import { useFetch } from "../../hooks/useFetch";
+import { Method } from "../../models/enums";
 
 function Rooms() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -31,11 +33,11 @@ function Rooms() {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [search, setSearch] = useState("");
-  const [pending, setPending] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
+  const { get, modify, isPending } = useFetch();
 
   const createModalToggle = () => {
     setCreateModal(!createModal);
@@ -48,62 +50,28 @@ function Rooms() {
 
   useEffect(() => {
     const getRooms = async () => {
-      setPending(true);
-      const response = await fetch(process.env.REACT_APP_API_URI + "room", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
-
-      const json = await response.json();
-
-      if (response.ok) {
-        setRooms(json);
-      }
-      setPending(false);
+      const room = await get("/room");
+      if (!room.error) setRooms(room);
     };
-
     if (user) getRooms();
-  }, [user]);
+  }, [user]); // eslint-disable-line
 
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
-    setPending(true);
-    const response = await fetch(process.env.REACT_APP_API_URI + "room", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user?.token}`,
-      },
-      body: JSON.stringify({ name, code }),
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
-      navigate(`/room/${json._id}`);
+    const room = await modify("/room", Method.POST, { name, code });
+    if (room) {
+      navigate(`/room/${room._id}`);
     } else {
-      setError(json.error.message);
+      setError("All fields are required");
+      setTimeout(() => setError(null), 3500);
     }
-    setPending(false);
   };
 
   const handleJoin = async (e: FormEvent) => {
     e.preventDefault();
-    setPending(true);
-    const response = await fetch(process.env.REACT_APP_API_URI + "room/join", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user?.token}`,
-      },
-      body: JSON.stringify({ code }),
-    });
-
-    const json = await response.json();
-
-    if (response.ok) {
+    if (!code) return setError("Code is required");
+    const room = await modify("/room/join", Method.POST, { code });
+    if (room) {
       setCode("");
       joinModalToggle();
       setSuccess("Teacher will accept you to join in this room");
@@ -111,9 +79,8 @@ function Rooms() {
         setSuccess(null);
       }, 3500);
     } else {
-      setError(json.error.message);
+      setError("Invalid code");
     }
-    setPending(false);
   };
 
   const handleSearch = async () => {
@@ -190,9 +157,9 @@ function Rooms() {
               data-cy="create-room"
               className="main-btn"
               onClick={handleCreate}
-              disabled={pending}
+              disabled={isPending}
             >
-              {pending ? <Spinner /> : "Create"}
+              {isPending ? <Spinner /> : "Create"}
             </Button>
           </ModalFooter>
         </Modal>
@@ -213,9 +180,9 @@ function Rooms() {
               data-cy="join-room"
               className="main-btn"
               onClick={handleJoin}
-              disabled={pending}
+              disabled={isPending}
             >
-              {pending ? <Spinner /> : "Join"}
+              {isPending ? <Spinner /> : "Join"}
             </Button>
           </ModalFooter>
         </Modal>
