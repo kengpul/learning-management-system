@@ -115,6 +115,7 @@ function Header({ room }: { room: Room }) {
             )}
           </div>
         )}
+        <p>Code: {room.code}</p>
 
         <Modal isOpen={linkModal} toggle={toggleLinks}>
           <ModalHeader toggle={toggleLinks}>Links</ModalHeader>
