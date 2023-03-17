@@ -37,7 +37,7 @@ function Rooms() {
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuthContext();
   const navigate = useNavigate();
-  const { get, modify, isPending } = useFetch();
+  const { get, modify, isPending, error: errorFetch } = useFetch();
 
   const createModalToggle = () => {
     setCreateModal(!createModal);
@@ -79,7 +79,7 @@ function Rooms() {
         setSuccess(null);
       }, 3500);
     } else {
-      setError("Invalid code");
+      setError(errorFetch);
     }
   };
 

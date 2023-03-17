@@ -20,7 +20,7 @@ function Members({ room, setRoom }: Props) {
 
   const handleReject = async (id: string) => {
     const student = await destroy(`/room/${room._id}/pending`, { id });
-    if (!student) setRoom(student);
+    if (!student.error) setRoom(student);
   };
 
   const handleAccept = async (id: string) => {
