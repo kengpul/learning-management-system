@@ -37,7 +37,7 @@ export default function Feed() {
 
   return (
     <Col className="d-lg-flex gap-lg-3 justify-content-lg-center post mt-3">
-      {error && <ToastCard message="test" color="danger" />}
+      {error && <ToastCard message={error} color="danger" />}
       <Col lg="7">
         <CreatePostButton />
         {isPending && (

@@ -10,6 +10,7 @@ import ToastCard from "../../components/Card/ToastCard";
 
 export default function Edit() {
   const [form, setForm] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const { id } = useParams();
   const { user } = useAuthContext();
   const { get, modify, isPending, error } = useFetch();
@@ -20,12 +21,11 @@ export default function Edit() {
     if (id) {
       const fetchPost = async () => {
         const post = await get(`/post/${id}`);
-        if (!post.error) {
-          setForm(post.content);
-        }
+        if (!post.error) setForm(post.content);
       };
       if (user) {
         fetchPost();
+        setIsEditing(true);
       }
     }
   }, [id, user]); // eslint-disable-line
@@ -47,6 +47,7 @@ export default function Edit() {
         pending={isPending}
         form={form}
         setForm={setForm}
+        isEditing={isEditing}
       />
     </>
   );

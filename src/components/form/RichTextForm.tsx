@@ -15,6 +15,7 @@ interface Props {
   setForm: React.Dispatch<React.SetStateAction<string>>;
   pending: boolean;
   setRooms?: React.Dispatch<React.SetStateAction<any>>;
+  isEditing?: boolean;
 }
 
 interface Options {
@@ -28,6 +29,7 @@ function RichTextForm({
   setForm,
   pending,
   setRooms,
+  isEditing,
 }: Props) {
   const [tab, setTab] = useState<"text" | "quiz">("text");
   const [options, setOptions] = useState<Options[]>([]);
@@ -161,6 +163,7 @@ function RichTextForm({
                     placeholder="Select rooms"
                     options={options}
                     onChange={(selected) => setRooms!(selected)}
+                    isDisabled={isEditing}
                   />
 
                   <Button
