@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardText,
 } from "reactstrap";
+import ToastCard from "../../components/Card/ToastCard";
 
 interface SingleQuiz {
   question: string;
@@ -42,7 +43,7 @@ function Quiz() {
   const [score, setScore] = useState<null | number>(null);
   const { id } = useParams();
   const { user } = useAuthContext();
-  const { get, modify } = useFetch();
+  const { get, modify, error } = useFetch();
 
   useEffect(() => {
     const getQuiz = async () => {
@@ -116,6 +117,7 @@ function Quiz() {
 
   return (
     <Col className="mt-3">
+      {error && <ToastCard message={error} color="danger" />}
       {score && score >= 0 && (
         <Col md="6" className="offset-md-3">
           <Card className="mt-5">

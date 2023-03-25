@@ -100,6 +100,7 @@ function Edit() {
 
   return (
     <Col className="my-3">
+      {!quiz && <p>Quiz not found</p>}
       <Row>
         {quiz && (
           <Header
