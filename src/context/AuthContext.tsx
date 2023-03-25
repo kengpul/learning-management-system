@@ -4,11 +4,18 @@ import React, {
   useReducer,
   PropsWithChildren,
 } from "react";
+import jwtDecode from "jwt-decode";
 
 interface User {
   username: string;
   token: string;
   type: string;
+}
+
+interface JWTDecode {
+  user: string;
+  ati: number;
+  exp: number;
 }
 
 interface State {
@@ -49,6 +56,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren<{}>) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user")!);
     if (user) {
+      const decode = jwtDecode(user.token) as JWTDecode;
+      if (decode.exp < Date.now() / 1000) {
+        return localStorage.clear();
+      }
       dispatch({ type: "LOGIN", payload: user });
     }
     dispatch({ type: "AUTH_READY", payload: user });
