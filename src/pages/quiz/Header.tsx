@@ -1,6 +1,5 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import IQuiz from "../../models/Quiz";
-
 import {
   Button,
   Col,

@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import { useFetch } from "../../hooks/useFetch";
+import { Request } from "../../models/Post";
 import CreatePostButton from "../../components/Card/CreatePostButton";
 import PostCard from "../../components/Card/PostCard";
-import { Request } from "../../models/Post";
-import { useFetch } from "../../hooks/useFetch";
 
 function Post() {
   const { posts, dispatch } = usePostsContext();

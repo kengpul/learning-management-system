@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
-
 import LandingNavigationBar from "./components/Navbar/LandingNavigationBar";
 import Home from "./pages/Home";
 import Connect from "./pages/connect/Connect";
@@ -18,7 +17,6 @@ import Quiz from "./pages/quiz/Quiz";
 import Quizzes from "./pages/quiz/Quizzes";
 import QuizCreate from "./pages/quiz/Create";
 import QuizEdit from "./pages/quiz/Edit";
-
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 

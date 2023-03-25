@@ -1,14 +1,13 @@
 import React from "react";
+import { useFetch } from "../../hooks/useFetch";
 import Room from "../../models/Room";
-
+import { Method } from "../../models/enums";
 import {
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
   Button,
 } from "reactstrap";
-import { useFetch } from "../../hooks/useFetch";
-import { Method } from "../../models/enums";
 
 interface Props {
   room: Room;

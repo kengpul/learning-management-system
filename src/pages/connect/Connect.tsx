@@ -1,12 +1,9 @@
 import React, { FormEvent, useState } from "react";
 import { useAuthenticate } from "../../hooks/useAuthenticate";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
-import ToastCard from "../../components/Card/ToastCard";
 import { AccountType, Account } from "../../models/User";
-
+import ToastCard from "../../components/Card/ToastCard";
 import { Button, Spinner } from "reactstrap";
-
 import "./connect.css";
 
 export default function Connect() {
