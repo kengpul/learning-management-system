@@ -4,6 +4,7 @@ export default interface User {
   readonly _id: string;
   username: string;
   password: string;
+  email: string;
   type: AccountType;
   rooms: Room[];
 }

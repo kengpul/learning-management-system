@@ -5,8 +5,11 @@ import { useFetch } from "../../hooks/useFetch";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import User from "../../models/User";
 import { Request } from "../../models/Post";
+import { Method } from "../../models/enums";
 import Rooms from "./Rooms";
 import Posts from "./Posts";
+import Edit from "./Edit";
+import UploadPicture from "./UploadPicture";
 import {
   Card,
   CardBody,
@@ -19,16 +22,24 @@ import {
 
 function Profile() {
   const [profile, setProfile] = useState<User | null>(null);
+  const [email, setEmail] = useState("");
   const [tab, setTab] = useState<"posts" | "rooms">("posts");
   const { posts, dispatch } = usePostsContext();
   const { id } = useParams();
-  const { get } = useFetch();
+  const { get, modify } = useFetch();
   const { user } = useAuthContext();
+  const [nameModal, setNameModal] = useState(false);
+  const [pictureModal, setPictureModal] = useState(false);
+  const toggleNameModal = () => setNameModal(!nameModal);
+  const togglePictureModal = () => setPictureModal(!pictureModal);
 
   useEffect(() => {
     const getUser = async () => {
       const user = await get(`/connect/${id}`);
-      if (!user.error) setProfile(user);
+      if (!user.error) {
+        setProfile(user);
+        setEmail(user.email);
+      }
     };
 
     const getUserPosts = async () => {
@@ -44,6 +55,14 @@ function Profile() {
     }
   }, [user, dispatch, id]); // eslint-disable-line
 
+  const handleUpdate = async () => {
+    const user = await modify("/connect/update", Method.PUT, { email });
+    if (user) {
+      setProfile(user);
+      toggleNameModal();
+    }
+  };
+
   return (
     <Col className="mt-3">
       <Row>
@@ -54,16 +73,39 @@ function Profile() {
                 <>
                   <div className="d-flex flex-column flex-md-row align-items-center justify-content-center">
                     <img
+                      role="button"
                       className="rounded-circle img-thumbnail me-md-3"
                       src="https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
-                      alt=""
+                      alt="profile"
+                      onClick={togglePictureModal}
                     />
+
                     <div className="text-center text-md-start">
-                      <h1>{profile.username}</h1>
+                      <h1>
+                        {profile.username}
+                        <i
+                          role="button"
+                          className="fa-solid fa-pen-to-square fa-2xs ms-3"
+                          onClick={toggleNameModal}
+                        ></i>
+                      </h1>
                       <CardSubtitle className="text-muted">
                         {profile.type}
                       </CardSubtitle>
                     </div>
+
+                    <Edit
+                      handleUpdate={handleUpdate}
+                      email={email}
+                      setEmail={setEmail}
+                      nameModal={nameModal}
+                      toggleNameModal={toggleNameModal}
+                    />
+
+                    <UploadPicture
+                      pictureModal={pictureModal}
+                      togglePictureModal={togglePictureModal}
+                    />
                   </div>
                   <div>
                     <Button
