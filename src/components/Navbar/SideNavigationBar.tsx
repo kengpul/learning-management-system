@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import "./navigation.css";
+import jwtDecode from "jwt-decode";
+
+interface JWTDecode {
+  userID: string;
+  ati: number;
+  exp: number;
+}
 
 function SideNavigationBar() {
+  const [profile, setProfile] = useState("");
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    if (user) {
+      const decode = jwtDecode(user!.token) as JWTDecode;
+      setProfile(decode.userID);
+    }
+  }, [user]);
+
   return (
     <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
@@ -13,7 +31,10 @@ function SideNavigationBar() {
           alt=""
         />
         <h5 className="mt-3">Paul</h5>
-        <Link to="/profile" className="link-light text-decoration-none">
+        <Link
+          to={`/profile/${profile}`}
+          className="link-light text-decoration-none"
+        >
           View Profile
         </Link>
       </div>
