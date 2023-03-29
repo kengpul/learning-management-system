@@ -1,4 +1,6 @@
 import React from "react";
+import { useFetch } from "../../hooks/useFetch";
+import ToastCard from "../../components/Card/ToastCard";
 import {
   Modal,
   ModalHeader,
@@ -9,8 +11,6 @@ import {
   Button,
   Spinner,
 } from "reactstrap";
-import ToastCard from "../../components/Card/ToastCard";
-import { useFetch } from "../../hooks/useFetch";
 
 interface Props {
   nameModal: boolean;

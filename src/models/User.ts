@@ -5,6 +5,10 @@ export default interface User {
   username: string;
   password: string;
   email: string;
+  avatar: {
+    fileName: string;
+    path: string;
+  }
   type: AccountType;
   rooms: Room[];
 }

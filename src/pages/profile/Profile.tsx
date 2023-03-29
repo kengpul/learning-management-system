@@ -73,9 +73,14 @@ function Profile() {
                 <>
                   <div className="d-flex flex-column flex-md-row align-items-center justify-content-center">
                     <img
+                      style={{ width: "200px", height: "170px" }}
                       role="button"
                       className="rounded-circle img-thumbnail me-md-3"
-                      src="https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                      src={
+                        profile.avatar.path
+                          ? profile.avatar.path
+                          : "https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                      }
                       alt="profile"
                       onClick={togglePictureModal}
                     />
@@ -103,6 +108,7 @@ function Profile() {
                     />
 
                     <UploadPicture
+                      setProfile={setProfile}
                       pictureModal={pictureModal}
                       togglePictureModal={togglePictureModal}
                     />
