@@ -198,7 +198,7 @@ function Rooms() {
                   <CardBody>
                     <CardTitle>{room.name}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {room.teachers && room.teachers[0].username}
+                      {room.teachers && room.teachers[0].fullname}
                     </CardSubtitle>
                   </CardBody>
                 </Link>
@@ -219,7 +219,7 @@ function Rooms() {
                   <CardBody>
                     <CardTitle>{room.name}</CardTitle>
                     <CardSubtitle className="text-muted">
-                      {room.teachers[0].username}
+                      {room.teachers[0].fullname}
                     </CardSubtitle>
                   </CardBody>
                 </Link>

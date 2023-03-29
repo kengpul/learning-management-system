@@ -2,6 +2,7 @@ import Room from "./Room";
 
 export default interface User {
   readonly _id: string;
+  fullname: string;
   username: string;
   password: string;
   email: string;

@@ -9,6 +9,7 @@ import "./connect.css";
 export default function Connect() {
   const [state, setState] = useState("");
   const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [type, setType] = useState<AccountType>(Account.Student);
@@ -37,7 +38,7 @@ export default function Connect() {
 
   const handleSignup = async (e: FormEvent) => {
     e.preventDefault();
-    const user = await signup(username, password, email, type);
+    const user = await signup(fullname, username, password, email, type);
     if (user) togglePage();
   };
 
@@ -100,6 +101,17 @@ export default function Connect() {
             </form>
             <form className="sign-up-form validate" onSubmit={handleSignup}>
               <h2 className="title mt-5">Sign up</h2>
+              <div className="input-field">
+                <i className="fas fa-user"></i>
+                <input
+                  type="text"
+                  placeholder="Fullname"
+                  name="fullname"
+                  data-cy="fullname"
+                  value={fullname}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </div>
               <div className="input-field">
                 <i className="fas fa-user"></i>
                 <input

@@ -7,6 +7,7 @@ import React, {
 import jwtDecode from "jwt-decode";
 
 interface User {
+  fullname: string;
   username: string;
   token: string;
   type: string;

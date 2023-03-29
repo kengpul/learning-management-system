@@ -22,6 +22,7 @@ import {
 
 function Profile() {
   const [profile, setProfile] = useState<User | null>(null);
+  const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [tab, setTab] = useState<"posts" | "rooms">("posts");
   const { posts, dispatch } = usePostsContext();
@@ -38,6 +39,7 @@ function Profile() {
       const user = await get(`/connect/${id}`);
       if (!user.error) {
         setProfile(user);
+        setFullname(user.fullname)
         setEmail(user.email);
       }
     };
@@ -56,7 +58,7 @@ function Profile() {
   }, [user, dispatch, id]); // eslint-disable-line
 
   const handleUpdate = async () => {
-    const user = await modify("/connect/update", Method.PUT, { email });
+    const user = await modify("/connect/update", Method.PUT, { fullname, email });
     if (user) {
       setProfile(user);
       toggleNameModal();
@@ -77,7 +79,7 @@ function Profile() {
                       role="button"
                       className="rounded-circle img-thumbnail me-md-3"
                       src={
-                        profile.avatar.path
+                        profile.avatar && profile.avatar.path
                           ? profile.avatar.path
                           : "https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
                       }
@@ -87,7 +89,7 @@ function Profile() {
 
                     <div className="text-center text-md-start">
                       <h1>
-                        {profile.username}
+                        {profile.fullname}
                         <i
                           role="button"
                           className="fa-solid fa-pen-to-square fa-2xs ms-3"
@@ -103,6 +105,8 @@ function Profile() {
                       handleUpdate={handleUpdate}
                       email={email}
                       setEmail={setEmail}
+                      fullname={fullname}
+                      setFullname={setFullname}
                       nameModal={nameModal}
                       toggleNameModal={toggleNameModal}
                     />

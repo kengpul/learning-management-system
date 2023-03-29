@@ -16,6 +16,8 @@ interface Props {
   nameModal: boolean;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  fullname: string;
+  setFullname: React.Dispatch<React.SetStateAction<string>>;
   toggleNameModal: () => void;
   handleUpdate: () => void;
 }
@@ -23,6 +25,8 @@ interface Props {
 function Edit({
   email,
   setEmail,
+  fullname,
+  setFullname,
   toggleNameModal,
   nameModal,
   handleUpdate,
@@ -36,6 +40,16 @@ function Edit({
       <ModalHeader toggle={toggleNameModal}>Edit profile</ModalHeader>
       {error && <ToastCard message={error} color="danger" />}
       <ModalBody>
+        <div className="form-floating mb-3">
+          <Input
+            type="text"
+            defaultValue={fullname}
+            id="fullname"
+            onChange={(e) => setFullname(e.target.value)}
+          />
+          <Label for="fullname">fullname</Label>
+        </div>
+
         <div className="form-floating">
           <Input
             type="email"

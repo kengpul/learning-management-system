@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 import {
   Container,
   Navbar,
@@ -54,7 +53,7 @@ function NavigationBar() {
                 />
               </div>
               <div className="mx-2 d-none d-sm-block">
-                <div className="fw-bold">{user?.username}</div>
+                <div className="fw-bold">{user?.fullname}</div>
                 <div className="text-muted">{user?.type}</div>
               </div>
             </DropdownToggle>

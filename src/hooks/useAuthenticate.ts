@@ -33,6 +33,7 @@ export const useAuthenticate = () => {
   };
 
   const signup = async (
+    fullname: string,
     username: string,
     password: string,
     email: string,
@@ -46,7 +47,7 @@ export const useAuthenticate = () => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password, email, type }),
+        body: JSON.stringify({ fullname, username, password, email, type }),
       }
     );
 

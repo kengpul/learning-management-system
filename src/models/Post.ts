@@ -14,7 +14,7 @@ export default interface Post {
 
 interface Comment {
   readonly _id: string;
-  username: string;
+  fullname: string;
   content: string;
   date: string;
 }
