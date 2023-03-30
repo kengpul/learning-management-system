@@ -13,12 +13,14 @@ import {
 } from "reactstrap";
 
 interface Props {
+  avatar: string;
   pictureModal: boolean;
   togglePictureModal: () => void;
   setProfile: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 function UploadPicture({
+  avatar,
   pictureModal,
   togglePictureModal,
   setProfile,
@@ -52,6 +54,13 @@ function UploadPicture({
     const file = await response.json();
     if (file.path) {
       togglePictureModal();
+      const token: any = localStorage.getItem("user");
+      const parse = JSON.parse(token);
+      const newToken = {
+        ...parse,
+        avatar: file.path,
+      };
+      localStorage.setItem("user", JSON.stringify(newToken));
       const user = await get(`/connect/${id}`);
       if (!user.error) {
         setProfile(user);
@@ -66,10 +75,12 @@ function UploadPicture({
       <ModalBody className="text-center">
         <img
           style={{ width: "200px", height: "170px" }}
-          className="rounded-circle img-thumbnail my-3"
+          className="rounded-circle img-thumbnail mb-3"
           src={
             preview
               ? preview
+              : avatar
+              ? avatar
               : "https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
           }
           alt="profile"

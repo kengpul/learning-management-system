@@ -96,7 +96,12 @@ function PostCard({ post }: { post: Post }) {
         <CardHeader className="d-flex align-items-center bg-white border-0">
           <div>
             <img
-              src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+            style={{width: "40px", height: "40px"}}
+              src={
+                post.author.avatar.path
+                  ? post.author.avatar.path
+                  : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+              }
               className="rounded-circle me-2"
               alt=""
               width="40"

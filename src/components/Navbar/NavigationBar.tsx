@@ -46,7 +46,12 @@ function NavigationBar() {
             >
               <div>
                 <img
-                  src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                style={{width: "50px", height: "50px"}}
+                  src={
+                    user?.avatar
+                      ? user.avatar
+                      : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                  }
                   width="45"
                   className="rounded-circle"
                   alt=""

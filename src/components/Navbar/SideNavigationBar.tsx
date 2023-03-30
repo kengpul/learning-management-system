@@ -25,7 +25,12 @@ function SideNavigationBar() {
     <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
         <img
-          src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+        style={{width: "80px", height: "80px"}}
+          src={
+            user?.avatar
+              ? user.avatar
+              : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+          }
           className="img-fluid mt-3 rounded-circle"
           width="80"
           alt=""

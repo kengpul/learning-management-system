@@ -11,6 +11,7 @@ interface User {
   username: string;
   token: string;
   type: string;
+  avatar: string;
 }
 
 interface JWTDecode {

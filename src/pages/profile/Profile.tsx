@@ -66,6 +66,13 @@ function Profile() {
     if (user) {
       setProfile(user);
       toggleNameModal();
+      const token: any = localStorage.getItem("user");
+      const parse = JSON.parse(token);
+      const newToken = {
+        ...parse,
+        fullname,
+      };
+      localStorage.setItem("user", JSON.stringify(newToken));
     }
   };
 
@@ -127,6 +134,7 @@ function Profile() {
                         />
 
                         <UploadPicture
+                          avatar={profile.avatar.path}
                           setProfile={setProfile}
                           pictureModal={pictureModal}
                           togglePictureModal={togglePictureModal}
