@@ -19,6 +19,7 @@ import {
   Button,
   ButtonGroup,
 } from "reactstrap";
+import ToastCard from "../../components/Card/ToastCard";
 
 function Profile() {
   const [profile, setProfile] = useState<User | null>(null);
@@ -27,7 +28,7 @@ function Profile() {
   const [tab, setTab] = useState<"posts" | "rooms">("posts");
   const { posts, dispatch } = usePostsContext();
   const { id } = useParams();
-  const { get, modify } = useFetch();
+  const { get, modify, error } = useFetch();
   const { user } = useAuthContext();
   const [nameModal, setNameModal] = useState(false);
   const [pictureModal, setPictureModal] = useState(false);
@@ -39,7 +40,7 @@ function Profile() {
       const user = await get(`/connect/${id}`);
       if (!user.error) {
         setProfile(user);
-        setFullname(user.fullname)
+        setFullname(user.fullname);
         setEmail(user.email);
       }
     };
@@ -58,7 +59,10 @@ function Profile() {
   }, [user, dispatch, id]); // eslint-disable-line
 
   const handleUpdate = async () => {
-    const user = await modify("/connect/update", Method.PUT, { fullname, email });
+    const user = await modify(`/connect/${id}/update`, Method.PUT, {
+      fullname,
+      email,
+    });
     if (user) {
       setProfile(user);
       toggleNameModal();
@@ -70,13 +74,16 @@ function Profile() {
       <Row>
         <Col>
           <Card>
+            {error && <ToastCard message={error} color="danger" />}
             <CardBody className="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center px-md-5">
               {profile && (
                 <>
                   <div className="d-flex flex-column flex-md-row align-items-center justify-content-center">
                     <img
                       style={{ width: "200px", height: "170px" }}
-                      role="button"
+                      role={
+                        user?.username === profile.username ? "button" : "img"
+                      }
                       className="rounded-circle img-thumbnail me-md-3"
                       src={
                         profile.avatar && profile.avatar.path
@@ -84,38 +91,48 @@ function Profile() {
                           : "https://res.cloudinary.com/dsjrdrewd/image/upload/c_scale,w_150/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
                       }
                       alt="profile"
-                      onClick={togglePictureModal}
+                      onClick={
+                        user?.username === profile.username
+                          ? togglePictureModal
+                          : () => null
+                      }
                     />
 
                     <div className="text-center text-md-start">
                       <h1>
                         {profile.fullname}
-                        <i
-                          role="button"
-                          className="fa-solid fa-pen-to-square fa-2xs ms-3"
-                          onClick={toggleNameModal}
-                        ></i>
+                        {user?.username === profile.username && (
+                          <i
+                            role="button"
+                            className="fa-solid fa-pen-to-square fa-2xs ms-3"
+                            onClick={toggleNameModal}
+                          ></i>
+                        )}
                       </h1>
                       <CardSubtitle className="text-muted">
                         {profile.type}
                       </CardSubtitle>
                     </div>
 
-                    <Edit
-                      handleUpdate={handleUpdate}
-                      email={email}
-                      setEmail={setEmail}
-                      fullname={fullname}
-                      setFullname={setFullname}
-                      nameModal={nameModal}
-                      toggleNameModal={toggleNameModal}
-                    />
+                    {user?.username === profile.username && (
+                      <>
+                        <Edit
+                          handleUpdate={handleUpdate}
+                          email={email}
+                          setEmail={setEmail}
+                          fullname={fullname}
+                          setFullname={setFullname}
+                          nameModal={nameModal}
+                          toggleNameModal={toggleNameModal}
+                        />
 
-                    <UploadPicture
-                      setProfile={setProfile}
-                      pictureModal={pictureModal}
-                      togglePictureModal={togglePictureModal}
-                    />
+                        <UploadPicture
+                          setProfile={setProfile}
+                          pictureModal={pictureModal}
+                          togglePictureModal={togglePictureModal}
+                        />
+                      </>
+                    )}
                   </div>
                   <div>
                     <Button
