@@ -37,6 +37,7 @@ function SideNavigationBar() {
         />
         <h5 className="mt-3">{user?.fullname}</h5>
         <Link
+        data-cy="view-profile"
           to={`/profile/${profile}`}
           className="link-light text-decoration-none"
         >

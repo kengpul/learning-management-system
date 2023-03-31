@@ -42,6 +42,7 @@ function Edit({
       <ModalBody>
         <div className="form-floating mb-3">
           <Input
+            data-cy="edit-fullname"
             type="text"
             defaultValue={fullname}
             id="fullname"
@@ -52,6 +53,7 @@ function Edit({
 
         <div className="form-floating">
           <Input
+            data-cy="edit-email"
             type="email"
             defaultValue={email}
             id="email"
@@ -61,7 +63,7 @@ function Edit({
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button disabled={isPending} className="main-btn" onClick={handleEdit}>
+        <Button data-cy="submit-edit" disabled={isPending} className="main-btn" onClick={handleEdit}>
           {isPending ? <Spinner /> : "Update"}
         </Button>
       </ModalFooter>

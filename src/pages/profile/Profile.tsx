@@ -106,10 +106,11 @@ function Profile() {
                     />
 
                     <div className="text-center text-md-start">
-                      <h1>
+                      <h1 data-cy="fullname">
                         {profile.fullname}
                         {user?.username === profile.username && (
                           <i
+                            data-cy="edit-profile"
                             role="button"
                             className="fa-solid fa-pen-to-square fa-2xs ms-3"
                             onClick={toggleNameModal}
