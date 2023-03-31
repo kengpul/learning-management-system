@@ -2,10 +2,11 @@ import React, { useState, useRef, FormEvent } from "react";
 import ReactQuill from "react-quill";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useFetch } from "../../hooks/useFetch";
+import { usePostsContext } from "../../hooks/usePostsContext";
 import Post, { Request } from "../../models/Post";
 import { Method } from "../../models/enums";
 import ToastCard from "./ToastCard";
-
 import {
   Card,
   CardBody,
@@ -23,8 +24,6 @@ import {
   Input,
   Spinner,
 } from "reactstrap";
-import { useFetch } from "../../hooks/useFetch";
-import { usePostsContext } from "../../hooks/usePostsContext";
 
 function PostCard({ post }: { post: Post }) {
   const [modal, setModal] = useState(false);
@@ -35,9 +34,7 @@ function PostCard({ post }: { post: Post }) {
   const { modify: postRequest, destroy, isPending, error } = useFetch();
   const { dispatch } = usePostsContext();
   const navigate = useNavigate();
-
   const card = useRef<HTMLElement>(null);
-
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const toggleModal = () => setModal(!modal);
   const toggleExpand = () => setExpand(!expand);
@@ -99,12 +96,17 @@ function PostCard({ post }: { post: Post }) {
         <CardHeader className="d-flex align-items-center bg-white border-0">
           <div>
             <img
-              src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+            style={{width: "40px", height: "40px"}}
+              src={
+                post.author.avatar.path
+                  ? post.author.avatar.path
+                  : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+              }
               className="rounded-circle me-2"
               alt=""
               width="40"
             />
-            {post.author.username}{" "}
+            {post.author.fullname}{" "}
             <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>
               <span className="text-primary">{post.room.name}</span>
@@ -191,7 +193,7 @@ function PostCard({ post }: { post: Post }) {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          {post.author.username} <span className="text-muted">Posted to </span>
+          {post.author.fullname} <span className="text-muted">Posted to </span>
           <Link to={`/room/${post.room._id}`}>
             <span className="text-primary">{post.room.name}</span>
           </Link>
@@ -215,7 +217,7 @@ function PostCard({ post }: { post: Post }) {
                   />
                   <div className="d-flex flex-column px-3 py-2 rounded comment-content">
                     <span>
-                      {comment.username} {handleDates(comment.date)}
+                      {comment.fullname} {handleDates(comment.date)}
                     </span>
                     <span>{comment.content}</span>
                   </div>

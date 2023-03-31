@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
 import {
   Container,
   Navbar,
@@ -47,14 +46,19 @@ function NavigationBar() {
             >
               <div>
                 <img
-                  src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                style={{width: "50px", height: "50px"}}
+                  src={
+                    user?.avatar
+                      ? user.avatar
+                      : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+                  }
                   width="45"
                   className="rounded-circle"
                   alt=""
                 />
               </div>
               <div className="mx-2 d-none d-sm-block">
-                <div className="fw-bold">{user?.username}</div>
+                <div className="fw-bold">{user?.fullname}</div>
                 <div className="text-muted">{user?.type}</div>
               </div>
             </DropdownToggle>

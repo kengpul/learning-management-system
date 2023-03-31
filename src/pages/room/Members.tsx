@@ -38,7 +38,7 @@ function Members({ room, setRoom }: Props) {
             key={`pending-${student._id}`}
             className="d-flex justify-content-between"
           >
-            {student.username}
+            {student.fullname}
             <div>
               <Button
                 className="main-btn me-2"
@@ -61,7 +61,7 @@ function Members({ room, setRoom }: Props) {
       {room &&
         room.teachers.map((teacher) => (
           <ListGroupItem key={`teacher-${teacher._id}`}>
-            {teacher.username}
+            {teacher.fullname}
           </ListGroupItem>
         ))}
 
@@ -69,7 +69,7 @@ function Members({ room, setRoom }: Props) {
       {room &&
         room.students.map((student) => (
           <ListGroupItem key={`student-${student._id}`}>
-            {student.username}
+            {student.fullname}
           </ListGroupItem>
         ))}
     </ListGroup>

@@ -1,19 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import jwtDecode from "jwt-decode";
 import { NavLink, Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 import "./navigation.css";
 
+interface JWTDecode {
+  userID: string;
+  ati: number;
+  exp: number;
+}
+
 function SideNavigationBar() {
+  const [profile, setProfile] = useState("");
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    if (user) {
+      const decode = jwtDecode(user!.token) as JWTDecode;
+      setProfile(decode.userID);
+    }
+  }, [user]);
+
   return (
     <div className="d-none d-lg-block side-nav text-white rounded-end h-100">
       <div className="profile mb-5 text-center">
         <img
-          src="https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+        style={{width: "80px", height: "80px"}}
+          src={
+            user?.avatar
+              ? user.avatar
+              : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
+          }
           className="img-fluid mt-3 rounded-circle"
           width="80"
           alt=""
         />
-        <h5 className="mt-3">Paul</h5>
-        <Link to="/profile" className="link-light text-decoration-none">
+        <h5 className="mt-3">{user?.fullname}</h5>
+        <Link
+        data-cy="view-profile"
+          to={`/profile/${profile}`}
+          className="link-light text-decoration-none"
+        >
           View Profile
         </Link>
       </div>

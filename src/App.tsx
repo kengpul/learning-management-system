@@ -17,6 +17,7 @@ import Quiz from "./pages/quiz/Quiz";
 import Quizzes from "./pages/quiz/Quizzes";
 import QuizCreate from "./pages/quiz/Create";
 import QuizEdit from "./pages/quiz/Edit";
+import Profile from "./pages/profile/Profile";
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -67,6 +68,8 @@ function App() {
                   user?.type === "Teacher" ? <QuizEdit /> : <Quiz />
                 )}
               />
+
+              <Route path="/profile/:id" element={requireAuth(<Profile />)} />
 
               <Route path="*" element={<Error />} />
             </Routes>
