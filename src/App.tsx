@@ -20,6 +20,8 @@ import QuizEdit from "./pages/quiz/Edit";
 import Profile from "./pages/profile/Profile";
 import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Chats from "./pages/chat/Chats";
+import Chat from "./pages/chat/Chat";
 
 function App() {
   const { user, authReady } = useAuthContext();
@@ -70,6 +72,9 @@ function App() {
               />
 
               <Route path="/profile/:id" element={requireAuth(<Profile />)} />
+
+              <Route path="/chats" element={requireAuth(<Chats />)} />
+              <Route path="/chats/:id" element={requireAuth(<Chat />)} />
 
               <Route path="*" element={<Error />} />
             </Routes>
