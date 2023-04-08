@@ -13,4 +13,12 @@ export default interface Room {
     attendance: string;
     meeting: string;
   };
+  messages: Messages[];
+}
+
+export interface Messages {
+  readonly _id: string;
+  text: string;
+  author: string;
+  time: Date;
 }
