@@ -136,7 +136,7 @@ function Profile() {
                         />
 
                         <UploadPicture
-                          avatar={profile.avatar.path}
+                          avatar={profile.avatar && profile.avatar.path}
                           setProfile={setProfile}
                           pictureModal={pictureModal}
                           togglePictureModal={togglePictureModal}

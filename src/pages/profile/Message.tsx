@@ -103,7 +103,10 @@ function Message() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <Button className="main-btn">Send</Button>
+
+        <Button className="main-btn" disabled={message === ""}>
+          Send
+        </Button>
       </Form>
     </Col>
   );
