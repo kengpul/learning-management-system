@@ -51,7 +51,7 @@ function Message() {
   useEffect(() => {
     chatRef.current?.scrollIntoView({ behavior: "smooth" });
     socket.on(`receive-message-${roomID}`, (data) => {
-      setMessages([...messages, data]);
+      setMessages(data);
     });
   }, [socket]); // eslint-disable-line
 
