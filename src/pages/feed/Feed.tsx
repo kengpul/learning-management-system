@@ -46,7 +46,7 @@ export default function Feed() {
             <p className="mt-1">Loading posts...</p>
           </div>
         )}
-        {posts && posts.map((post) => <PostCard key={post._id} post={post} />)}
+        {!isPending && posts  &&  posts.map((post) => <PostCard key={post._id} post={post} />)}
       </Col>
 
       <Col lg="3">

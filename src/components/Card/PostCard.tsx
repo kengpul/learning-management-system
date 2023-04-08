@@ -95,17 +95,15 @@ function PostCard({ post }: { post: Post }) {
       <Card className="mt-3 post-card rounded-top">
         <CardHeader className="d-flex align-items-center bg-white border-0">
           <div>
-            <img
-            style={{width: "40px", height: "40px"}}
-              src={
-                post.author.avatar.path
-                  ? post.author.avatar.path
-                  : "https://res.cloudinary.com/dsjrdrewd/image/upload/v1676885960/learning-management-system/assets/default-avatar_hk6j0v.png"
-              }
-              className="rounded-circle me-2"
-              alt=""
-              width="40"
-            />
+            {post.author.avatar && (
+              <img
+                style={{ width: "40px", height: "40px" }}
+                src={post.author.avatar.path}
+                className="rounded-circle me-2"
+                alt=""
+                width="40"
+              />
+            )}
             {post.author.fullname}{" "}
             <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>

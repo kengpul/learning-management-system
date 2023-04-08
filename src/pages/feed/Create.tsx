@@ -26,10 +26,15 @@ export default function Create() {
       rooms,
     };
     const feedPost = await modify("/post", Method.POST, body);
-    if (!feedPost.error) {
+    console.log(feedPost);
+    if (feedPost) {
       dispatch!({ type: Request.CREATE_POST, payload: feedPost });
       navigate("/feed/");
     }
+    // if (!feedPost.error) {
+    //   dispatch!({ type: Request.CREATE_POST, payload: feedPost });
+    //   navigate("/feed/");
+    // }
   };
 
   return (

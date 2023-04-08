@@ -3,7 +3,7 @@ import Post from "../models/Post";
 import { Request } from "../models/Post";
 
 interface State {
-  posts?: Post[] | null;
+  posts: Post[] | null;
   dispatch?: (action: Action) => void;
 }
 
@@ -13,7 +13,7 @@ type Action =
   | { type: Request.EDIT_POST; payload: Post }
   | { type: Request.DELETE_POST; payload: Post };
 
-export const PostsContext = createContext<State | undefined>({
+export const PostsContext = createContext<State>({
   posts: null,
 });
 
@@ -22,16 +22,16 @@ export const postsReducer = (state: State, action: Action): State => {
     case Request.GET_POSTS:
       return { posts: action.payload };
     case Request.CREATE_POST:
-      return { posts: [action.payload, ...(state.posts as any)] };
+      return { posts: [action.payload, ...state.posts!] };
     case Request.EDIT_POST:
       return {
-        posts: state.posts?.map((post) =>
+        posts: state.posts!.map((post) =>
           post._id === action.payload._id ? action.payload : post
         ),
       };
     case Request.DELETE_POST:
       return {
-        posts: state.posts?.filter((post) => post._id !== action.payload._id),
+        posts: state.posts!.filter((post) => post._id !== action.payload._id),
       };
     default:
       return state;
