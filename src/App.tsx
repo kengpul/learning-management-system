@@ -22,6 +22,7 @@ import { Col, Container, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Chats from "./pages/chat/Chats";
 import Chat from "./pages/chat/Chat";
+import Message from "./pages/profile/Message";
 
 function App() {
   const { user, authReady } = useAuthContext();
@@ -72,6 +73,10 @@ function App() {
               />
 
               <Route path="/profile/:id" element={requireAuth(<Profile />)} />
+              <Route
+                path="/profile/:id/message"
+                element={requireAuth(<Message />)}
+              />
 
               <Route path="/chats" element={requireAuth(<Chats />)} />
               <Route path="/chats/:id" element={requireAuth(<Chat />)} />

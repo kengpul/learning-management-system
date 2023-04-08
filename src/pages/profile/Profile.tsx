@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetch } from "../../hooks/useFetch";
 import { usePostsContext } from "../../hooks/usePostsContext";
@@ -32,6 +32,7 @@ function Profile() {
   const { user } = useAuthContext();
   const [nameModal, setNameModal] = useState(false);
   const [pictureModal, setPictureModal] = useState(false);
+  const navigate = useNavigate();
   const toggleNameModal = () => setNameModal(!nameModal);
   const togglePictureModal = () => setPictureModal(!pictureModal);
 
@@ -147,6 +148,9 @@ function Profile() {
                     <Button
                       size="lg"
                       className="main-btn align-self-end mt-3 mt-md-0"
+                      onClick={() =>
+                        navigate(`/profile/${profile._id}/message`)
+                      }
                     >
                       Message
                     </Button>
