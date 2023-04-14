@@ -69,6 +69,7 @@ function Rooms() {
     e.preventDefault();
     if (!code) return setError("Code is required");
     const room = await modify("/room/join", Method.POST, { code });
+    console.log(room);
     if (room) {
       setCode("");
       joinModalToggle();
@@ -77,7 +78,7 @@ function Rooms() {
         setSuccess(null);
       }, 3500);
     } else {
-      setError(errorFetch);
+      setError(errorFetch ? errorFetch : "Invalid code");
     }
   };
 
