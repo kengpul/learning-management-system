@@ -14,51 +14,61 @@ import * as io from "socket.io-client";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetch } from "../../hooks/useFetch";
 import { Messages } from "../../models/Room";
-import User from "../../models/User";
+import User, { Chat } from "../../models/User";
+import { Method } from "../../models/enums";
 
 function Message() {
-  const socket = io.connect(process.env.REACT_APP_API_URI as string);
-  const [roomID, setRoomID] = useState("");
+  const socket = io.connect(process.env.REACT_APP_API_URI as string, {
+    autoConnect: false,
+  });
+  const [room, setRoom] = useState<Chat>();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Messages[]>([]);
   const [receiver, setReciever] = useState<User | null>(null);
   const { user } = useAuthContext();
   const { id } = useParams();
-  const { get } = useFetch();
+  const { get, modify } = useFetch();
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const getMessages = async () => {
-      if (roomID) {
-        const room = await get(`/connect/${roomID}/messages`);
-        if (room) setMessages(room.messages);
+    const getRoomChat = async () => {
+      const chatRoom = await modify("/connect/room", Method.POST, {
+        user: user?._id,
+        id,
+      });
+      if (chatRoom) {
+        setRoom(chatRoom);
+        setMessages(chatRoom.messages);
       }
     };
+
     const getReciever = async () => {
       const user = await get(`/connect/${id}`);
       if (user) setReciever(user);
     };
 
-    socket.emit("join-message-room", { id, user: user?._id });
-    socket.on("receive-message-id", (data) => setRoomID(data));
-
     if (user) {
-      getMessages();
+      getRoomChat();
       getReciever();
     }
-  }, [user, roomID, id]); // eslint-disable-line
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [user, id]); // eslint-disable-line
 
   useEffect(() => {
     chatRef.current?.scrollIntoView({ behavior: "smooth" });
-    socket.on(`receive-message-${roomID}`, (data) => {
+    socket.on(`receive-message-${room?._id}`, (data) => {
       setMessages(data);
     });
   }, [socket]); // eslint-disable-line
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
+    socket.connect();
     socket.emit("send-direct-message", {
-      room: roomID,
+      room: room?._id,
       text: message,
       author: user?.username,
     });
@@ -78,7 +88,7 @@ function Message() {
         {messages.length === 0 && (
           <p className="text-muted text-center">Start of the conversation</p>
         )}
-        {messages.length > 0 &&
+        {messages.length! > 0 &&
           messages.map((message: Messages) => (
             <React.Fragment key={message._id}>
               <Card className="shadow w-50 mt-3 ms-auto">

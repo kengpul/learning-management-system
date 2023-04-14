@@ -22,7 +22,9 @@ function Chat() {
   const [room, setRoom] = useState<Room | null>();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Messages[]>([]);
-  const socket = io.connect(process.env.REACT_APP_API_URI as string);
+  const socket = io.connect(process.env.REACT_APP_API_URI as string, {
+    autoConnect: false,
+  });
   const { id } = useParams();
   const { user } = useAuthContext();
   const chatRef = useRef<HTMLDivElement>(null);
@@ -42,10 +44,15 @@ function Chat() {
         setRoom(room);
         setMessages(room.messages);
       }
+      socket.connect();
       socket.emit("join_room", room._id);
     };
 
     if (user) getMessages();
+
+    return () => {
+      socket.disconnect();
+    };
   }, [user, id]); // eslint-disable-line
 
   useEffect(() => {
@@ -76,6 +83,7 @@ function Chat() {
 
   const handleSendMessage = (e: FormEvent) => {
     e.preventDefault();
+    socket.connect();
     socket.emit("send_message", {
       room: id,
       text: message,
@@ -164,14 +172,14 @@ function Chat() {
             <ListGroup flush>
               {room?.students &&
                 room.students.map((student) => (
-                    <ListGroupItem key={student._id}>
-                      <Link
-                        to={`/profile/${student._id}`}
-                        className="link-secondary"
-                      >
-                        {student.fullname}
-                      </Link>
-                    </ListGroupItem>
+                  <ListGroupItem key={student._id}>
+                    <Link
+                      to={`/profile/${student._id}`}
+                      className="link-secondary"
+                    >
+                      {student.fullname}
+                    </Link>
+                  </ListGroupItem>
                 ))}
             </ListGroup>
           </List>

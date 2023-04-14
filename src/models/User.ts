@@ -9,9 +9,20 @@ export default interface User {
   avatar: {
     fileName: string;
     path: string;
-  }
+  };
   type: AccountType;
   rooms: Room[];
+}
+
+export interface Chat {
+  readonly _id: string;
+  members: [string, string];
+  messages: {
+    readonly _id: string;
+    text: string;
+    author: string;
+    time: Date;
+  }[];
 }
 
 export enum Account {
