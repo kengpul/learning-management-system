@@ -5,6 +5,7 @@ import { Card, CardBody, CardHeader, CardText } from "reactstrap";
 interface item {
   _id: string;
   name: string;
+  title?: string;
 }
 
 interface Props {
@@ -24,14 +25,18 @@ function ListCard({ title, items, link }: Props) {
         My {title}
       </CardHeader>
       <CardBody>
-        {!items && <p className="text-muted">No {title}</p>}
+        {items?.length === 0 && <p className="text-muted">No {title}</p>}
         {items &&
           items.slice(0, 3).map((item) => (
             <Card className="mb-2" key={item._id}>
-              <Link to={`/room/${item._id}`} className="text-decoration-none">
+              <Link
+                to={`/${link}/${item._id}`}
+                className="text-decoration-none"
+              >
                 <CardBody className="border-start border-5 p-1">
                   <CardText className="text-truncate m-0 text-black">
-                    {item.name}
+                    {item.name && item.name}
+                    {item.title && item.title}
                   </CardText>
                 </CardBody>
               </Link>

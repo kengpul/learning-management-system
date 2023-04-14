@@ -14,6 +14,7 @@ import "./post.css";
 export default function Feed() {
   const [success, setSuccess] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [quizzes, setQuizzes] = useState<any>([]);
   const { posts, dispatch } = usePostsContext();
   const { user } = useAuthContext();
   const { error, isPending, get } = useFetch();
@@ -29,9 +30,15 @@ export default function Feed() {
       if (rooms) setRooms(rooms);
     };
 
+    const fetchQuizzes = async () => {
+      const getUser = await get(`/connect/${user?._id}`);
+      if (getUser) setQuizzes(getUser.quizzes.pending);
+    };
+
     if (user) {
       fetchPost();
       fetchRooms();
+      fetchQuizzes();
     }
   }, [user, success, dispatch]); // eslint-disable-line
 
@@ -46,12 +53,14 @@ export default function Feed() {
             <p className="mt-1">Loading posts...</p>
           </div>
         )}
-        {!isPending && posts  &&  posts.map((post) => <PostCard key={post._id} post={post} />)}
+        {!isPending &&
+          posts &&
+          posts.map((post) => <PostCard key={post._id} post={post} />)}
       </Col>
 
       <Col lg="3">
-        <ListCard title={"Quizes"} link={"/quiz/"} />
-        <ListCard title={"Rooms"} items={rooms} link={"/room/"} />
+        <ListCard title={"Quizes"} items={quizzes} link={"quiz"} />
+        <ListCard title={"Rooms"} items={rooms} link={"room"} />
       </Col>
     </Col>
   );
