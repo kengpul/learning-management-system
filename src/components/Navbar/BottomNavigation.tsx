@@ -16,13 +16,10 @@ function BottomNavigationBar() {
         <Link to="/room" className="navbar-brand">
           <i className="fas fa-users"></i>
         </Link>
-        <Link to="/group" className="navbar-brand">
-          <i className="fas fa-users"></i>
-        </Link>
         <Link to="/quiz" className="navbar-brand">
           <i className="fas fa-book-open me-2"></i>
         </Link>
-        <Link to="/chat" className="navbar-brand">
+        <Link to="/chats" className="navbar-brand">
           <i className="fas fa-comment me-2"></i>
         </Link>
       </Container>
