@@ -105,7 +105,7 @@ function Chats() {
           />
         </Col>
         <Col md="6" className="text-end">
-          <Button className="main-btn" onClick={handleTab}>
+          <Button className="main-btn w-100 mb-3 mb-md-0" onClick={handleTab}>
             {`${tab} chats`}
           </Button>
         </Col>

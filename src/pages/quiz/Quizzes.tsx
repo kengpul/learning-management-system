@@ -76,15 +76,15 @@ function Quizzes() {
             onKeyUpCapture={handleSearch}
           />
         </Col>
-        <Col md="2">
+        <Col>
           {user?.type === "Teacher" && (
-            <div className="d-md-flex justify-content-end gap-2">
-              <Link to="/feed/create">
+            <div className="d-block d-md-flex gap-2">
+              <Link to="/feed/create" className="w-100">
                 <Button size="sm" className="main-btn w-100" data-cy="assign">
                   Assign
                 </Button>
               </Link>
-              <Link to="/quiz/create">
+              <Link to="/quiz/create" className="w-100">
                 <Button
                   size="sm"
                   className="main-btn my-md-0 my-3 w-100"

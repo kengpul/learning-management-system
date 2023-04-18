@@ -100,7 +100,7 @@ function Rooms() {
       {success && <ToastCard message={success} color="success" />}
       <Row className="mt-3">
         <Col>
-          <Row className="d-flex align-items-center">
+          <Row className=" d-flex align-items-center flex-column-reverse flex-md-row">
             <Col className="d-flex gap-3">
               <Input
                 placeholder="Search room name"
@@ -110,12 +110,12 @@ function Rooms() {
               />
             </Col>
 
-            <Col className="d-flex justify-content-end gap-2">
+            <Col className="d-block d-md-flex justify-content-end gap-2">
               {user?.type === Account.Teacher && (
                 <Button
                   data-cy="create"
                   size="sm"
-                  className="main-btn"
+                  className="main-btn w-100"
                   onClick={createModalToggle}
                 >
                   Create
@@ -124,7 +124,7 @@ function Rooms() {
               <Button
                 data-cy="join"
                 size="sm"
-                className="main-btn px-3"
+                className="main-btn my-3 my-md-0 px-3 w-100"
                 onClick={joinModalToggle}
               >
                 Join
