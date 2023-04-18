@@ -75,6 +75,25 @@ function Message() {
     setMessage("");
   };
 
+  const handleDates = (content: Date) => {
+    const created = new Date(content);
+    const days = new Date().getUTCDate() - created.getUTCDate();
+    const hours = new Date().getHours() - new Date(content).getHours();
+    const minutes = Math.round(
+      (new Date().getTime() - new Date(content).getTime()) / 60000
+    );
+
+    if (days > 0) {
+      return `${days}d`;
+    } else if (hours > 0 && days < 1) {
+      return `${hours}h`;
+    } else if (minutes > 0 && hours < 1 && days < 1) {
+      return `${minutes}m`;
+    } else {
+      return "now";
+    }
+  };
+
   return (
     <Col
       className="border border-3 p-0 position-relative mt-3 mx-3 rounded"
@@ -96,7 +115,7 @@ function Message() {
                   <CardText>{message.text}</CardText>
                 </CardBody>
                 <CardFooter className="p-1 ps-3">
-                  {message.author} - {"time"}
+                  {message.author} - {handleDates(message.time)}
                 </CardFooter>
               </Card>
             </React.Fragment>
