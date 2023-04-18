@@ -104,7 +104,9 @@ function PostCard({ post }: { post: Post }) {
                 width="40"
               />
             )}
-            {post.author.fullname}{" "}
+            <Link to={`/profile/${post.author._id}`} className="text-primary">
+              {post.author.fullname}{" "}
+            </Link>
             <span className="text-muted">Posted to </span>
             <Link to={`/room/${post.room._id}`}>
               <span className="text-primary">{post.room.name}</span>
@@ -191,7 +193,10 @@ function PostCard({ post }: { post: Post }) {
         size="lg"
       >
         <ModalHeader tag="h6" toggle={toggleModal}>
-          {post.author.fullname} <span className="text-muted">Posted to </span>
+          <Link to={`/profile/${post.author._id}`} className="text-primary">
+            {post.author.fullname}{" "}
+          </Link>
+          <span className="text-muted">Posted to </span>
           <Link to={`/room/${post.room._id}`}>
             <span className="text-primary">{post.room.name}</span>
           </Link>
