@@ -157,7 +157,7 @@ function Chat() {
                 room.teachers.map((teacher) => (
                   <ListGroupItem key={teacher._id}>
                     <Link
-                      to={`/profile/${teacher._id}`}
+                      to={`/profile/${teacher._id}/message`}
                       className="link-secondary"
                     >
                       {teacher.fullname}
@@ -174,7 +174,7 @@ function Chat() {
                 room.students.map((student) => (
                   <ListGroupItem key={student._id}>
                     <Link
-                      to={`/profile/${student._id}`}
+                      to={`/profile/${student._id}/message`}
                       className="link-secondary"
                     >
                       {student.fullname}
