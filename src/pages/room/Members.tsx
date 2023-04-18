@@ -8,6 +8,7 @@ import {
   ListGroupItemHeading,
   Button,
 } from "reactstrap";
+import { Link } from "react-router-dom";
 
 interface Props {
   room: Room;
@@ -38,7 +39,7 @@ function Members({ room, setRoom }: Props) {
             key={`pending-${student._id}`}
             className="d-flex justify-content-between"
           >
-            {student.fullname}
+            <Link to={`/profile/${student._id}`}>{student.fullname}</Link>
             <div>
               <Button
                 className="main-btn me-2"
@@ -61,7 +62,7 @@ function Members({ room, setRoom }: Props) {
       {room &&
         room.teachers.map((teacher) => (
           <ListGroupItem key={`teacher-${teacher._id}`}>
-            {teacher.fullname}
+            <Link to={`/profile/${teacher._id}`}>{teacher.fullname}</Link>
           </ListGroupItem>
         ))}
 
@@ -69,7 +70,7 @@ function Members({ room, setRoom }: Props) {
       {room &&
         room.students.map((student) => (
           <ListGroupItem key={`student-${student._id}`}>
-            {student.fullname}
+            <Link to={`/profile/${student._id}`}>{student.fullname}</Link>
           </ListGroupItem>
         ))}
     </ListGroup>
