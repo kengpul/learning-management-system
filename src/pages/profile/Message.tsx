@@ -13,7 +13,7 @@ import {
 import * as io from "socket.io-client";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetch } from "../../hooks/useFetch";
-import { Messages } from "../../models/Room";
+import { Messages } from "../../models/Chat";
 import User, { Chat } from "../../models/User";
 import { Method } from "../../models/enums";
 

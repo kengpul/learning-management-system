@@ -2,7 +2,9 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import * as io from "socket.io-client";
 import { Link, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import Room, { Messages } from "../../models/Room";
+import { useFetch } from "../../hooks/useFetch";
+import Room from "../../models/Room";
+import { Messages } from "../../models/Chat";
 import {
   Button,
   Card,
@@ -27,25 +29,19 @@ function Chat() {
   });
   const { id } = useParams();
   const { user } = useAuthContext();
+  const { get } = useFetch();
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getMessages = async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URI}/room/${id}`,
-        {
-          method: "POST",
-          headers: { Authorization: `Bearers ${user?.token}` },
-        }
-      );
-
-      const room = await response.json();
-      if (response.ok) {
-        setRoom(room);
-        setMessages(room.messages);
+      const chatRoom = await get(`/room/${id}/chat`);
+      if (chatRoom) {
+        setRoom(chatRoom.room);
+        setMessages(chatRoom.chat.messages);
       }
+
       socket.connect();
-      socket.emit("join_room", room._id);
+      socket.emit("join_room", chatRoom.chat._id);
     };
 
     if (user) getMessages();
@@ -85,7 +81,7 @@ function Chat() {
     e.preventDefault();
     socket.connect();
     socket.emit("send_message", {
-      room: id,
+      room: room?.chat,
       text: message,
       author: user?.username,
     });
@@ -113,7 +109,7 @@ function Chat() {
               </p>
             )}
             {messages.length > 0 &&
-              messages.map((message: Messages) => (
+              messages.map((message) => (
                 <React.Fragment key={message._id}>
                   <Card className="shadow w-50 mt-3 ms-auto">
                     <CardBody>

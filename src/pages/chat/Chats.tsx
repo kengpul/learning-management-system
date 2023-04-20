@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useFetch } from "../../hooks/useFetch";
 import Room from "../../models/Room";
+import { Chat } from "../../models/Chat";
 import {
   Card,
   CardBody,
@@ -13,18 +14,6 @@ import {
   Row,
   Button,
 } from "reactstrap";
-import User from "../../models/User";
-
-interface Chat {
-  readonly _id: string;
-  members: [User, User];
-  messages: {
-    readonly _id: string;
-    text: string;
-    author: string;
-    time: Date;
-  }[];
-}
 
 function Chats() {
   const [tab, setTab] = useState<"Personal" | "Group">("Group");
@@ -118,8 +107,8 @@ function Chats() {
               searchChats.map((chat) => (
                 <Col md="4" className="mt-3 room-card" key={chat._id}>
                   <Card>
-                    <Link
-                      to={`/chats/${chat._id}`}
+                    <a
+                      href={`/chats/${chat._id}`}
                       className="text-dark d-flex align-items-start"
                     >
                       <CardBody>
@@ -128,7 +117,7 @@ function Chats() {
                           {chat.teachers[0].fullname}
                         </CardSubtitle>
                       </CardBody>
-                    </Link>
+                    </a>
                   </Card>
                 </Col>
               ))}
@@ -143,8 +132,8 @@ function Chats() {
               rooms.map((room) => (
                 <Col md="4" className="mt-3 room-card" key={room._id}>
                   <Card>
-                    <Link
-                      to={`/chats/${room._id}`}
+                    <a
+                      href={`/chats/${room._id}`}
                       className="text-dark d-flex align-items-start"
                     >
                       <CardBody data-cy="quiz-card">
@@ -153,7 +142,7 @@ function Chats() {
                           {room.teachers[0].fullname}
                         </CardSubtitle>
                       </CardBody>
-                    </Link>
+                    </a>
                   </Card>
                 </Col>
               ))}

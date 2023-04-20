@@ -67,7 +67,7 @@ function Quizzes() {
 
   return (
     <Col className="mt-3">
-      <Row className="d-flex justify-content-between flex-column-reverse flex-md-row">
+      <Row className="d-flex justify-content-between align-items-center flex-column-reverse flex-md-row">
         <Col md="6">
           <Input
             placeholder="Search quiz name"
